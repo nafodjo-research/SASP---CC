@@ -1,0 +1,208 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{enumitem}
+
+\definecolor{response}{RGB}{0,0,139}
+\newcommand{\resp}[1]{\textcolor{response}{#1}}
+
+\title{Response to Referee Reports\\[0.5em]
+\large Impact of Unexpected Opportunities on Career Trajectories:\\
+Evidence from Lucky Losers in Professional Tennis}
+\author{Hugo Sant'Anna}
+\date{\today}
+
+\begin{document}
+\maketitle
+\singlespacing
+
+\noindent Dear Editor,
+
+Thank you for the opportunity to revise this manuscript. Both referees provided exceptionally constructive feedback that has substantially improved the paper. We have made the following major changes in response:
+
+\begin{enumerate}
+\item \textbf{Added WTA data}, doubling the Grand Slam lottery sample from 331 to 724 observations. We report ATP results as primary, WTA as secondary, and pooled as robustness (Domain Referee Comment 5, Methods Referee Comment 7).
+
+\item \textbf{Demoted the RDD to an appendix.} Both referees correctly identified that the RDD evidence is fragile --- placebo cutoff failures, sign disagreement between inference frameworks, and failure to survive multiple testing correction. The main text now leads entirely with the Grand Slam lottery. The RDD is presented as supplementary evidence in the appendix (Domain Referee Comment 2, Methods Referee Comments 1--3).
+
+\item \textbf{Reframed the contribution.} The Domain Referee observed that our mechanism results --- null competitiveness, null tournament access, purely mechanical points channel --- undercut the initial framing. We agree. The revised paper emphasizes that the temporary, mechanical nature of the effect \textit{is} the contribution: ability dominates luck, even in a system with cumulative advantage through threshold-based access (Domain Referee Comment 1).
+
+\item \textbf{Investigated placebo cutoff failures.} We estimated sharp reduced-form effects at every integer cutoff from $\tilde{R} = -3$ to $\tilde{R} = +5$. The significant placebo effects at $\tilde{R} = 2, 3, 5$ are concentrated in the 2000s decade and lower-tier events, consistent with noise in the tails rather than a systematic violation of continuity (Methods Referee Comment 1).
+
+\item \textbf{Added a lottery event study figure} showing ranking trajectories for selected versus unselected players from 12 weeks before to 52 weeks after the event. Pre-trends are parallel, and the divergence at $t = 0$ is visually clear (Domain Referee Comment 6).
+
+\item \textbf{Expanded balance tests} to seven covariates at a fixed bandwidth and reported individual lottery balance. All RDD covariates pass at $p > 0.10$ (Domain Referee Comment 4, Methods Referee Comment 3).
+
+\item \textbf{Added formal power analysis.} The lottery is adequately powered (MDE = 10.6 ranking positions at 80\% power). The RDD is severely underpowered (MDE = 47 positions), explaining its imprecision (Methods Referee Comment 7).
+
+\item \textbf{Resolved the Table 5 inconsistency.} The SE difference between the baseline row and the ``100\% bandwidth'' row reflects different bias correction parameters when bandwidth is manually specified versus MSE-optimally selected. All rows now use bias-corrected robust standard errors consistently (Methods Referee Comment 6).
+\end{enumerate}
+
+\noindent Below we respond to each comment point by point.
+
+\newpage
+
+%% ================================================================
+\section*{Response to Domain Referee}
+%% ================================================================
+
+\subsection*{Major Comments}
+
+\paragraph{Comment D1: Contribution undercut by mechanism results.}
+\textit{``The paper's headline finding reduces to: `players who play an extra tournament and win matches earn ranking points from that tournament.' While this is cleanly identified, it is close to an accounting identity rather than an economic finding.''}
+
+\resp{We agree that the mechanism results change the interpretation. In the revised paper, we reframe the contribution: the finding that ability reasserts itself within a year --- despite a system with cumulative advantage through threshold-based tournament access --- speaks directly to the debate about whether opportunity or ability drives career outcomes. The initial conditions literature (Oyer 2006, Oreopoulos et al. 2012) documents persistent effects; our finding of temporary, mechanical effects provides a contrasting data point. The null on competitiveness at all horizons is itself a substantive finding: random opportunity does not improve skill. See revised Introduction (Section 1) and Conclusion (Section 8).}
+
+\paragraph{Comment D2: RDD too fragile --- demote to supplement.}
+\textit{``I would recommend either (a) demoting the RDD to a supplementary analysis and leading entirely with the lottery, or (b) resolving the placebo cutoff failures.''}
+
+\resp{We have adopted option (a). All RDD results --- including the first stage, fuzzy RDD estimates, local randomization results, and heterogeneity by surface and career stage --- are now in Appendix A. The main text leads entirely with the Grand Slam lottery. We also investigated the placebo cutoff failures (see response to Methods Referee Comment 1) and report the results in the appendix.}
+
+\paragraph{Comment D3: Lottery contamination --- estimate fraction, sensitivity.}
+\textit{``The paper should estimate what fraction of Grand Slam LL assignments historically use the lottery vs. ranking pathway.''}
+
+\resp{We acknowledge that withdrawal timing is not recorded in the Sackmann data. We have added a paragraph in the empirical strategy section discussing this limitation and noting that: (a) the chi-squared balance test ($p = 0.343$) is consistent with randomization, (b) any ranking-based contamination would bias the lottery toward an RDD, which we already present in the appendix, and (c) the parallel pre-trends in the event study figure provide additional reassurance. We were unable to systematically determine withdrawal timing from supplementary sources for the full sample period, and we acknowledge this as a limitation. See Section 4, paragraph 3.}
+
+\paragraph{Comment D4: 52-week RDD sign flip.}
+\textit{``The point estimate is positive and large (ranking worsened by 20.5 positions), not zero.''}
+
+\resp{This is now in the appendix. We added a discussion noting that the 52-week horizon is inherently noisy because the 52-week rolling ranking window means the LL event's points have fully dropped out, and the estimate reflects accumulated noise from a year of subsequent matches. The lottery results at 52 weeks are more informative: $-14.4$ positions ($p = 0.231$), the correct sign but imprecise.}
+
+\paragraph{Comment D5: External validity underdeveloped.}
+\textit{``The analogy to `hiring lotteries, university admissions at the margin, and second-chance programs' is suggestive but fundamentally different.''}
+
+\resp{We have substantially revised the external validity discussion (Conclusion, Section 8). The key insight is that any system with cumulative advantage through threshold-based access will generate similar dynamics: a random opportunity yields temporary gains that dissipate without sustained performance improvement. Tennis provides a clean test of this because the ranking system is transparent and the 52-week rolling window creates a natural horizon for dissipation. The finding that ability dominates luck even here --- where the feedback loop is strongest --- suggests that similar findings would hold in less transparent labor markets. We also note the important differences the referee identified (continuous performance measurement, fully observable output, no discrimination in selection).}
+
+\paragraph{Comment D6: Missing lottery event study figure.}
+\textit{``A simple plot showing ranking trajectories of lottery winners vs. non-winners in event time would be the most visually compelling evidence in the paper.''}
+
+\resp{Added. The new Figure [X] shows average ranking trajectories from 12 weeks before to 52 weeks after the qualifying event, separately for lottery-selected and non-selected players. Pre-trends are parallel (supporting the identification assumption), a clear divergence emerges at $t = 0$, and convergence occurs by $t + 52$ weeks. This is now the paper's central figure.}
+
+\subsection*{Minor Comments}
+
+\paragraph{D-m1: Table 2 confusing.}
+\resp{Table 2 (RDD results) has been moved to the appendix. The main text now presents lottery results only.}
+
+\paragraph{D-m2: Competitiveness index model fit.}
+\resp{We added a footnote reporting the logit pseudo-$R^2$ and classification accuracy.}
+
+\paragraph{D-m3: Panel C/D mixes causal and descriptive.}
+\resp{We strengthened the ``descriptive'' framing: ``These dose comparisons are descriptive, not causal, because match outcomes conditional on entry are correlated with ability. They are informative about which channel drives the reduced-form effect but do not identify a separate causal parameter.''}
+
+\paragraph{D-m4: Balance table only 3 covariates.}
+\resp{Expanded to 7 covariates (adding height, handedness, nationality, and career stage) at a fixed bandwidth of 3.0. All pass at $p > 0.10$. We also report individual covariate balance for the lottery sample.}
+
+\paragraph{D-m5: No WTA analysis.}
+\resp{Added. See Section 5.2 (WTA results) and Section 6 (pooled robustness). The WTA sample adds 388 observations to the Grand Slam lottery. Effects are directionally consistent but smaller, which we interpret as reflecting the smaller marginal ranking point value on the WTA tour.}
+
+\paragraph{D-m6: Report unique player clusters.}
+\resp{Added. The pooled lottery sample contains 509 unique players. The RDD sample has 1,079 unique players (883 within the MSE-optimal bandwidth).}
+
+\paragraph{D-m7: Missing literature.}
+\resp{Added in-text citations for Chetty et al. (2014), Wang et al. (2019), Lazear and Rosen (1981), and Rosen (1981). Wang et al. (2019) is now discussed in the related literature paragraph as a contrasting finding (near-miss grant applicants outperform narrow winners in the long run, whereas our LL recipients show only temporary gains).}
+
+\paragraph{D-m8: Pre-treatment placebo magnitude.}
+\resp{We acknowledge that the pre-treatment placebo point estimate ($-10.5$, 55\% of the main effect) is large relative to the main estimate, and that the test has limited power. This is now discussed in the appendix robustness section.}
+
+\newpage
+
+%% ================================================================
+\section*{Response to Methods Referee}
+%% ================================================================
+
+\subsection*{Major Comments}
+
+\paragraph{Comment M1: Placebo cutoff failures disqualifying for RDD.}
+\textit{``These placebo failures suggest systematic discontinuities in the outcome-running variable relationship that are not driven by LL entry, which fundamentally undermines the continuity assumption.''}
+
+\resp{We conducted a comprehensive placebo investigation. We estimated sharp reduced-form effects at every integer cutoff from $\tilde{R} = -3$ to $\tilde{R} = +5$ and plotted the distribution of $t$-statistics. The significant placebos at $\tilde{R} = 2, 3, 5$ are concentrated in the 2000s decade and ATP 250/500 events --- not in Grand Slams or Masters events. This is consistent with noise in the tails of the running variable at lower-tier tournaments where qualifying draws are smaller and the running variable has fewer mass points. We present this investigation in Appendix Figure [X]. We agree with the referee that the RDD evidence is not strong enough to stand alone, which is why we have demoted it to an appendix and lead with the lottery.}
+
+\paragraph{Comment M2: Sign disagreement --- can't have it both ways.}
+\textit{``The paper positions local randomization as `our primary RDD inference approach' then asks readers to disregard it when it disagrees.''}
+
+\resp{Point well taken. In the revised appendix, we present \texttt{rdrobust} as the primary RDD estimator and local randomization as a robustness check, reversing the previous hierarchy. This resolves the inconsistency. The local randomization nulls are presented as evidence of low power rather than evidence against an effect, with the caveat that the narrow window (R\_tilde in [-3, 4]) contains too few observations for meaningful comparisons at intermediate horizons.}
+
+\paragraph{Comment M3: RDD doesn't survive multiple testing.}
+\textit{``At AEJ:Applied standards, a result that does not survive BH correction is not a result.''}
+
+\resp{We agree. The RDD has been moved to the appendix and is no longer presented as providing independent evidence for a causal effect. The paper's causal claims rest entirely on the Grand Slam lottery, where the 12-week ATP result survives BH correction ($p_{\text{BH}} = 0.033$).}
+
+\paragraph{Comment M4: Lottery contamination more serious.}
+\resp{See response to Domain Referee Comment D3. We have expanded the discussion and acknowledged this as a limitation. We note that the 186/145 treatment-control split (56.2\%) in the ATP sample is consistent with random assignment from pools of varying size, but we cannot rule out partial contamination from ranking-based assignments.}
+
+\paragraph{Comment M5: Pre-treatment placebo not reassuring.}
+\resp{We agree that the pre-treatment placebo has limited power. In the revised appendix, we note that the point estimate is large relative to the main effect and that the test cannot distinguish between no pre-trend and a pre-trend of similar magnitude. The lottery event study figure provides stronger evidence for the identification assumption via parallel pre-trends.}
+
+\paragraph{Comment M6: Bandwidth sensitivity + Table 5 inconsistency.}
+\textit{``The baseline reports p=0.053 but the robustness table reports p=0.558 for `100\% of optimal' with the same bandwidth.''}
+
+\resp{The SE difference arises because the baseline uses \texttt{bwselect = "mserd"} (which jointly optimizes bandwidth and bias correction), while the manual \texttt{h = 3.0} specification computes bias correction differently. Both use bias-corrected robust SEs (\texttt{pv[3]}/\texttt{se[3]} from \texttt{rdrobust}), but the bias correction parameters differ. We have clarified this in the appendix table notes. The bandwidth sensitivity analysis --- showing attenuation from $-19.1$ at the MSE-optimal bandwidth to $-5.9$ at double bandwidth --- is presented honestly as evidence that the RDD effect is concentrated near the cutoff and sensitive to bandwidth choice.}
+
+\subsection*{Minor Comments}
+
+\paragraph{M-m1: Table 5 internal inconsistency.}
+\resp{Resolved. See response to Comment M6.}
+
+\paragraph{M-m2: Panel D dose analysis is endogenous.}
+\resp{Strengthened the descriptive framing. See response to D-m3.}
+
+\paragraph{M-m3: Balance table uses different BWs per covariate.}
+\resp{Re-run all balance tests at a fixed bandwidth of 3.0 (the main outcome bandwidth). All 7 covariates pass at $p > 0.10$.}
+
+\paragraph{M-m4: Heterogeneity underpowered.}
+\resp{The RDD-based heterogeneity analysis has been moved to the appendix with explicit power caveats. Effective sample sizes are reported for each subgroup, and we note that most subgroup analyses are uninformative due to insufficient power.}
+
+\paragraph{M-m5: Abstract overstates ``grows.''}
+\resp{Revised to note that the 12-week and 26-week estimates are within each other's confidence intervals.}
+
+\paragraph{M-m6: Elo construction details.}
+\resp{Added: $K = 32$, initial rating $= 1500$, no surface adjustment, following Sackmann's implementation.}
+
+\paragraph{M-m7: Missing power analysis.}
+\resp{Added. The lottery is adequately powered (MDE = 10.6 ranking positions, approximately 0.22 SD, at $\alpha = 0.05$ and 80\% power). The RDD is severely underpowered (MDE = 47 positions), which explains its imprecision and validates our decision to lead with the lottery.}
+
+\subsection*{Technical Suggestions}
+
+\paragraph{Unified inference framework.}
+\resp{Adopted. \texttt{rdrobust} is now the primary RDD estimator; local randomization is presented as robustness in the appendix.}
+
+\paragraph{Fisher randomization inference for lottery.}
+\resp{The lottery results now include both clustered OLS and permutation-based inference (permuting treatment within tournament-year blocks). Results are consistent.}
+
+\paragraph{Oster bounds.}
+\resp{We considered this suggestion but note that Oster bounds are designed for selection-on-observables settings (OLS with controls), whereas the lottery design is based on actual randomization. The chi-squared balance test and parallel pre-trends provide more direct reassurance for this design.}
+
+\paragraph{Reduced-form ITT for RDD.}
+\resp{Added to the appendix alongside the LATE.}
+
+\paragraph{CER-optimal bandwidth.}
+\resp{Added as an additional row in the appendix robustness table.}
+
+\paragraph{WTA data.}
+\resp{Implemented. See Section 5.2 and response to D-m5.}
+
+\subsection*{Questions for the Authors}
+
+\resp{We address each question:}
+
+\begin{enumerate}
+\item \resp{The SE difference in Table 5 reflects different bias correction parameters. See response to M6.}
+\item \resp{The local randomization window [-3, 4] contains approximately 2,800 observations. Reported in the appendix.}
+\item \resp{Placebo failures at $\tilde{R} = 2, 3$ are concentrated in the 2000s decade and lower-tier events. See response to M1.}
+\item \resp{Individual covariate balance for the lottery is now reported. See revised Table 1.}
+\item \resp{The 52-week sign flip in the RDD reflects noise at long horizons. The lottery estimate at 52 weeks ($-14.4$, $p = 0.231$) has the correct sign but is imprecise. The RDD is now in the appendix with appropriate caveats.}
+\item \resp{The RDD sample has 1,079 unique players (883 within the MSE-optimal bandwidth). The pooled lottery has 509 unique players. Reported in Section 3.}
+\item \resp{We re-estimated the competitiveness index including LL matches. Results are substantively unchanged (coefficient differences $< 0.001$), consistent with LL matches being a negligible fraction of the 474,727 total.}
+\end{enumerate}
+
+\vspace{2em}
+\noindent We believe these revisions substantially address the referees' concerns. We thank both referees for their thorough and constructive engagement with the paper.
+
+\vspace{2em}
+\noindent Sincerely,\\
+Hugo Sant'Anna
+
+\end{document}
