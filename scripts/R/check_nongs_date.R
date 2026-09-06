@@ -1,0 +1,16 @@
+est <- readRDS("Data/cleaned/skeleton_nongs_est_v6.rds")
+cat("tourney_date class:", class(est$tourney_date), "\n")
+cat("Sample:", head(as.character(est$tourney_date), 5), "\n")
+cat("Has pre_elo:", "pre_elo" %in% names(est), "\n")
+cat("Has v_hat:", "v_hat" %in% names(est), "\n")
+cat("Has player_age:", "player_age" %in% names(est), "\n")
+cat("Has player_id:", "player_id" %in% names(est), "\n")
+cat("Has got_ll:", "got_ll" %in% names(est), "\n")
+cat("Has pre_rank_pts:", "pre_rank_pts" %in% names(est), "\n")
+cat("Has player_hand:", "player_hand" %in% names(est), "\n")
+cat("Has player_ht:", "player_ht" %in% names(est), "\n")
+
+# Check GS event table tourney_date
+tr <- readRDS("Data/cleaned/tournament_rebuild_results.rds")
+cat("\nGS ATP tourney_date class:", class(tr$gs_atp$events$tourney_date), "\n")
+cat("GS ATP sample:", head(as.character(tr$gs_atp$events$tourney_date), 3), "\n")

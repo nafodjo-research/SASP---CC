@@ -1,0 +1,5 @@
+d <- readRDS("Data/cleaned/performance_dose.rds")
+cat("Tour values:", unique(d$tour), "\n")
+cat("Event type values:", unique(d$event_type), "\n")
+cat("Rows:", nrow(d), "\n")
+print(head(d[, c("player_id", "tourney_id", "tour", "event_type", "dose")], 5))
