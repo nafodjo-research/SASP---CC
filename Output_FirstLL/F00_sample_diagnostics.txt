@@ -1,0 +1,38 @@
+Full GS sample:  380 (treated: 186)
+Full NGS sample: 5253 (treated: 1629)
+
+First-LL GS:  202 (treated: 94, control: 108)
+First-LL NGS: 2877 (treated: 781, control: 2096)
+  ATP GS:  N=120 (T=61, C=59)
+  ATP NGS: N=1454 (T=403, C=1051)
+  WTA GS:  N=82 (T=33, C=49)
+  WTA NGS: N=1423 (T=378, C=1045)
+
+Sanity check PASSED: all had_prior_ll == 0
+GS events with both T and C: 41 / 77
+NGS events with both T and C: 525 / 914
+ATP qualifying matches at first-LL events: 9425
+WTA qualifying matches at first-LL events: 10020
+ATP win model estimation data: 9425 matches
+WTA win model estimation data: 10020 matches
+ATP model: N=9425, AIC=10469
+WTA model: N=10009, AIC=11283
+
+P_i^{LL} summary (first-LL sample):
+  ATP mean: 0.2734  median: 0
+  WTA mean: 0.2606  median: 0
+P_i^{LL} merged: 2877 / 2877
+Old vs new P_i^{LL} correlation: 0.979
+Performance dose rows (first-LL): 3049 / 5537
+
+======================================================================
+FINAL SAMPLE SIZES
+======================================================================
+ATP GS:  N=120 (T=61, C=59)
+ATP NGS: N=2054 (T=523, C=1531)
+  NGS ATP events with variation: 266
+WTA GS:  N=82 (T=33, C=49)
+WTA NGS: N=1423 (T=378, C=1045)
+  NGS WTA events with variation: 258
+v_hat range: [-3.958, 3.958]
+v_hat NAs: 0

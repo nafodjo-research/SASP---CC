@@ -1,0 +1,118 @@
+\section{Results}
+\label{sec:results}
+
+Grand Slam results exploit the lottery for identification and are presented separately for the ATP and WTA tours. Non-Grand-Slam control-function results are summarized in Section~\ref{sec:results_nongs} and reported in full in the appendix.
+
+\subsection{Immediate Effects}
+\label{sec:results_immediate}
+
+Table~\ref{tab:immediate} characterizes the treatment dose at the focal event. Because control players do not enter the main draw, these estimates describe the magnitude of the treatment rather than a causal effect against a counterfactual.
+
+On the ATP tour ($N = 120$), treated players play additional main-draw matches and earn ranking points proportional to the round reached; the WTA pattern ($N = 82$) is similar. A Grand Slam first-round loss earns 10 ranking points and a second-round loss earns 45 points, so even a single main-draw win delivers an economically meaningful shock to the player's rolling 52-week ranking-point stock.
+
+\begin{table}[htbp]
+\centering
+\caption{Grand Slam Lottery: Immediate Event-Level Effects}
+\label{tab:immediate}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_immediate}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} First-time Grand Slam LL candidates: top-four ranked final-round qualifying losers at events with at least one LL slot, 2006--2024. ATP: $N = 120$; WTA: $N = 82$. Event FE columns report OLS with Grand Slam $\times$ Year fixed effects. Control outcomes are mechanically zero because unselected players do not enter the main draw. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Post-Episode Dynamics}
+\label{sec:results_dynamics}
+
+Tables~\ref{tab:dynamic_atp} and~\ref{tab:dynamic_wta} report estimates from a stacked specification with horizon-specific treatment effects estimated jointly. The stacked model pools all five horizons into a single regression with horizon-specific LL coefficients and horizon fixed effects, improving efficiency by borrowing information across horizons while allowing the treatment effect to vary freely at each horizon.
+
+On the ATP side, the sample comprises 120 first-time player-episodes contributing approximately 600 stacked observations across five horizons. The lottery raises ranking points by 72.5 at 4 weeks, 72.1 at 8 weeks, and 82.8 at 12 weeks (each significant at conventional levels), before peaking and starting to fade: the effect is 72.6 at 26 weeks (clustered $p = 0.047$; Fisher $p = 0.164$) and becomes indistinguishable from zero at 52 weeks. The 4-, 8-, and 12-week estimates survive Fisher randomization inference ($p_{Fisher} < 0.001$, $p_{Fisher} = 0.002$, $p_{Fisher} = 0.028$), so at those horizons the finding does not rely on the asymptotic approximation. The 26-week estimate does not survive Fisher inference and is the horizon at which small-sample noise begins to bite; it is the least robust of the significant effects. Benjamini-Hochberg $q$-values across the 80-test family of primary outcomes are reported in Appendix Table~\ref{tab:bh}: the ATP GS 4-, 8-, and 12-week ranking-point effects survive joint BH correction at $q < 0.05$; the 26-week effect does not ($q = 0.119$), and 23 of the 80 tests survive overall. Elo rating changes are null at every horizon, so the ranking-point gains come from more matches and rounds played rather than from measured ability improvement. The trajectory is consistent with the initial point shock being real but temporary: it accumulates through 12--26 weeks as the ranking boost opens further tournaments, then dissipates as the original points age out of the rolling window.
+
+On the WTA side, the 82-episode sample delivers approximately 410 stacked observations. Ranking points rise by 55.0 at 8 weeks ($p = 0.017$); estimates at other horizons are positive but imprecise. The Elo pattern differs from the ATP tour: WTA first-timers show Elo gains at 8 weeks ($+15.0$, $p = 0.082$) and at 52 weeks ($+36.8$, $p = 0.055$). These estimates should be read against the borderline joint balance ($p = 0.063$) and the smaller sample. The Elo channel on the WTA is explored further in Section~\ref{sec:mechanisms}.
+
+\begin{table}[htbp]
+\centering
+\caption{ATP Grand Slam: Post-Episode Dynamic Effects (Stacked Model)}
+\label{tab:dynamic_atp}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_dynamic_stacked_atp}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Stacked specification: 120 first-time player-episodes contributing approximately 600 stacked observations across five horizons (4, 8, 12, 26, 52 weeks). Horizon-specific LL treatment effects estimated jointly with horizon fixed effects, Grand Slam $\times$ Year fixed effects, and pre-treatment controls (ranking points linear and quadratic, Elo / 100 linear and quadratic, surface Elo / 100 linear and quadratic, and age). Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{WTA Grand Slam: Post-Episode Dynamic Effects (Stacked Model)}
+\label{tab:dynamic_wta}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_dynamic_stacked_wta}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Stacked specification: 82 first-time player-episodes contributing approximately 410 stacked observations across five horizons (4, 8, 12, 26, 52 weeks). Horizon-specific LL treatment effects estimated jointly with horizon fixed effects, Grand Slam $\times$ Year fixed effects, and pre-treatment controls. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+Figures~\ref{fig:event_study_atp} and~\ref{fig:event_study_wta} plot mean cumulative ranking points earned by LL-selected and unselected players from 12 weeks before to 52 weeks after each Grand Slam. Pre-event trajectories on both tours are parallel, so pre-treatment divergence is not detectable. After the event, ATP LL recipients accumulate approximately 72 additional ranking points by 4 weeks and 83 by 12 weeks; the advantage then narrows as the rolling window absorbs the initial gains. WTA LL recipients diverge at 8 weeks by 55 points, with controls catching up more quickly than on the ATP tour, a pattern consistent with the denser WTA calendar.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{../Figures_FirstLL/fig_event_study_atp.pdf}
+\caption{ATP Event Study: Ranking Trajectories for Selected and Unselected Players}
+\label{fig:event_study_atp}
+\begin{minipage}{0.9\textwidth}
+\vspace{0.5em}
+\footnotesize \textit{Notes.} Each point is the estimated treatment effect at the indicated horizon. Vertical dashed line marks the event date. Shaded regions are 95 percent confidence intervals. First-time ATP Grand Slam sample ($N = 120$).
+\end{minipage}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{../Figures_FirstLL/fig_event_study_wta.pdf}
+\caption{WTA Event Study: Ranking Trajectories for Selected and Unselected Players}
+\label{fig:event_study_wta}
+\begin{minipage}{0.9\textwidth}
+\vspace{0.5em}
+\footnotesize \textit{Notes.} Each point is the estimated treatment effect at the indicated horizon. First-time WTA Grand Slam sample ($N = 82$).
+\end{minipage}
+\end{figure}
+
+\subsection{Heterogeneous Effects}
+\label{sec:results_heterogeneity}
+
+The first-time GS sample is small ($N = 120$ ATP, $N = 82$ WTA), limiting statistical power for subgroup analysis. Table~\ref{tab:hetero_atp} reports heterogeneity for the ATP GS sample. Effects are stronger and more persistent for older players (age $\geq 24$): ranking-point gains of 154.9 at 26 weeks ($p < 0.001$) and 186.4 at 52 weeks ($p < 0.01$). This pattern is consistent with older players at the qualifying margin having more tournament experience to convert a ranking boost into sustained access, even with a shorter remaining career runway. Other subgroup contrasts, by pre-episode ranking and by surface, are imprecisely estimated in the small ATP sample.
+
+The non-GS samples provide substantially more power for heterogeneity analysis ($N = 2{,}054$ ATP, $N = 1{,}423$ WTA); results are reported in Appendix Tables~\ref{tab:hetero_nongs_atp} and~\ref{tab:hetero_nongs_wta}.
+
+\begin{table}[htbp]
+\centering
+\caption{ATP Grand Slam: Heterogeneous Effects}
+\label{tab:hetero_atp}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_hetero_stacked_atp}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Stacked specification with horizon-specific LL treatment effects estimated by subgroup. First-time ATP Grand Slam sample ($N = 120$), 2006--2024. Low/High rank points split at the tour-specific median. Younger/Older split at age 24. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Non-Grand-Slam Extension}
+\label{sec:results_nongs}
+
+The non-Grand-Slam control-function estimates provide corroborating evidence from substantially larger samples. On the ATP tour ($N = 2{,}054$), ranking-point gains are 20.6 at 4 weeks ($p = 0.041$) and 44.6 at 26 weeks ($p = 0.002$). Elo effects emerge at medium horizons: $+12.8$ at 8 weeks ($p = 0.018$) and $+30.8$ at 26 weeks ($p = 0.016$), a pattern that differs from the GS null and may reflect either the larger sample's power to detect moderate ability effects or a difference in the non-GS competitive environment.
+
+On the WTA tour ($N = 1{,}423$), ranking-point gains are 23.2 at 12 weeks ($p = 0.057$), with Elo gains of 10.5 at 12 weeks ($p = 0.011$). The WTA non-GS Elo finding parallels the marginal WTA GS Elo result and points toward genuine, if modest, ability gains, plausibly linked to greater competitive parity on the women's tour.
+
+The non-GS estimates align with the GS lottery estimates in both direction and magnitude, supporting the validity of the control-function approach. Full non-Grand-Slam dynamic tables are reported in Appendix Tables~\ref{tab:dynamic_nongs_atp} and~\ref{tab:dynamic_nongs_wta}; heterogeneity results are in Appendix Tables~\ref{tab:hetero_nongs_atp} and~\ref{tab:hetero_nongs_wta}.
+
+The dose-response analysis examines whether treatment effects vary with the number of main-draw matches won at the focal event. The initial LL slot provides a ranking-point benefit that is amplified when the player wins matches in the main draw. Dose-response results are reported in the appendix.

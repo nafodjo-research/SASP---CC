@@ -1,0 +1,124 @@
+\documentclass[12pt]{article}
+
+% --- Layout ---
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\doublespacing
+
+% --- Math ---
+\usepackage{amsmath,amssymb}
+
+% --- Graphics and Tables ---
+\usepackage{graphicx}
+\graphicspath{{../Figures_FirstLL/}{../Tables_FirstLL/}}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{adjustbox}
+\usepackage{comment}
+
+% --- Citations ---
+\usepackage[authoryear,round]{natbib}
+
+% --- Links ---
+\usepackage[colorlinks=true,citecolor=blue,linkcolor=blue,urlcolor=blue]{hyperref}
+
+% --- Title formatting ---
+\usepackage{titling}
+\pretitle{\begin{center}\large\bfseries}
+\posttitle{\end{center}}
+\preauthor{\begin{center}\normalsize}
+\postauthor{\end{center}}
+\predate{\begin{center}\normalsize}
+\postdate{\end{center}}
+
+% --- Misc ---
+\usepackage{enumitem}
+
+% ======================================================================
+% Title Page
+% ======================================================================
+
+\title{The First Break: Career Effects of Initial Access Shocks\\ in Tournament Labor Markets\thanks{I thank seminar participants at Emory University for helpful comments. Replication code and data are available at \url{https://github.com/hugosantanna/tennis-ll}. All errors are my own.}}
+
+\author{Hugo Sant'Anna\thanks{Department of Economics, Emory University. Email: hugo.santanna@emory.edu.}}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\begin{abstract}
+\noindent \singlespacing
+Does a worker's \textit{first} randomly assigned opportunity shape careers more than subsequent ones? I study lucky losers in professional tennis: players who lose in qualifying but enter the main draw when another player withdraws. Restricting the sample to players never previously granted a lucky-loser slot isolates the effect of a first-ever access shock. Grand Slam allocation is randomized among the top four qualifying losers, giving a lottery design ($N = 120$ ATP, $N = 82$ WTA). In the ATP first-time sample, ranking-point gains reach 72.5 points at 4 weeks and 82.8 at 12 weeks (Fisher $p < 0.001$ and $p = 0.028$); a 26-week effect of 72.6 points is significant with clustered inference ($p = 0.047$) but not under Fisher randomization ($p = 0.164$), and effects fade by 52 weeks. On the WTA tour, ranking-point gains concentrate at 8 weeks ($+55.0$; $p = 0.017$), with Elo also improving at medium horizons. A non-Grand-Slam control-function analysis on larger samples ($N = 2{,}054$ ATP; $N = 1{,}423$ WTA) reports the same access pattern. Comparing marginal effects of successive lucky-loser entries, Wald tests reject equality of first- and second-LL effects for non-GS tournament access ($p = 0.002$ ATP; $p = 0.009$ WTA); a mechanical decomposition of the pooled effect into stratum-weighted components documents that the ratio $\hat\beta^{(n=0)} / \hat\beta^{\text{pool}}$ is roughly two on the ATP tour. The implied prize-money effect of a first-time Grand Slam LL entry is about \$100{,}000, comparable to a qualifying-level player's annual earnings. The initial access shock is the pivotal one in this transparent tournament market; the ranking cascade dissipates within a year as the 52-week rolling window absorbs new performance signals.
+\end{abstract}
+
+\vspace{1em}
+\noindent \textbf{JEL Codes:} J24, J44, L83
+
+\vspace{0.5em}
+\noindent \textbf{Keywords:} initial conditions, career trajectories, tournament labor markets, natural experiment, professional tennis
+
+\newpage
+\setcounter{page}{1}
+
+% ======================================================================
+% 1. Introduction
+% ======================================================================
+\input{sections/introduction}
+
+% ======================================================================
+% 2. Related Literature
+% ======================================================================
+\input{sections/literature}
+
+% ======================================================================
+% 3. Institutional Setting and Data (Background merged in)
+% ======================================================================
+\input{sections/data}
+
+% ======================================================================
+% 4. Econometric Framework and Identification
+% ======================================================================
+\input{sections/empirical_strategy}
+
+% ======================================================================
+% 5. Results
+% ======================================================================
+\input{sections/results}
+
+% ======================================================================
+% 6. Mechanisms
+% ======================================================================
+\input{sections/mechanisms}
+
+% ======================================================================
+% 7. Robustness
+% ======================================================================
+\input{sections/robustness}
+
+% ======================================================================
+% 8. Conclusion
+% ======================================================================
+\input{sections/conclusion}
+
+% ======================================================================
+% References
+% ======================================================================
+\newpage
+\singlespacing
+\bibliographystyle{aer}
+\bibliography{../Bibliography_base}
+
+% ======================================================================
+% Appendix
+% ======================================================================
+\newpage
+\appendix
+\doublespacing
+\input{sections/appendix}
+
+\end{document}

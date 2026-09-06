@@ -1,0 +1,327 @@
+\section{Econometric Details}
+\label{app:details}
+
+\subsection{Match-Level Model}
+\label{app:match_model}
+
+The match-level probability is specified as:
+\begin{equation}
+p_{itm} = \Lambda(\beta' X_{ijm} + \gamma' Z^{pre}_{ie} + \delta D_{ie} + \rho v_{ie})
+\end{equation}
+where $X_{ijm}$ contains pairwise covariates (ranking points difference / 1000 linear and quadratic, Elo difference / 100 linear and quadratic, surface Elo difference / 100 linear and quadratic, Laplace-smoothed H2H win proportion, H2H encounter count, age difference, and surface indicators) and $Z^{pre}_{ie}$ contains pre-treatment focal player characteristics (ranking points / 1000 linear and quadratic, Elo / 100 linear and quadratic, surface Elo / 100 linear and quadratic, and player age). The trajectory likelihood factorizes into match-level Bernoulli contributions, so estimation reduces to a standard logit on stacked match-level data.
+
+\subsection{Control Function}
+\label{app:first_stage}
+
+The generalized residual correcting for endogenous LL assignment at non-Grand-Slam events is:
+\begin{equation}
+\hat{v}_{ie} = D_{ie} \cdot \frac{\phi(\Phi^{-1}(P_i^{LL}))}{P_i^{LL}} - (1 - D_{ie}) \cdot \frac{\phi(\Phi^{-1}(P_i^{LL}))}{1 - P_i^{LL}}
+\end{equation}
+where $\phi(\cdot)$ and $\Phi(\cdot)$ are the standard normal PDF and CDF. Including $\hat{v}_{ie}$ in the outcome equation corrects for selection on unobservables.
+
+\subsection{Selection Probability Construction}
+\label{app:instrument}
+
+The selection probability $P_i^{LL}$ is computed from the full combinatorial structure of qualifying match pairings. A weighted logit of match outcomes is estimated on qualifying round matches at non-Grand-Slam LL-granting events, separately for each tour. Given predicted match-winning probabilities for the $N_e - 1$ other final-round qualifying matches, $P_i^{LL}$ is computed by exact enumeration over all $2^{N_e - 1}$ outcome combinations. When $N_e - 1 > 20$, Monte Carlo simulation with 10,000 draws approximates the probability. For the first-LL-restricted sample, the win model is re-estimated on the restricted event set (ATP: $N = 9{,}425$ qualifying matches; WTA: $N = 10{,}009$), and the selection probability is recomputed for the LL-naive pool at each event. The old-vs-new $P_i^{LL}$ correlation is 0.979, confirming stability.
+
+\subsection{Inference for the Match-Level Model}
+\label{app:inference}
+
+Standard errors for the match-level model are cluster-robust at the player level, allowing arbitrary within-player dependence across matches and events. Fisher randomization inference for the ranking-point outcomes (Section~\ref{sec:results}) is reported alongside the clustered SEs and is preferred for the small Grand Slam samples ($N = 120$ ATP; $N = 82$ WTA).
+
+\clearpage
+
+\section{Additional Tables and Figures}
+\label{app:tables}
+
+% --- Summary Statistics ---
+
+\begin{table}[htbp]
+\centering
+\caption{Summary Statistics: ATP Grand Slam (First-LL)}
+\label{tab:sumstats_gs_atp}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_sumstats_gs_atp}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} First-time LL candidates at ATP Grand Slams, 2006--2024. $N = 120$ (61 treated, 59 control). All players have zero prior LL awards.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Summary Statistics: WTA Grand Slam (First-LL)}
+\label{tab:sumstats_gs_wta}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_sumstats_gs_wta}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} First-time LL candidates at WTA Grand Slams, 2006--2024. $N = 82$ (33 treated, 49 control).
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% --- Non-GS Dynamic Effects ---
+
+\begin{table}[htbp]
+\centering
+\caption{Non-Grand-Slam Dynamic Effects: ATP (First-LL, Control Function)}
+\label{tab:dynamic_nongs_atp}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_dynamic_stacked_nongs_atp}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Control function estimates. First-time ATP non-GS sample ($N = 2{,}054$, 523 treated), 2007--2024. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Non-Grand-Slam Dynamic Effects: WTA (First-LL, Control Function)}
+\label{tab:dynamic_nongs_wta}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_dynamic_stacked_nongs_wta}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Control function estimates. First-time WTA non-GS sample ($N = 1{,}423$, 378 treated), 2009--2024. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% --- Non-GS Heterogeneity ---
+
+\begin{table}[htbp]
+\centering
+\caption{Non-Grand-Slam Heterogeneity: ATP (First-LL)}
+\label{tab:hetero_nongs_atp}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_hetero_stacked_nongs_atp}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Interaction specifications by rank and age. First-time ATP non-GS sample. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Non-Grand-Slam Heterogeneity: WTA (First-LL)}
+\label{tab:hetero_nongs_wta}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_hetero_stacked_nongs_wta}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Interaction specifications by rank and age. First-time WTA non-GS sample. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% --- Tournament Performance (Delta Model) ---
+
+\begin{table}[htbp]
+\centering
+\caption{Match-Level Tournament Performance: All Four Samples (First-LL)}
+\label{tab:delta_all}
+\begin{threeparttable}
+\small
+\begin{tabular}{lcccc}
+\toprule
+ & GS-ATP & GS-WTA & NonGS-ATP & NonGS-WTA \\
+\midrule
+$\hat{\delta}$ (LL entry) & $-0.141$ & $0.146$ & $0.609^{***}$ & $-0.033$ \\
+ & $(0.103)$ & $(0.138)$ & $(0.026)$ & $(0.029)$ \\[0.3em]
+Matches & 4,445 & 3,715 & 407,959 & 47,376 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Logit estimates of LL entry on match win probability. Pooled specification with pairwise covariates and focal player controls. First-LL restricted samples. Standard errors clustered at the player level. The non-GS specification includes the control function residual. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% --- Non-GS Balance ---
+
+\begin{table}[htbp]
+\centering
+\caption{Pre-Treatment Balance: Non-Grand-Slam (First-LL)}
+\label{tab:balance_nongs}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_balance_nongs}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Non-GS sample is not randomized; imbalance is expected and motivates the control function. First-time ATP: $N = 2{,}054$; First-time WTA: $N = 1{,}423$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% --- Non-GS Immediate Effects ---
+
+\begin{table}[htbp]
+\centering
+\caption{Non-Grand-Slam Immediate Effects (First-LL, Control Function)}
+\label{tab:immediate_nongs}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_immediate_nongs}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Control function estimates at the focal event. First-time LL candidates only. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% --- Fisher Inference ---
+
+\begin{table}[htbp]
+\centering
+\caption{Fisher Randomization Inference (First-LL)}
+\label{tab:fisher}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_fisher_fixed}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Fisher $p$-values from 1,000 permutations within Grand Slam $\times$ Year blocks. First-time ATP GS sample. Permutation retains only blocks with at least one treated and one control observation; singleton blocks (single-player events) contribute no permutation variation and are dropped, reducing the effective sample from $N = 120$ to $N = 103$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% --- CF Validation ---
+
+\begin{table}[htbp]
+\centering
+\caption{Control Function Validation on GS Lottery Sample (First-LL)}
+\label{tab:cf_validation}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_cf_validation}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} CF applied to randomized GS sample. Under correct specification, treatment effects are unchanged and $\hat{\rho}_h \approx 0$. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% --- Power Analysis ---
+
+\begin{table}[htbp]
+\centering
+\caption{Minimum Detectable Effects at 80\% Power (First-LL)}
+\label{tab:power}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_power_analysis}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} MDE $= (z_{0.025} + z_{0.80}) \times \sigma / \sqrt{N \times p \times (1-p)}$, where $p$ is the proportion treated. First-LL GS samples.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% --- Economic Magnitudes ---
+
+\begin{table}[htbp]
+\centering
+\caption{Economic Magnitudes (First-LL)}
+\label{tab:magnitudes}
+\begin{threeparttable}
+\scriptsize
+\input{../Tables_FirstLL/table_economic_magnitudes}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Control group means, treatment effects, and effect-to-mean ratios for key outcomes. First-LL samples.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% --- Dose Tables ---
+
+\begin{table}[htbp]
+\centering
+\caption{Dose-Response: Grand Slam (First-LL)}
+\label{tab:dose_gs}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_dose_stacked}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Treatment interacted with matches won at the LL event. First-LL GS samples. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% --- Within-Event Balance ---
+
+\begin{table}[htbp]
+\centering
+\caption{Within-Event Balance Tests: Grand Slam (First-LL)}
+\label{tab:balance_within}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_balance_within_event}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Each covariate regressed on treatment indicator with event (Grand Slam $\times$ Year) fixed effects. Joint $F$-test: ATP $p = 0.046$; WTA $p = 0.516$. First-LL sample.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% --- BH Q-Values ---
+
+\begin{table}[!p]
+\centering
+\caption{Benjamini-Hochberg $q$-Values Across Primary Outcomes}
+\label{tab:bh}
+\begin{threeparttable}
+\scriptsize
+\begin{adjustbox}{max totalheight=0.85\textheight}
+\input{../Tables_FirstLL/table_bh_qvalues}
+\end{adjustbox}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} BH correction applied jointly across the family of 80 tests (4 primary outcomes $\times$ 4 samples $\times$ 5 horizons). Primary outcomes are ranking points, Elo, main draws entered, and matches at 250+ level events. $q < 0.05$ indicates significance after the joint correction. First-LL samples.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% --- Prize Money ---
+
+\begin{table}[htbp]
+\centering
+\caption{Prize Money Effect of First-Time LL Entry (USD)}
+\label{tab:prize}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_prize_money}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Immediate effect: difference in focal-event prize money between treated (LL recipients, earning based on main draw rounds won) and control (qualifying-round stipend). Dynamic 26w: estimated access gains (additional main draws entered by 26 weeks) evaluated at an average forward-looking first-round prize of \$11,000. Prize figures are approximate 2020--2024 averages; exact values vary by tournament tier and year. First-LL samples. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$ on immediate effect $t$-test.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% --- Dose Tables ---
+
+\begin{table}[htbp]
+\centering
+\caption{Dose-Response: Non-Grand-Slam (First-LL)}
+\label{tab:dose_ngs}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_dose_stacked_nongs}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Treatment interacted with matches won at the LL event. First-LL non-GS samples with CF. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

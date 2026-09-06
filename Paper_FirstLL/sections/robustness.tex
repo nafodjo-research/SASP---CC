@@ -1,0 +1,119 @@
+\section{Robustness}
+\label{sec:robustness}
+
+\subsection{Marginal Impact by LL Experience}
+\label{sec:robustness_marginal}
+
+The main analysis restricts to first-time LL candidates. A natural question is whether subsequent LL opportunities have similar effects, or whether the marginal impact diminishes with experience. To test this, I return to the full (unrestricted) estimation sample and stratify by the number of prior LL awards: $n = 0$ (first LL, matching the main results), $n = 1$ (second LL), and $n \geq 2$ (third or more). Within each experience group, I compare treated players ($D_{ie} = 1$) to controls ($D_{ie} = 0$) who have the same number of prior LL awards, using the full pre-treatment control specification.
+
+Tables~\ref{tab:marginal_gs} and~\ref{tab:marginal_ngs} report the results. First-time LL effects ($n = 0$) are the largest and most significant across both tours and both identification strategies, replicating the main-text findings. Second-time GS effects ($n = 1$) should be interpreted with caution: the GS $n = 1$ cells are small (ATP $N = 48$, WTA $N = 31$), event fixed effects absorb substantial variation, and the resulting point estimates are noisy and sometimes larger in absolute value than the physically possible treatment dose. The non-GS $n = 1$ cells are much larger (ATP $N = 692$, WTA $N = 601$) and produce stable estimates: the second-LL access effect is positive but markedly smaller than the first-LL effect. Third-plus effects ($n \geq 2$) in the non-GS sample are close to zero for access outcomes on the ATP tour and significantly negative for ranking points on the WTA tour at longer horizons. Formal Wald tests for the equality of $n = 0$ and $n = 1$ effects reject equality at conventional levels for non-GS tournament access outcomes (ATP: $F = 3.87$, $p = 0.002$; WTA: $F = 3.05$, $p = 0.009$). These non-GS results, estimated on larger and more reliable subsamples, support the first-break interpretation: the initial access shock is the pivotal one, and subsequent opportunities provide diminishing marginal returns.
+
+\begin{table}[htbp]
+\centering
+\caption{Marginal Impact by LL Experience: Grand Slam Samples}
+\label{tab:marginal_gs}
+\begin{threeparttable}
+\scriptsize
+\input{../Tables_FirstLL/table_marginal_impact_gs}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Full (unrestricted) Grand Slam sample stratified by number of prior LL awards ($n$). Within each group, treated = received LL, control = eligible but not selected, both with the same number of prior awards. Event FE specification with full pre-treatment controls (including prior-LL count variables). Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Marginal Impact by LL Experience: Non-Grand-Slam Samples}
+\label{tab:marginal_ngs}
+\begin{threeparttable}
+\scriptsize
+\input{../Tables_FirstLL/table_marginal_impact_nongs}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Full (unrestricted) non-Grand-Slam sample stratified by number of prior LL awards ($n$). Control function specification with $\hat{v}_{ie} \times \text{horizon}$ terms and full pre-treatment controls. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Mechanical Decomposition of the First-Break Claim}
+\label{sec:robustness_decomposition}
+
+The claim that first-time effects dominate could reflect an averaging artifact: if the pooled coefficient $\hat\beta^{\text{pool}}$ is a weighted average of stratum-specific effects, a large $\hat\beta^{(n=0)}$ combined with smaller (or negative) $\hat\beta^{(n=1)}$ and $\hat\beta^{(n\geq 2)}$ would produce a modest pool by construction and the ``first break is twice the pool'' finding would be mechanical. To document that the ATP first-break excess is not simply arithmetic, Table~\ref{tab:mechanical_decomposition} reports the stratum-weighted decomposition:
+\[
+\hat\beta^{\text{pool}} \text{ vs.\ } \underbrace{w_0 \hat\beta^{(n=0)} + w_1 \hat\beta^{(n=1)} + w_{\geq 2} \hat\beta^{(n\geq 2)}}_{\text{weighted average}},
+\]
+where the weights $w_n$ are the treated-share of each stratum in the pooled sample. Under the law of iterated expectations, the pool coefficient equals the weighted average when treatment effects do not interact with covariates that differ across strata, so any gap between the two is informative about specification.
+
+On the ATP tour, the pool-to-first-LL ratio is 2.17 at 4 weeks, 2.19 at 8 weeks, and 2.07 at 12 weeks: the first-time effect is more than twice the pooled effect, with negative $\hat\beta^{(n=1)}$ and $\hat\beta^{(n\geq 2)}$ pulling the weighted average below the pool. The gap between the pool and the weighted average on the ATP GS side (75 points at 4--12 weeks) reflects that the small $n = 1$ and $n = 2+$ cells produce imprecise negative estimates, and the pooled regression's within-stratum information does not translate additively into the weighted-average decomposition. The non-GS ATP ratios (1.6--2.1) confirm the doubling pattern in a larger sample. On the WTA GS side, ratios are below one at short horizons, reflecting that WTA pooled effects are driven by repeat rather than first-time recipients; the WTA non-GS pattern is close to one at short horizons and grows at longer ones. The decomposition therefore supports the first-break interpretation on the ATP tour and identifies the WTA tour as a setting where the first-break premium is smaller and horizon-dependent.
+
+\begin{table}[htbp]
+\centering
+\caption{Mechanical Decomposition: Pool vs.\ Stratum-Weighted Average (Ranking Points)}
+\label{tab:mechanical_decomposition}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_mechanical_decomposition}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} $\hat\beta^{\text{pool}}$ is the coefficient on $D_{ie}$ from the pooled regression on the full sample. Weighted average is $\sum_n w_n \hat\beta^{(n)}$, where $w_n$ is the treated-share of stratum $n$ in the pooled sample and $\hat\beta^{(n)}$ is the stratum-specific coefficient from Tables~\ref{tab:marginal_gs}--\ref{tab:marginal_ngs}. Ratio is $\hat\beta^{(n=0)} / \hat\beta^{\text{pool}}$. Positive ratio above one indicates the first-LL effect exceeds the pooled effect; the paper's headline claim implies a ratio of roughly two.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Verified Lottery Subsample and Contamination}
+\label{sec:robustness_verified}
+
+The Grand Slam lottery mechanism operates only when withdrawals occur before qualifying completes; post-qualifying withdrawals follow the ranking rule (the highest-ranked qualifying loser receives the slot). Withdrawal timing is not recorded in the data, so the main sample may pool lottery-assigned and ranking-assigned observations. This contamination has a signable direction: under ranking-based assignment, treated players are systematically higher-ranked than controls, biasing ranking-point effect estimates upward rather than toward attenuation. Two features of the analysis partially offset this bias. First, the pre-treatment control vector $Z^{pre}_{ie}$ includes ranking points (linear and quadratic), Elo, and surface Elo, absorbing the observable component of selection. Second, within-event fixed effects restrict comparisons to the top-four pool at a given tournament, where the ranking gap between treated and untreated candidates is mechanically small (at most three ranks).
+
+To assess the residual contamination concern, I construct a \textit{verified lottery} subsample by restricting to events where the selected LL was provably not the highest-ranked candidate, confirming that a lottery (rather than the ranking rule) determined the assignment. Among first-time LL candidates, 36 such events yield $N = 67$ observations on the ATP tour (41 treated, 26 control) and $N = 27$ observations on the WTA tour (12 treated, 15 control). Table~\ref{tab:verified_firstll} reports stacked dynamic estimates for this subsample. The ATP point estimates are positive in sign and broadly similar in magnitude to the headline estimates at 12--26 weeks ($+35.8$ ranking points at 12 weeks, $+66.5$ at 26 weeks), though none reach conventional significance given the smaller sample; a marginally negative Elo effect at 52 weeks ($-51.7$, $p = 0.085$) aligns with an overseeding channel. The WTA verified first-LL subsample is too small ($N = 27$; 12 treated) to support reliable inference. Power analysis (Appendix Table~\ref{tab:power}) shows that the verified ATP subsample ($N = 67$) has a minimum detectable ranking-point effect of approximately 110 points at 80\% power for 12-week outcomes, substantially larger than the headline estimate of 82.8, so the null point estimates cannot distinguish ``no effect'' from ``effect attenuated by main-sample contamination.'' The positive signs across horizons on the ATP tour indicate that the headline effect is not driven purely by ranking-assigned observations, though the evidence is not conclusive.
+
+\begin{table}[htbp]
+\centering
+\caption{First-LL Verified Lottery Subsample: Dynamic Effects}
+\label{tab:verified_firstll}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_verified_firstll}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Restricted to events where the selected LL was not the highest-ranked qualifying loser, confirming lottery-based assignment. First-time LL candidates only. Stacked dynamic specification with event fixed effects and pre-treatment controls. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Pre-Treatment Balance}
+\label{sec:robustness_balance}
+
+Under genuine within-pool randomization, balance holds in expectation. Finite-sample imbalance is inevitable: with only four candidates per pool and a binary treatment, any single draw produces deviations that are properly interpreted as sampling variability rather than as evidence against randomization. Controls included in the outcome specification improve precision by reducing residual variance; they do not correct for a violation of random assignment, because under the lottery no such violation is present in expectation.
+
+Table~\ref{tab:balance} reports formal balance tests on pre-treatment covariates. In the first-time ATP Grand Slam sample ($N = 120$), the joint $F$-test yields $p = 0.106$; in the first-time WTA sample ($N = 82$), $p = 0.063$. Table~\ref{tab:balance_within} reports the within-event balance test, which is the economically relevant specification since randomization operates within each event's top-four pool: the within-event joint $F$-test yields $p = 0.046$ for ATP and $p = 0.516$ for WTA. A 5\% rejection in one of two tests is within the distribution one would expect under genuine randomization; with seven covariates tested across two tours, the expected number of nominal 5\% rejections under the null is $0.7$, so observing one marginally significant individual imbalance ($p = 0.034$ on age) is consistent with chance. The ATP within-event imbalance is driven by age, a covariate that cannot plausibly be correlated with lottery draws and that is included in $Z^{pre}_{ie}$ to improve precision. Event study plots (Figures~\ref{fig:event_study_atp} and~\ref{fig:event_study_wta}) show parallel trajectories in the weeks preceding each Grand Slam, so systematic pre-treatment divergence is not detectable. Non-GS balance tests are reported in the appendix.
+
+\begin{table}[htbp]
+\centering
+\caption{Pre-Treatment Balance: Grand Slam Samples}
+\label{tab:balance}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_balance}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Columns compare means for treated (LL selected) and control (unselected) players at the player-episode level. Covariates include ranking points / 1000 (linear and quadratic), Elo / 100 (linear and quadratic), surface Elo / 100 (linear and quadratic), and age. Prior LL variables excluded (zero by construction for first-time candidates). Joint $F$-statistic tests the null that all covariates are jointly balanced. First-time ATP: $N = 120$; first-time WTA: $N = 82$. Grand Slam sample, 2006--2024.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Control Function Specification Check}
+\label{sec:robustness_cf}
+
+The CF specification check (Appendix Table~\ref{tab:cf_validation}) applies the control function to the randomized GS sample using a uniform selection probability $P_i^{LL} = c_e / N_e$. On the WTA tour, the specification passes: $\hat{\rho}_h$ is insignificant at all horizons for ranking points (e.g., $\hat{\rho}_4 = 17.5$, SE $48.5$) and treatment effect estimates change modestly. On the ATP tour, the specification fails: $\hat{\rho}_h$ is large and highly significant (e.g., $\hat{\rho}_4 = 90.6$, $p < 0.01$), indicating that the uniform probability is a poor approximation for the ATP GS assignment process. This likely reflects that the ATP GS pool size varies substantially across events (from 4 to 10+ candidates depending on the qualifying draw size and withdrawal timing), so the uniform-within-top-4 assumption mischaracterizes the selection. The ATP GS failure does not compromise the lottery-based estimates, which rely only on random assignment within the top-four pool rather than on a functional form assumption. It does indicate that the non-GS CF estimates should be read as corroboration rather than as a free-standing identification strategy, and that the lottery design is the primary basis for causal inference.
+
+\subsection{Wildcards}
+\label{sec:robustness_wildcards}
+
+Wildcard entries provide a parallel mechanism for main-draw access. If control players differentially receive wildcards to subsequent events, the counterfactual is contaminated. In the first-LL sample, wildcards are rare among qualifying-level players (ranked 100th--300th), who are generally below the threshold for wildcard consideration at tour-level events. In the 26-week window following the focal event, the average number of wildcard main-draw entries is 0.08 per treated player and 0.09 per control player on the ATP tour ($p = 0.71$), and 0.12 versus 0.11 on the WTA tour ($p = 0.83$). Differential wildcard receipt is therefore too small to confound the LL treatment effect.
+
+\subsection{Statistical Power}
+\label{sec:robustness_power}
+
+Power analysis (Appendix Table~\ref{tab:power}) shows that the first-LL GS-ATP sample can detect a 5.5 percentage-point shift in match win probability and a 26-week Elo change of approximately 25 points at 80\% power. The null Elo results are therefore informative: effects larger than one standard deviation of the within-sample Elo distribution can be ruled out at conventional power levels.
