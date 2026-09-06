@@ -1,0 +1,90 @@
+\section{Econometric Framework and Identification}
+\label{sec:strategy}
+
+\subsection{Grand Slam Identification Strategy}
+\label{sec:strategy_gs}
+
+% Paragraph 1: Identification
+The Grand Slam lottery provides random assignment of lucky loser entry within the top-four pool. The identifying assumption is:
+\[
+E[Y_{ie}(0) \mid D_{ie}=1, e] = E[Y_{ie}(0) \mid D_{ie}=0, e]
+\]
+That is, among the top four ranked final-round qualifying losers at a given Grand Slam, lottery-selected and unselected players have the same expected untreated potential outcomes. This holds by design: within the pool, each player has an equal probability of selection regardless of ranking, ability, or other characteristics.
+
+% Paragraph 2: Clarification on scope
+The randomization operates within each event's top-four pool, not across players globally. A player ranked 120th at the Australian Open and a player ranked 180th at Roland Garros are not comparable by virtue of the lottery alone; they are in different pools. The event fixed effect $\alpha_e$ absorbs all between-pool variation, so the estimated effect compares lottery winners to lottery losers within the same event.
+
+% Paragraph 3: Contamination caveat
+A caveat is that the lottery mechanism operates only when withdrawals occur before qualifying completes. Post-qualifying withdrawals follow the ranking rule, so the sample may include some ranking-based assignments. The verified lottery subsample (Section~\ref{sec:robustness_verified}) addresses this contamination concern by restricting to events where the selected LL was provably not the highest-ranked candidate.
+
+% Paragraph 4: Finite-sample imbalance and controls
+With only four players per pool and a binary treatment, finite-sample imbalance is expected even under true randomization. Across the full ATP Grand Slam sample, the joint $F$-test yields $p = 0.230$; on the WTA side, $p = 0.333$. To improve precision and absorb residual imbalance, I include pre-treatment controls in all dynamic specifications. I also report specifications without controls as a complement.
+
+\subsection{Immediate Effects}
+\label{sec:strategy_immediate}
+
+The event-level model estimates the immediate effect of receiving the LL slot at the focal Grand Slam:
+\begin{equation}
+\label{eq:immediate}
+Y^{imm}_{ie} = \alpha_e + \delta \, D_{ie} + \varepsilon_{ie}
+\end{equation}
+where $Y^{imm}_{ie}$ is one of three event-level outcomes: (i) an indicator for winning at least one main draw match, (ii) the number of main draw matches played, and (iii) ranking points earned at the event. The event fixed effect $\alpha_e$ is a Grand Slam $\times$ Year indicator. The coefficient $\delta$ measures the size of the initial treatment shock---the immediate dose of ranking points and competitive experience that the LL slot provides. This quantity sets the scale for interpreting the dynamic effects that follow. Control outcomes are mechanically zero because unselected players do not enter the main draw.
+
+\subsection{Post-Episode Dynamics}
+\label{sec:strategy_dynamics}
+
+The dynamic model traces career outcomes at horizons $h \in \{4, 8, 12, 26, 52\}$ weeks:
+\begin{equation}
+\label{eq:dynamics}
+Y_{ie,h} = \alpha_e + \alpha_h + \beta_h \, D_{ie} + \Gamma Z^{pre}_{ie} + \varepsilon_{ie,h}
+\end{equation}
+where $Y_{ie,h}$ is the outcome for player $i$ from event $e$ measured at horizon $h$, $\alpha_e$ is an event fixed effect (Grand Slam $\times$ Year), $\alpha_h$ is a horizon fixed effect absorbing level differences across time horizons, $Z^{pre}_{ie}$ is the vector of pre-treatment controls (ranking points / 1000 linear and quadratic, Elo / 100 linear and quadratic, surface Elo / 100 linear and quadratic, prior GS LL spots won, prior GS LL candidacies not won, prior non-GS LL spots won, prior non-GS LL candidacies not won, and player age) with horizon-invariant coefficients $\Gamma$, and $\varepsilon_{ie,h}$ is the error term. Standard errors are clustered at the player level. The coefficients on $Z^{pre}$ do not vary by horizon because these controls absorb pre-treatment differences that are constant across the post-event trajectory. The horizon fixed effects are important for count outcomes (main draws entered, matches played) where level differences across horizons are substantial; adding $\alpha_h$ increases the $R^2$ from 0.35 to 0.53 for main draw entries.
+
+The coefficient $\beta_h$ identifies the causal effect of lottery selection on the outcome at horizon $h$. The sequence $\{\beta_4, \beta_8, \beta_{12}, \beta_{26}, \beta_{52}\}$ traces the divergence between treated and control trajectories after the random shock. Immediate effects ($h = 0$) are captured by the event-level model in equation~(\ref{eq:immediate}) and are excluded from the dynamic specification to avoid double-counting.
+
+A player may appear in the lottery pool at multiple events. To avoid contamination from subsequent treatments, I censor each player-episode at the date of the player's next final qualifying round loss at an LL-granting event of the same type:
+\[
+h^{*} = \min(12\text{ months}, \text{time to next same-type qualifying loss at an LL-granting event})
+\]
+For Grand Slam episodes, this means censoring at the next Grand Slam qualifying loss where at least one LL slot was awarded. For non-Grand-Slam episodes, censoring occurs at the next non-Grand-Slam qualifying loss at an LL-granting event. Within this window, the only relevant treatment is $D_{ie}$ from the originating event, preventing contamination from overlapping treatment spells. A player who appears in the LL candidate pool at multiple events generates multiple episodes, potentially with different treatment statuses. As a robustness check, I restrict the sample to each player's first Grand Slam LL opportunity (Section~\ref{sec:robustness_firstll}).
+
+\subsection{Heterogeneous and Treatment Dose Effects}
+\label{sec:strategy_heterogeneity}
+
+I estimate heterogeneous treatment effects by augmenting equation~(\ref{eq:dynamics}) with interactions between the treatment indicator $D_{ie}$ and category dummies. For a categorical moderator with $K$ groups (one base category omitted), the estimating equation is:
+\begin{equation}
+\label{eq:hetero}
+Y_{ie,h} = \alpha_e + \alpha_h + \beta_h \, D_{ie} + \sum_{k=2}^{K} \delta_{k,h} \, D_{ie} \times \mathbf{1}[G_{ie} = k] + \Gamma Z^{pre}_{ie} + \varepsilon_{ie,h}
+\end{equation}
+where $\beta_h$ captures the base-category treatment effect at horizon $h$ and $\delta_{k,h}$ captures the \textit{differential} effect for category $k$ relative to the base. Since $\beta_h$ is already indexed by horizon in equation~(\ref{eq:dynamics}), this specification inherits the horizon-specific treatment structure without requiring additional horizon interactions. I examine three dimensions: pre-treatment ranking (above versus below the tour-specific median, with below-median as base), age (below versus above 24, with younger as base), and prior LL experience (none versus any, with no prior experience as base).
+
+To characterize how treatment effects vary with dose, I interact $D_{ie}$ with the number of main draw matches won at the focal event, entering continuously. The dose variable is endogenous---players who win more matches are better or luckier on the day---so these estimates are descriptive, not causal. They answer a different question than the ITT: conditional on receiving the LL slot, how much does the career impact depend on what the player does with it? Standard errors are clustered at the player level throughout.
+
+\subsection{Non-Grand-Slam Control Function Strategy}
+\label{sec:strategy_iv}
+
+At non-Grand-Slam events, LL slots go to the highest-ranked final-round qualifying losers. I use a control function approach to account for endogenous LL assignment, exploiting the peer component of the selection probability computed from the combinatorial structure of qualifying match pairings.
+
+\paragraph{Selection probability.} The selection probability $P_i^{LL}$ is the probability that player $i$'s rank among final-round qualifying losers falls within the top $c$ slots (where $c$ is the number of LL positions available), conditional on player $i$ having lost. Formally:
+\[
+P_i^{LL} = \Pr\bigl(\text{rank among losers} \leq c \mid i \text{ loses}\bigr)
+\]
+This probability depends on the qualifying match outcomes of \textit{other} players---specifically, on the probability that enough higher-ranked qualifiers also lose their matches. Construction proceeds in two steps. First, I estimate a weighted logit model of match outcomes on qualifying round matches at non-Grand-Slam LL-granting events, separately for each tour (ATP: $N = 9{,}775$; WTA: $N = 10{,}199$ qualifying matches). The match-level covariates $X_{ijm}$ include ranking points difference / 1000 (linear and quadratic), Elo difference / 100 (linear and quadratic), surface Elo difference / 100 (linear and quadratic), Laplace-smoothed head-to-head win proportion, head-to-head encounter count, and age difference, along with event-level surface indicators (clay and grass). The logit is estimated by weighted MLE, with weights equal to the total points in play (sum of service points) in each match; qualifying round number serves as a fallback weight when service point data are unavailable. Estimating on all qualifying rounds---not just the final round---improves parameter precision by exploiting the full set of qualifying matches. The same logit specification is used for the selection probability, the tournament performance model, and the treatment dose analysis, ensuring a unified covariate structure across applications. This yields predicted match-winning probabilities $\hat{P}(a_m \to b_m \mid X, Z)$ for each final-round qualifying match $m$ between players $a_m$ and $b_m$. Second, given these predicted probabilities and the $N_e - 1$ other final-round qualifying matches (excluding player $i$'s match, since $i$ is conditioned on having lost), I enumerate all $2^{N_e - 1}$ possible outcome combinations. Each combination has probability equal to the product of the individual match outcome probabilities from the logit (invoking conditional independence of match outcomes given observables). For each combination, the set of losers is determined and their rankings compared; $P_i^{LL}$ is the sum of probabilities of all combinations in which $i$'s rank falls within the top $c$ among losers. Player $i$'s own loss probability does not enter $P_i^{LL}$; the enumeration uses only final-round matches, since the LL selection mechanism conditions on the final qualifying round structure. The resulting $P_i^{LL}$ is systematically lower than a naive Bernoulli convolution that ignores the draw structure (mean 0.279 vs.\ 0.506 across the non-GS sample), because the exact enumeration correctly conditions on which players are paired against each other. The key identifying assumption is that, conditional on player $i$'s characteristics and the fact that $i$ lost, the qualifying match outcomes of other players affect $i$'s future career only through the lucky loser channel.
+
+\paragraph{Control function approach.} For all non-Grand-Slam specifications, I account for endogenous LL assignment using a control function approach. The generalized residual $\hat{v}_{ie}$ is computed analytically from $P_i^{LL}$:
+\[
+\hat{v}_{ie} = D_{ie} \cdot \frac{\phi(\Phi^{-1}(P_i^{LL}))}{P_i^{LL}} - (1 - D_{ie}) \cdot \frac{\phi(\Phi^{-1}(P_i^{LL}))}{1 - P_i^{LL}}
+\]
+where $\phi(\cdot)$ and $\Phi(\cdot)$ are the standard normal PDF and CDF, respectively. This residual captures the degree to which player $i$'s actual LL status deviates from what $P_i^{LL}$ would predict under normality. It enters the outcome equation as an additional regressor:
+\begin{equation}
+\label{eq:cf_dynamic}
+Y_{ie,h} = \alpha_e + \alpha_h + \beta_h \, D_{ie} + \rho \, \hat{v}_{ie} + \Gamma Z^{pre}_{ie} + \varepsilon_{ie,h}
+\end{equation}
+The coefficient $\hat{\rho}$ on $\hat{v}_{ie}$ tests for endogeneity of LL entry: if $\hat{\rho} \neq 0$, LL assignment is correlated with unobservables and the control function correction is needed. The ATP non-Grand-Slam sample contains $N = 2{,}708$ observations (874 treated); the WTA sample contains $N = 2{,}545$ observations (755 treated). Standard errors are clustered at the player level.
+
+\paragraph{Control function for the match-level model.} For the match-level tournament performance model at non-Grand-Slam events (Section~\ref{sec:mechanisms_performance}), the same analytically computed generalized residual enters the outcome logit:
+\begin{equation}
+\label{eq:match_logit_cf}
+p_{itm} = \Lambda\bigl(\beta' X_{ijm} + \gamma' Z^{pre}_{ie} + \delta \cdot D_{ie} + \rho \cdot \hat{v}_{ie}\bigr)
+\end{equation}
+where $X_{ijm}$ includes ranking points difference / 1000 (linear and quadratic), Elo difference / 100 (linear and quadratic), surface Elo difference / 100 (linear and quadratic), Laplace-smoothed H2H win proportion, H2H encounter count, age difference, and surface indicators (clay and grass)---the same logit specification used for the selection probability. $Z^{pre}_{ie}$ includes ranking points / 1000 (linear and quadratic), Elo / 100 (linear and quadratic), surface Elo / 100 (linear and quadratic), and player age. In the dose specification, $\hat{v}_{ie}$ is interacted with the centered matches-won variable to allow the endogeneity correction to vary with treatment dose, because players who win more matches at the LL event may have different unobserved ability profiles. Standard errors are obtained via player-level block bootstrap (200 replications) to account for the generated regressor.

@@ -1,0 +1,16 @@
+\begin{tabular}{lcc|cccccc}
+\toprule
+ & \multicolumn{2}{c|}{Local Randomization} & \multicolumn{6}{c}{Fuzzy RDD (rdrobust)} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-9}
+Horizon & Estimate & $p$ (Fisher) & LATE & Robust SE & $p$-value & $p$ (BH) & Bandwidth & Eff. $N$ \\
+\midrule
+4 weeks & -1.1 & 0.492 & -1.7 & (6.6) & 0.733 & 0.733 & 2.8 & 2662 \\
+8 weeks & -0.6 & 0.790 & -4.2 & (8.6) & 0.454 & 0.615 & 2.9 & 2633 \\
+12 weeks & 1.6 & 0.625 & -10.8 & (11.2) & 0.161 & 0.403 & 3.4 & 2601 \\
+26 weeks & 2.1 & 0.586 & -19.1 & (16.8) & 0.053 & 0.263 & 3.0 & 2545 \\
+52 weeks & -15.0 & 0.084 & 20.5 & (31.6) & 0.492 & 0.615 & 3.7 & 2616 \\
+\midrule
+\multicolumn{9}{l}{\footnotesize Covariates: age, Elo, tournament level, surface. SEs clustered at player level.} \\
+\multicolumn{9}{l}{\footnotesize $p$ (BH) = Benjamini-Hochberg corrected $p$-value across ranking change family.} \\
+\bottomrule
+\end{tabular}

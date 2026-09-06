@@ -1,0 +1,172 @@
+# Stacked Fixes Summary (18_stacked_fixes.R)
+Generated: 2026-03-25 10:01:35.201267
+
+## ISSUE 1: Stacked Dynamic Models
+- ATP stacked points_change @ 4w: coef = 23.35, SE = 12.43, p = 0.060, N_obs = 1200, N_units = 248
+- ATP stacked points_change @ 8w: coef = 22.21, SE = 13.95, p = 0.111, N_obs = 1200, N_units = 248
+- ATP stacked points_change @ 12w: coef = 29.85, SE = 15.27, p = 0.051, N_obs = 1200, N_units = 248
+- ATP stacked points_change @ 26w: coef = 30.63, SE = 26.43, p = 0.246, N_obs = 1200, N_units = 248
+- ATP stacked points_change @ 52w: coef = -2.24, SE = 35.68, p = 0.950, N_obs = 1200, N_units = 248
+- ATP stacked n_main_draws @ 4w: coef = 0.11, SE = 0.24, p = 0.631, N_obs = 1240, N_units = 248
+- ATP stacked n_main_draws @ 8w: coef = 0.32, SE = 0.24, p = 0.181, N_obs = 1240, N_units = 248
+- ATP stacked n_main_draws @ 12w: coef = 0.42, SE = 0.24, p = 0.083, N_obs = 1240, N_units = 248
+- ATP stacked n_main_draws @ 26w: coef = 0.72, SE = 0.36, p = 0.048, N_obs = 1240, N_units = 248
+- ATP stacked n_main_draws @ 52w: coef = 0.40, SE = 0.76, p = 0.596, N_obs = 1240, N_units = 248
+- ATP stacked n_matches_250plus @ 4w: coef = 0.17, SE = 0.47, p = 0.719, N_obs = 1240, N_units = 248
+- ATP stacked n_matches_250plus @ 8w: coef = 0.42, SE = 0.46, p = 0.361, N_obs = 1240, N_units = 248
+- ATP stacked n_matches_250plus @ 12w: coef = 0.60, SE = 0.47, p = 0.196, N_obs = 1240, N_units = 248
+- ATP stacked n_matches_250plus @ 26w: coef = 1.02, SE = 0.67, p = 0.128, N_obs = 1240, N_units = 248
+- ATP stacked n_matches_250plus @ 52w: coef = 0.60, SE = 1.42, p = 0.670, N_obs = 1240, N_units = 248
+- ATP stacked elo_change @ 4w: coef = 0.96, SE = 4.66, p = 0.836, N_obs = 1127, N_units = 248
+- ATP stacked elo_change @ 8w: coef = 0.59, SE = 5.65, p = 0.916, N_obs = 1127, N_units = 248
+- ATP stacked elo_change @ 12w: coef = -4.75, SE = 6.13, p = 0.439, N_obs = 1127, N_units = 248
+- ATP stacked elo_change @ 26w: coef = -1.86, SE = 8.25, p = 0.822, N_obs = 1127, N_units = 248
+- ATP stacked elo_change @ 52w: coef = -11.15, SE = 10.64, p = 0.295, N_obs = 1127, N_units = 248
+- WTA stacked points_change @ 4w: coef = 38.90, SE = 19.95, p = 0.051, N_obs = 640, N_units = 132
+- WTA stacked points_change @ 8w: coef = 47.88, SE = 21.18, p = 0.024, N_obs = 640, N_units = 132
+- WTA stacked points_change @ 12w: coef = 10.40, SE = 24.03, p = 0.665, N_obs = 640, N_units = 132
+- WTA stacked points_change @ 26w: coef = -12.64, SE = 41.71, p = 0.762, N_obs = 640, N_units = 132
+- WTA stacked points_change @ 52w: coef = 28.64, SE = 65.47, p = 0.662, N_obs = 640, N_units = 132
+- WTA stacked n_main_draws @ 4w: coef = 0.05, SE = 0.30, p = 0.870, N_obs = 660, N_units = 132
+- WTA stacked n_main_draws @ 8w: coef = 0.33, SE = 0.32, p = 0.305, N_obs = 660, N_units = 132
+- WTA stacked n_main_draws @ 12w: coef = 0.27, SE = 0.33, p = 0.414, N_obs = 660, N_units = 132
+- WTA stacked n_main_draws @ 26w: coef = 0.60, SE = 0.46, p = 0.197, N_obs = 660, N_units = 132
+- WTA stacked n_main_draws @ 52w: coef = 1.05, SE = 1.11, p = 0.342, N_obs = 660, N_units = 132
+- WTA stacked n_matches_250plus @ 4w: coef = 0.23, SE = 0.51, p = 0.649, N_obs = 660, N_units = 132
+- WTA stacked n_matches_250plus @ 8w: coef = 0.82, SE = 0.51, p = 0.106, N_obs = 660, N_units = 132
+- WTA stacked n_matches_250plus @ 12w: coef = 0.66, SE = 0.52, p = 0.208, N_obs = 660, N_units = 132
+- WTA stacked n_matches_250plus @ 26w: coef = 1.06, SE = 0.83, p = 0.200, N_obs = 660, N_units = 132
+- WTA stacked n_matches_250plus @ 52w: coef = 0.39, SE = 1.81, p = 0.828, N_obs = 660, N_units = 132
+- WTA stacked elo_change @ 4w: coef = 7.24, SE = 5.00, p = 0.148, N_obs = 577, N_units = 131
+- WTA stacked elo_change @ 8w: coef = 5.97, SE = 6.51, p = 0.359, N_obs = 577, N_units = 131
+- WTA stacked elo_change @ 12w: coef = 6.26, SE = 8.06, p = 0.438, N_obs = 577, N_units = 131
+- WTA stacked elo_change @ 26w: coef = 14.99, SE = 9.58, p = 0.117, N_obs = 577, N_units = 131
+- WTA stacked elo_change @ 52w: coef = 20.53, SE = 13.80, p = 0.137, N_obs = 577, N_units = 131
+
+## ISSUE 1 (Non-GS IV):
+- ATP non-GS IV points_change @ 4w: coef = 13.86, SE = 3.64, p = 0.000, N_horizon = 2666, N_stacked = 12828
+- ATP non-GS IV n_main_draws @ 4w: coef = 0.07, SE = 0.05, p = 0.136, N_horizon = 2672, N_stacked = 13360
+- ATP non-GS IV n_matches_250plus @ 4w: coef = 0.06, SE = 0.09, p = 0.474, N_horizon = 2672, N_stacked = 13360
+- ATP non-GS IV elo_change @ 4w: coef = 0.04, SE = 1.77, p = 0.982, N_horizon = 2461, N_stacked = 11322
+- ATP non-GS IV points_change @ 8w: coef = 15.47, SE = 5.16, p = 0.003, N_horizon = 2638, N_stacked = 12828
+- ATP non-GS IV n_main_draws @ 8w: coef = 0.18, SE = 0.08, p = 0.025, N_horizon = 2672, N_stacked = 13360
+- ATP non-GS IV n_matches_250plus @ 8w: coef = 0.33, SE = 0.14, p = 0.021, N_horizon = 2672, N_stacked = 13360
+- ATP non-GS IV elo_change @ 8w: coef = 3.21, SE = 2.56, p = 0.210, N_horizon = 2319, N_stacked = 11322
+- ATP non-GS IV points_change @ 12w: coef = 5.98, SE = 7.10, p = 0.400, N_horizon = 2609, N_stacked = 12828
+- ATP non-GS IV n_main_draws @ 12w: coef = 0.30, SE = 0.10, p = 0.004, N_horizon = 2672, N_stacked = 13360
+- ATP non-GS IV n_matches_250plus @ 12w: coef = 0.42, SE = 0.19, p = 0.024, N_horizon = 2672, N_stacked = 13360
+- ATP non-GS IV elo_change @ 12w: coef = 0.31, SE = 2.86, p = 0.913, N_horizon = 2327, N_stacked = 11322
+- ATP non-GS IV points_change @ 26w: coef = 27.70, SE = 10.22, p = 0.007, N_horizon = 2545, N_stacked = 12828
+- ATP non-GS IV n_main_draws @ 26w: coef = 0.30, SE = 0.18, p = 0.097, N_horizon = 2672, N_stacked = 13360
+- ATP non-GS IV n_matches_250plus @ 26w: coef = 0.72, SE = 0.34, p = 0.034, N_horizon = 2672, N_stacked = 13360
+- ATP non-GS IV elo_change @ 26w: coef = 7.07, SE = 4.20, p = 0.093, N_horizon = 2175, N_stacked = 11322
+- ATP non-GS IV points_change @ 52w: coef = 26.63, SE = 16.06, p = 0.097, N_horizon = 2370, N_stacked = 12828
+- ATP non-GS IV n_main_draws @ 52w: coef = 0.62, SE = 0.35, p = 0.077, N_horizon = 2672, N_stacked = 13360
+- ATP non-GS IV n_matches_250plus @ 52w: coef = 1.25, SE = 0.65, p = 0.056, N_horizon = 2672, N_stacked = 13360
+- ATP non-GS IV elo_change @ 52w: coef = 2.13, SE = 5.38, p = 0.692, N_horizon = 2040, N_stacked = 11322
+- WTA non-GS IV points_change @ 4w: coef = 14.40, SE = 5.19, p = 0.006, N_horizon = 2528, N_stacked = 12052
+- WTA non-GS IV n_main_draws @ 4w: coef = -0.12, SE = 0.05, p = 0.019, N_horizon = 2545, N_stacked = 12725
+- WTA non-GS IV n_matches_250plus @ 4w: coef = -0.22, SE = 0.11, p = 0.049, N_horizon = 2545, N_stacked = 12725
+- WTA non-GS IV elo_change @ 4w: coef = -0.12, SE = 1.93, p = 0.952, N_horizon = 2421, N_stacked = 10748
+- WTA non-GS IV points_change @ 8w: coef = 12.71, SE = 7.42, p = 0.087, N_horizon = 2486, N_stacked = 12052
+- WTA non-GS IV n_main_draws @ 8w: coef = -0.11, SE = 0.08, p = 0.191, N_horizon = 2545, N_stacked = 12725
+- WTA non-GS IV n_matches_250plus @ 8w: coef = -0.24, SE = 0.17, p = 0.165, N_horizon = 2545, N_stacked = 12725
+- WTA non-GS IV elo_change @ 8w: coef = -1.19, SE = 2.75, p = 0.666, N_horizon = 2236, N_stacked = 10748
+- WTA non-GS IV points_change @ 12w: coef = 22.32, SE = 9.68, p = 0.021, N_horizon = 2448, N_stacked = 12052
+- WTA non-GS IV n_main_draws @ 12w: coef = 0.02, SE = 0.11, p = 0.830, N_horizon = 2545, N_stacked = 12725
+- WTA non-GS IV n_matches_250plus @ 12w: coef = 0.01, SE = 0.23, p = 0.974, N_horizon = 2545, N_stacked = 12725
+- WTA non-GS IV elo_change @ 12w: coef = 2.22, SE = 3.38, p = 0.511, N_horizon = 2159, N_stacked = 10748
+- WTA non-GS IV points_change @ 26w: coef = 33.35, SE = 14.82, p = 0.024, N_horizon = 2376, N_stacked = 12052
+- WTA non-GS IV n_main_draws @ 26w: coef = 0.14, SE = 0.19, p = 0.450, N_horizon = 2545, N_stacked = 12725
+- WTA non-GS IV n_matches_250plus @ 26w: coef = 0.29, SE = 0.39, p = 0.463, N_horizon = 2545, N_stacked = 12725
+- WTA non-GS IV elo_change @ 26w: coef = -4.51, SE = 4.89, p = 0.357, N_horizon = 2039, N_stacked = 10748
+- WTA non-GS IV points_change @ 52w: coef = 41.62, SE = 25.24, p = 0.099, N_horizon = 2214, N_stacked = 12052
+- WTA non-GS IV n_main_draws @ 52w: coef = -0.19, SE = 0.35, p = 0.589, N_horizon = 2545, N_stacked = 12725
+- WTA non-GS IV n_matches_250plus @ 52w: coef = -0.09, SE = 0.68, p = 0.897, N_horizon = 2545, N_stacked = 12725
+- WTA non-GS IV elo_change @ 52w: coef = -8.90, SE = 6.01, p = 0.139, N_horizon = 1893, N_stacked = 10748
+
+## ISSUE 2: Fisher Randomization Inference
+- Fisher points_change_4w: coef = 21.61, asymp p = 0.010, Fisher p = 0.013, N = 248
+- Fisher points_change_12w: coef = 26.02, asymp p = 0.095, Fisher p = 0.112, N = 243
+- Fisher points_change_26w: coef = 35.31, asymp p = 0.259, Fisher p = 0.285, N = 239
+- Fisher n_main_draws_12w: coef = 0.33, asymp p = 0.091, Fisher p = 0.097, N = 248
+- Fisher n_main_draws_26w: coef = 0.72, asymp p = 0.091, Fisher p = 0.091, N = 248
+- Fisher n_matches_250plus_26w: coef = 1.12, asymp p = 0.161, Fisher p = 0.175, N = 248
+- Fisher elo_change_26w: coef = 1.74, asymp p = 0.872, Fisher p = 0.873, N = 213
+
+## ISSUE 3: First-Stage F-Statistic
+- F-stat (t^2, full spec): 2090.8
+- F-stat (fitstat): 2071.9
+- F-stat (simpler spec): 2114.6
+
+## ISSUE 4: WTA Elo Investigation
+-   WTA Elo 4w: coef = 6.80, SE = 5.08, p = 0.181, N = 127 (treat=51, ctrl=76)
+-   WTA Elo 8w: coef = 7.64, SE = 7.06, p = 0.279, N = 126 (treat=52, ctrl=74)
+-   WTA Elo 12w: coef = 6.55, SE = 9.46, p = 0.488, N = 119 (treat=47, ctrl=72)
+-   WTA Elo 26w: coef = 17.54, SE = 10.65, p = 0.100, N = 97 (treat=38, ctrl=59)
+-   WTA Elo 52w: coef = 15.96, SE = 16.37, p = 0.330, N = 108 (treat=40, ctrl=68)
+- WTA Elo from stacked model:
+  - 4w: coef = 7.24, p = 0.148
+  - 8w: coef = 5.97, p = 0.359
+  - 12w: coef = 6.26, p = 0.438
+  - 26w: coef = 14.99, p = 0.117
+  - 52w: coef = 20.53, p = 0.137
+
+## ISSUE 5: Event Study Figures
+- ATP event study gap at 0w: 0.00 pts
+- ATP event study gap at 4w: 20.85 pts
+- ATP event study gap at 8w: 20.51 pts
+- ATP event study gap at 12w: 26.56 pts
+- ATP event study gap at 26w: 25.79 pts
+- ATP event study gap at 52w: -1.94 pts
+- WTA event study gap at 0w: 0.00 pts
+- WTA event study gap at 4w: 28.46 pts
+- WTA event study gap at 8w: 40.36 pts
+- WTA event study gap at 12w: -0.06 pts
+- WTA event study gap at 26w: -30.00 pts
+- WTA event study gap at 52w: -20.29 pts
+
+## ISSUE 6: Heterogeneity Stacked Models
+- ATP hetero stacked High ranking pts @ 4w: coef = 6.00, p = 0.778
+- ATP hetero stacked High ranking pts @ 8w: coef = 18.71, p = 0.425
+- ATP hetero stacked High ranking pts @ 12w: coef = 30.88, p = 0.246
+- ATP hetero stacked High ranking pts @ 26w: coef = 44.57, p = 0.318
+- ATP hetero stacked High ranking pts @ 52w: coef = -19.78, p = 0.755
+- ATP hetero stacked Low ranking pts @ 4w: coef = 21.54, p = 0.222
+- ATP hetero stacked Low ranking pts @ 8w: coef = 4.03, p = 0.826
+- ATP hetero stacked Low ranking pts @ 12w: coef = 3.74, p = 0.845
+- ATP hetero stacked Low ranking pts @ 26w: coef = -9.88, p = 0.739
+- ATP hetero stacked Low ranking pts @ 52w: coef = 2.00, p = 0.953
+- ATP hetero stacked Older @ 4w: coef = 1.86, p = 0.934
+- ATP hetero stacked Older @ 8w: coef = 8.44, p = 0.701
+- ATP hetero stacked Older @ 12w: coef = 16.55, p = 0.423
+- ATP hetero stacked Older @ 26w: coef = -6.01, p = 0.872
+- ATP hetero stacked Older @ 52w: coef = -41.53, p = 0.387
+- ATP hetero stacked Younger @ 4w: coef = 93.56, p = 0.000
+- ATP hetero stacked Younger @ 8w: coef = 80.01, p = 0.001
+- ATP hetero stacked Younger @ 12w: coef = 88.04, p = 0.000
+- ATP hetero stacked Younger @ 26w: coef = 92.48, p = 0.005
+- ATP hetero stacked Younger @ 52w: coef = 85.98, p = 0.091
+- ATP hetero stacked Had prior LL @ 4w: coef = 9.07, p = 0.645
+- ATP hetero stacked Had prior LL @ 8w: coef = 5.50, p = 0.776
+- ATP hetero stacked Had prior LL @ 12w: coef = 10.49, p = 0.605
+- ATP hetero stacked Had prior LL @ 26w: coef = 45.71, p = 0.094
+- ATP hetero stacked Had prior LL @ 52w: coef = 2.24, p = 0.958
+- ATP hetero stacked No prior LL @ 4w: coef = 51.09, p = 0.059
+- ATP hetero stacked No prior LL @ 8w: coef = 53.41, p = 0.056
+- ATP hetero stacked No prior LL @ 12w: coef = 62.35, p = 0.033
+- ATP hetero stacked No prior LL @ 26w: coef = 10.94, p = 0.767
+- ATP hetero stacked No prior LL @ 52w: coef = -2.12, p = 0.965
+- Dose stacked @ 4w: LL = 6.11 (p=0.544), Interaction = 37.73 (p=0.001)
+- Dose stacked @ 8w: LL = 5.79 (p=0.642), Interaction = 45.61 (p=0.000)
+- Dose stacked @ 12w: LL = -0.77 (p=0.958), Interaction = 40.94 (p=0.003)
+- Dose stacked @ 26w: LL = -23.94 (p=0.310), Interaction = 71.67 (p=0.001)
+- Dose stacked @ 52w: LL = -31.14 (p=0.328), Interaction = 70.23 (p=0.034)
+
+## ISSUE 7: Verified Subsample Power Analysis
+- points_change_4w: MDE = 32.73, full-sample coef = 21.61, powered = FALSE
+- points_change_12w: MDE = 70.13, full-sample coef = 26.02, powered = FALSE
+- points_change_26w: MDE = 145.58, full-sample coef = 35.31, powered = FALSE
+- n_main_draws_12w: MDE = 0.90, full-sample coef = 0.33, powered = FALSE
+- n_main_draws_26w: MDE = 1.64, full-sample coef = 0.72, powered = FALSE
+

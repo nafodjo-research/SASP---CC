@@ -1,0 +1,15 @@
+## Section 1: Estimation sample Elo scaling
+- pre_elo divided by 100; pre_elo_sq recomputed as (pre_elo/100)^2
+- GS raw range: [1577.8, 2146.1]
+- GS scaled range: [15.78, 21.46]
+- elo_change_*w outcome columns NOT scaled (confirmed identical)
+
+## Section 2: Summary stats tables rebuilt
+- Elo row label updated to 'Elo rating / 100'
+- 4 tables: table_sumstats_{gs,nongs}_{atp,wta}.tex
+
+## Section 3: Tournament firstll GS tables re-estimated
+- GS ATP: delta=-0.0061 (SE=0.0987, p=0.9509), N=8370 matches
+- GS WTA: delta=0.2107 (SE=0.1259, p=0.0943), N=5287 matches
+- Elo labels updated to 'Elo / 100' in table rows
+

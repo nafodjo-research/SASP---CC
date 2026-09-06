@@ -1,0 +1,29 @@
+\begin{tabular}{lccccc}
+\toprule
+Specification & LATE & Robust SE & $p$-value & Bandwidth & Eff. $N$ \\
+\midrule
+Baseline (p=1, MSE-opt BW, player cluster) & -19.1 & (16.8) & 0.053 & 3.0 & 2545 \\
+Local quadratic (p=2) & -32.0 & (29.7) & 0.240 & 4.7 & 2982 \\
+Bandwidth: 100\% of optimal & -19.1 & (26.1) & 0.558 & 3.0 & 2545 \\
+Bandwidth: 150\% of optimal & -14.3 & (17.2) & 0.143 & 4.6 & 2982 \\
+Bandwidth: 200\% of optimal & -5.9 & (13.7) & 0.062 & 6.1 & 3132 \\
+Donut hole (excl. $\tilde{R} = 0$) & -12.6 & (50.3) & 0.311 & 3.0 & 1951 \\
+Tournament-year clustering & -18.5 & (17.3) & 0.063 & 3.0 & 2545 \\
+Pre-treatment placebo ($\Delta R_{-12w,0}$) & -10.5 & (16.4) & 0.304 & 2.7 & 2603 \\
+\midrule
+\multicolumn{6}{l}{\footnotesize Density test (McCrary): $p$ = 0.669} \\
+\midrule
+\multicolumn{6}{l}{\textit{Placebo cutoffs --- sharp reduced-form (rank\_change\_26w)}} \\
+Cutoff at $\tilde{R}$ = -3 & -2.7 & (13.7) & 0.193 & 3.9 & 1621 \\
+Cutoff at $\tilde{R}$ = -2 & -3.2 & (10.6) & 0.294 & 4.1 & 2164 \\
+Cutoff at $\tilde{R}$ = -1 & 2.8 & (7.8) & 0.867 & 4.8 & 2809 \\
+Cutoff at $\tilde{R}$ = 1 & 5.3 & (9.9) & 0.300 & 3.4 & 2630 \\
+Cutoff at $\tilde{R}$ = 2 & -29.7 & (11.3) & 0.002 & 4.3 & 2953 \\
+Cutoff at $\tilde{R}$ = 3 & 35.2 & (13.9) & 0.001 & 2.8 & 2094 \\
+Cutoff at $\tilde{R}$ = 4 & 9.4 & (13.3) & 0.304 & 4.0 & 2321 \\
+Cutoff at $\tilde{R}$ = 5 & -41.9 & (17.2) & 0.002 & 2.5 & 1195 \\
+\midrule
+\multicolumn{6}{l}{\footnotesize Outcome: ranking change at 26 weeks. All SEs are bias-corrected robust.} \\
+\multicolumn{6}{l}{\footnotesize SEs clustered at player level unless noted.} \\
+\bottomrule
+\end{tabular}

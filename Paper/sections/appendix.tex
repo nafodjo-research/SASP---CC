@@ -1,0 +1,758 @@
+\section{Additional Theoretical and Econometric Details}
+\label{app:details}
+
+This appendix provides details on the tournament performance model (Section~\ref{sec:mechanisms_performance}), including the control-function approach used for non-Grand-Slam events, and additional tables for the non-Grand-Slam control function analysis.
+
+\subsection{Tournament Trajectory Likelihood}
+\label{app:trajectory_likelihood}
+
+Let player $i$ enter tournament $t$ and face a sequence of opponents indexed by match $m = 1,2,\dots$. Define the binary outcome:
+\begin{equation}
+w_{itm} = \mathbf{1}[\text{player $i$ wins match $m$ at tournament $t$}]
+\end{equation}
+
+Define the stopping time:
+\begin{equation}
+T_{it} = \min \{ m : w_{itm} = 0 \}
+\end{equation}
+with the convention that if the player wins the tournament, $T_{it} = R_t + 1$, where $R_t$ is the total number of rounds.
+
+The tournament trajectory is:
+\begin{equation}
+F_{it} = (w_{it1}, w_{it2}, \dots, w_{it,T_{it}})
+\end{equation}
+
+Let the match-level win probability be:
+\begin{equation}
+p_{itm} = P(w_{itm} = 1 \mid X_{itm}, D_{ie}, v_{ie})
+\end{equation}
+
+Under conditional independence across matches given covariates:
+\begin{equation}
+P(F_{it}) =
+\left( \prod_{m=1}^{T_{it}-1} p_{itm} \right)
+\times (1 - p_{it,T_{it}})
+\end{equation}
+
+If the player wins all rounds:
+\begin{equation}
+P(F_{it}) = \prod_{m=1}^{R_t} p_{itm}
+\end{equation}
+
+Taking logs:
+\begin{equation}
+\log P(F_{it}) =
+\sum_{m=1}^{T_{it}} \left[
+w_{itm} \log p_{itm} + (1 - w_{itm}) \log(1 - p_{itm})
+\right]
+\end{equation}
+
+This establishes that the likelihood factorizes exactly into match-level Bernoulli contributions.
+
+\subsection{Connection to an Inhomogeneous Geometric Distribution}
+\label{app:geometric}
+
+The stopping time $T_{it}$ follows an inhomogeneous geometric distribution:
+\begin{equation}
+P(T_{it} = m) =
+\left( \prod_{s=1}^{m-1} p_{its} \right) (1 - p_{itm})
+\end{equation}
+
+with success probabilities varying across matches. This differs from the standard geometric distribution due to heterogeneity in opponent strength and match context.
+
+The expected number of wins is:
+\begin{equation}
+E[W_{it}] = \sum_{r=1}^{R_t} P(T_{it} > r)
+= \sum_{r=1}^{R_t} \prod_{s=1}^{r} p_{its}
+\end{equation}
+
+This identity underlies the simulation-based estimators used in the main text.
+
+\subsection{Match-Level Model and Likelihood Reduction}
+\label{app:match_model}
+
+The match-level probability is specified as:
+\begin{equation}
+p_{itm} = \Lambda(\beta' X_{ijm} + \gamma' Z^{pre}_{ie} + \delta D_{ie} + \rho v_{ie})
+\end{equation}
+where $X_{ijm}$ contains the match-level pairwise covariates (ranking points difference / 1000 linear and quadratic, Elo difference / 100 linear and quadratic, surface Elo difference / 100 linear and quadratic, Laplace-smoothed H2H win proportion, H2H encounter count, age difference, and clay and grass surface indicators) and $Z^{pre}_{ie}$ contains the pre-treatment focal player characteristics (ranking points / 1000 linear and quadratic, Elo / 100 linear and quadratic, surface Elo / 100 linear and quadratic, and player age).
+
+Substituting into the trajectory likelihood and using the log decomposition yields:
+\begin{equation}
+\mathcal{L} = \sum_{i,t,m}
+\left[
+w_{itm} \log \Lambda(z_{itm})
++ (1 - w_{itm}) \log (1 - \Lambda(z_{itm}))
+\right]
+\end{equation}
+where $z_{itm} = \beta' X_{ijm} + \gamma' Z^{pre}_{ie} + \delta D_{ie} + \rho v_{ie}$.
+
+Thus, estimation reduces to a standard logit on the stacked match-level data.
+
+\subsection{Control Function Approach}
+\label{app:first_stage}
+
+The control function corrects for endogenous LL assignment at non-Grand-Slam events. The selection probability $P_i^{LL}$ is constructed from predicted match-winning probabilities obtained from a weighted logit model estimated on all qualifying round matches (Section~\ref{app:instrument}), combined via exact enumeration of all final-round outcome combinations. Under the maintained assumption that the latent selection error and the outcome error are jointly normal:
+\begin{equation}
+(u_{ie}, \varepsilon_{itm}) \sim \mathcal{N}(0, \Sigma)
+\end{equation}
+the generalized residual is computed analytically from $P_i^{LL}$:
+\begin{equation}
+\hat{v}_{ie} = D_{ie} \cdot \frac{\phi(\Phi^{-1}(P_i^{LL}))}{P_i^{LL}} - (1 - D_{ie}) \cdot \frac{\phi(\Phi^{-1}(P_i^{LL}))}{1 - P_i^{LL}}
+\end{equation}
+where $\phi(\cdot)$ and $\Phi(\cdot)$ are the standard normal PDF and CDF. Including $\hat{v}_{ie}$ in the outcome equation corrects for selection on unobservables. The coefficient $\rho$ on $\hat{v}_{ie}$ tests for endogeneity: if $\rho \neq 0$, LL assignment is correlated with unobserved determinants of the outcome.
+
+\subsection{Selection Probability Construction}
+\label{app:instrument}
+
+The selection probability underlying the non-Grand-Slam control function and the tournament performance model is computed from the full combinatorial structure of qualifying match pairings. For each player $i$ at event $e$ with $N_e$ players in the final round of qualifying and $c_e$ LL slots available, the selection probability is:
+\[
+P_i^{LL} = \Pr\bigl(\text{rank among losers} \leq c_e \mid i \text{ loses}\bigr)
+\]
+Construction proceeds in two steps. First, a weighted logit model of match outcomes is estimated on qualifying round matches at non-Grand-Slam LL-granting events, separately for each tour (ATP: $N = 9{,}775$; WTA: $N = 10{,}199$ qualifying matches). The match-level covariates $X_{ijm}$ include ranking points difference / 1000 (linear and quadratic), Elo difference / 100 (linear and quadratic), surface Elo difference / 100 (linear and quadratic), Laplace-smoothed head-to-head win proportion, head-to-head encounter count, and age difference, along with event-level surface indicators (clay and grass). The logit is estimated by weighted MLE, with weights equal to the total points in play (sum of service points) in each match; qualifying round number serves as a fallback weight when service point data are unavailable. Estimating on all qualifying rounds---not just the final round---improves parameter precision by exploiting the full set of qualifying matches. The same logit specification is used for the selection probability, the tournament performance model, and the treatment dose analysis. This yields predicted match-winning probabilities $\hat{P}(a_m \to b_m \mid X, Z)$ for each final-round qualifying match $m$ between players $a_m$ and $b_m$; players with missing pre-match rankings are assigned a default predicted win probability of 0.5.
+
+Second, given these predicted probabilities and the $N_e - 1$ other final-round qualifying matches (excluding player $i$'s match, since $i$ is conditioned on having lost), the probability is computed by exact enumeration over all $2^{N_e - 1}$ outcome combinations. Each combination has probability equal to the product of the individual match outcome probabilities from the logit (invoking conditional independence of match outcomes given observables). For each combination, the set of losers is determined and their rankings compared; $P_i^{LL}$ is the sum of probabilities of all combinations in which $i$'s rank falls within the top $c_e$ among losers. When $N_e - 1$ exceeds 20 (making exact enumeration computationally prohibitive), the probability is approximated by Monte Carlo simulation with 10,000 draws; this applies to 115 of 5,208 observations. The resulting $P_i^{LL}$ is systematically lower than a naive Bernoulli convolution that treats qualifying outcomes as independent coin flips without accounting for the match pairing structure (mean 0.279 vs.\ 0.506 across the non-GS sample). The difference arises because exact enumeration correctly conditions on the specific draw structure---which players are paired against each other---rather than treating each player's loss probability as independent of the draw.
+
+\subsection{Simulation-Based Counterfactuals}
+\label{app:simulation}
+
+Define counterfactual probabilities:
+\begin{equation}
+p_{itm}(d) = \Lambda(X_{itm}'\hat{\beta} + \hat{\delta} \cdot d)
+\end{equation}
+
+\paragraph{Expected wins:}
+\begin{equation}
+E[W_{it}(d)] = \sum_{r=1}^{R_t} \prod_{s=1}^{r} p_{its}(d)
+\end{equation}
+
+\paragraph{Tournament win probability:}
+\begin{equation}
+\pi_{it}(d) = \prod_{r=1}^{R_t} p_{itr}(d)
+\end{equation}
+
+\paragraph{Average marginal effect:}
+\begin{equation}
+AME = \frac{1}{N} \sum_{i,t,m}
+\left[ p_{itm}(1) - p_{itm}(0) \right]
+\end{equation}
+
+All quantities are computed for every player-tournament observation in the data and then averaged, integrating over actual draw compositions and opponent strengths.
+
+\subsection{Bootstrap Inference}
+\label{app:bootstrap}
+
+Inference for the tournament performance model is conducted via player-level block bootstrap:
+
+\begin{enumerate}
+\item Resample players $i$ with replacement.
+\item Retain full histories across all events and matches for each sampled player.
+\item Re-estimate the outcome equation with a fresh draw of player clusters.
+\item Recompute all counterfactual quantities (AME, expected wins, tournament win probability).
+\end{enumerate}
+
+This preserves within-player dependence across tournaments and matches. Standard errors and confidence intervals are computed from the bootstrap distribution using 200 replications.
+
+\subsection{Additional Identification Discussion}
+\label{app:identification}
+
+Identification of the tournament performance model relies on three conditions:
+
+\begin{itemize}
+\item \textit{Exogeneity of the withdrawal process conditional on rank ordering.} Main draw withdrawals must be independent of the specific identity of qualifying losers. This is plausible because withdrawals are driven by injury or scheduling among main draw players, who are ranked well above the qualifying losers.
+\item \textit{Independence of $P_i^{LL}$ from match-level shocks $\varepsilon_{itm}$.} The selection probability depends on the qualifying match outcomes of other players, which are independent of the focal player's future match-level shocks.
+\item \textit{Correct specification of the selection probability.} The exact enumeration correctly models the probability that player $i$'s rank falls within the top $c$ among losers given the draw structure. The joint normality of $(u_{ie}, \varepsilon_{itm})$ is a maintained assumption. Misspecification of either could affect the control function correction and bias $\hat{\delta}$.
+\end{itemize}
+
+Potential violations arise if withdrawals correlate with unobserved player-specific shocks (e.g., if a main draw player withdraws because they know they will face a particular qualifying loser). The institutional structure makes this unlikely: main draw withdrawals are typically announced before the draw is made, and the identity of potential replacements is not known to withdrawing players.
+
+\clearpage
+
+\section{Non-Grand-Slam Tables}
+\label{app:nongs_tables}
+
+Table~\ref{tab:ll_dist_nongs} reports the distribution of LL candidates across tournament tiers, with ATP events disaggregated into Masters 1000 (862 candidates), ATP 500 (594), and ATP 250 (1,216).
+
+\begin{table}[htbp]
+\centering
+\caption{Lucky Loser Distribution at Non-Grand-Slam Events}
+\label{tab:ll_dist_nongs}
+\begin{threeparttable}
+\input{../Tables/table_ll_dist_nongs}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Sample period: 2007--2024 for ATP non-Grand-Slam events; 2009--2024 for WTA non-Grand-Slam events. Candidates are final-round qualifying losers at events where at least one LL slot was awarded. ATP tiers: Masters 1000, ATP 500, ATP 250. WTA tiers: WTA 1000, WTA 500, WTA 250.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+Table~\ref{tab:ll_careers_nongs} cross-tabulates LL candidacies and wins for the non-Grand-Slam sample.
+
+\begin{table}[htbp]
+\centering
+\caption{Player LL Candidacies and Wins: Non-Grand-Slam}
+\label{tab:ll_careers_nongs}
+\begin{threeparttable}
+\small
+\input{../Tables/table_ll_careers_nongs}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Same structure as Table~\ref{tab:ll_careers_gs} for non-Grand-Slam events. Sample period: ATP 2007--2024, WTA 2009--2024.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+Tables~\ref{tab:sumstats_nongs_atp} and~\ref{tab:sumstats_nongs_wta} report summary statistics for the non-Grand-Slam samples on the ATP and WTA tours, respectively.
+
+\begin{table}[htbp]
+\centering
+\caption{Summary Statistics: ATP Non-Grand-Slam Sample}
+\label{tab:sumstats_nongs_atp}
+\begin{threeparttable}
+\small
+\input{../Tables/table_sumstats_nongs_atp}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} ATP non-Grand-Slam sample at events with at least one LL slot awarded, 2007--2024. $N = 2{,}708$ (874 treated). Pre-treatment controls include ranking points (linear and quadratic), Elo rating (linear and quadratic), prior GS LL spots won, prior GS LL candidacies not won, prior non-GS LL spots won, prior non-GS LL candidacies not won, and player age.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Summary Statistics: WTA Non-Grand-Slam Sample}
+\label{tab:sumstats_nongs_wta}
+\begin{threeparttable}
+\small
+\input{../Tables/table_sumstats_nongs_wta}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} WTA non-Grand-Slam sample at events with at least one LL slot awarded, 2009--2024. $N = 2{,}545$ (755 treated). Pre-treatment controls include ranking points (linear and quadratic), Elo rating (linear and quadratic), prior GS LL spots won, prior GS LL candidacies not won, prior non-GS LL spots won, prior non-GS LL candidacies not won, and player age.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{ATP Non-Grand-Slam Results}
+\label{app:nongs_atp}
+
+Table~\ref{tab:immediate_nongs} reports the non-Grand-Slam control function immediate effects. LL recipients at non-GS events earn additional ranking points at the focal event on both tours.
+
+\begin{table}[htbp]
+\centering
+\caption{ATP Non-Grand-Slam: Immediate Event-Level Effects (Control Function)}
+\label{tab:immediate_nongs}
+\begin{threeparttable}
+\small
+\input{../Tables/table_immediate_nongs}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Control function estimates using the generalized residual from the selection probability $P_i^{LL}$ (exact enumeration). ATP non-Grand-Slam sample ($N = 2{,}708$), 2007--2024. All specifications control for pre-treatment ranking points (linear and quadratic), Elo / 100 (linear and quadratic), prior GS LL spots won, prior GS LL candidacies not won, prior non-GS LL spots won, prior non-GS LL candidacies not won, age, and event fixed effects. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+Table~\ref{tab:dynamic_nongs_iv} reports the ATP non-Grand-Slam CF dynamic results.
+
+\begin{table}[htbp]
+\centering
+\caption{ATP Non-Grand-Slam: Dynamic Effects (Stacked, Control Function)}
+\label{tab:dynamic_nongs_iv}
+\begin{threeparttable}
+\small
+\input{../Tables/table_dynamic_stacked_nongs_atp}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Control function estimates using the generalized residual from $P_i^{LL}$. ATP non-Grand-Slam sample ($N = 2{,}708$), 2007--2024. All specifications control for pre-treatment ranking points (linear and quadratic), Elo / 100 (linear and quadratic), prior GS LL spots won, prior GS LL candidacies not won, prior non-GS LL spots won, prior non-GS LL candidacies not won, age, and event fixed effects. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+Table~\ref{tab:hetero_nongs} reports ATP non-Grand-Slam heterogeneity results.
+
+\begin{table}[htbp]
+\centering
+\caption{ATP Non-Grand-Slam: Heterogeneous Effects (Control Function)}
+\label{tab:hetero_nongs}
+\begin{threeparttable}
+\small
+\input{../Tables/table_hetero_stacked_nongs_atp}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Control function estimates by subgroup. ATP non-Grand-Slam sample, 2007--2024. Each row reports a separate regression. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+Tables~\ref{tab:firstll_nongs} and~\ref{tab:firstll_nongs_wta} restrict the non-GS CF sample to players with no prior LL wins. The ATP first-LL subsample (1,424 player-episodes, 397 treated) shows persistent ranking point effects across all horizons and significant access gains at 26 and 52 weeks. The WTA first-LL subsample (1,423 player-episodes, 378 treated) shows weaker ranking point effects but significant access gains emerging by 52 weeks.
+
+\begin{table}[htbp]
+\centering
+\caption{ATP Non-Grand-Slam: First LL Episode Only (Control Function)}
+\label{tab:firstll_nongs}
+\begin{threeparttable}
+\small
+\input{../Tables/table_firstll_stacked_nongs_atp}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Control function estimates restricted to each player's first LL candidacy episode. ATP non-Grand-Slam sample ($N = 1{,}424$, 397 treated), 2007--2024. Stacked specification with horizon-specific treatment effects. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{WTA Non-Grand-Slam Results}
+\label{app:nongs_wta}
+
+Tables~\ref{tab:dynamic_nongs_wta}--\ref{tab:firstll_nongs_wta} report the WTA non-Grand-Slam control function results, which mirror the ATP non-Grand-Slam tables above.
+
+\begin{table}[htbp]
+\centering
+\caption{WTA Non-Grand-Slam: Dynamic Effects (Stacked, Control Function)}
+\label{tab:dynamic_nongs_wta}
+\begin{threeparttable}
+\small
+\input{../Tables/table_dynamic_stacked_nongs_wta}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Control function estimates using the generalized residual from $P_i^{LL}$. WTA non-Grand-Slam sample ($N = 2{,}545$), 2009--2024. All specifications control for pre-treatment ranking points (linear and quadratic), Elo / 100 (linear and quadratic), prior GS LL spots won, prior GS LL candidacies not won, prior non-GS LL spots won, prior non-GS LL candidacies not won, age, and event fixed effects. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{WTA Non-Grand-Slam: Heterogeneous Effects (Control Function)}
+\label{tab:hetero_nongs_wta}
+\begin{threeparttable}
+\small
+\input{../Tables/table_hetero_stacked_nongs_wta}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Control function estimates by subgroup. WTA non-Grand-Slam sample, 2009--2024. Each row reports a separate regression. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{WTA Non-Grand-Slam: First LL Episode Only (Control Function)}
+\label{tab:firstll_nongs_wta}
+\begin{threeparttable}
+\small
+\input{../Tables/table_firstll_stacked_nongs_wta}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Control function estimates restricted to each player's first LL candidacy episode. WTA non-Grand-Slam sample ($N = 1{,}423$, 378 treated), 2009--2024. Stacked specification with horizon-specific treatment effects. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Full Estimation Sample: Tournament Performance}
+\label{app:fullsample_tournament}
+
+Tables~\ref{tab:tournament_gs_atp_full} and~\ref{tab:tournament_gs_wta_full} report the match-level analysis of Section~\ref{sec:mechanisms_performance} with four-specification robustness. The ATP sample ($N = 8{,}543$ matches from 130 unique players) yields $\hat{\delta} = -0.123$ (bootstrap SE $= 0.079$, $p = 0.119$); the WTA sample ($N = 5{,}391$ matches from 98 unique players) yields $\hat{\delta} = +0.034$ (bootstrap SE $= 0.112$, $p = 0.760$). Tables~\ref{tab:tournament_robust_gs_atp_full} and~\ref{tab:tournament_robust_gs_wta_full} report four-specification robustness.
+
+\begin{table}[htbp]
+\centering
+\caption{Grand Slam Tournament Performance: ATP (Full Sample)}
+\label{tab:tournament_gs_atp_full}
+\begin{threeparttable}
+\small
+\input{../Tables/table_tournament_gs_atp}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Logit estimates of the effect of LL entry on match win probability at subsequent tournaments. Grand Slam ATP sample: 8,543 matches from 130 unique players. Sample includes all matches (main draw, qualifying, and challenger events) within each episode's observation window. $\hat{\delta}$ is the coefficient on the LL indicator in log-odds units. Bootstrap standard errors (200 replications) clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Grand Slam Tournament Performance: WTA (Full Sample)}
+\label{tab:tournament_gs_wta_full}
+\begin{threeparttable}
+\small
+\input{../Tables/table_tournament_gs_wta}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Logit estimates of the effect of LL entry on match win probability at subsequent tournaments. Grand Slam WTA sample: 5,391 matches from 98 unique players. $\hat{\delta}$ is the coefficient on the LL indicator in log-odds units. Bootstrap standard errors (200 replications) clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Grand Slam Tournament Robustness: ATP (Full Sample, Four Specifications)}
+\label{tab:tournament_robust_gs_atp_full}
+\begin{threeparttable}
+\small
+\input{../Tables/table_tournament_robustness_gs_atp}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Four specifications for the full Grand Slam ATP sample. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Grand Slam Tournament Robustness: WTA (Full Sample, Four Specifications)}
+\label{tab:tournament_robust_gs_wta_full}
+\begin{threeparttable}
+\small
+\input{../Tables/table_tournament_robustness_gs_wta}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Four specifications for the full Grand Slam WTA sample. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Non-Grand-Slam Tournament Performance Model}
+\label{app:nongs_tournament}
+
+At non-Grand-Slam events, LL assignment is determined by ranking among qualifying losers rather than by lottery, so the treatment indicator $D_{ie}$ is potentially endogenous. I use a control function approach: the generalized residual $\hat{v}_{ie}$, computed analytically from the selection probability $P_i^{LL}$ (see Appendix~\ref{app:first_stage}), is included in the outcome logit to absorb correlation between LL assignment and unobserved player quality. Standard errors are obtained via player-level block bootstrap (200 replications).
+
+The ATP non-GS estimate is $\hat{\delta} = +0.033$ (bootstrap SE $= 0.050$, $p = 0.513$), based on 113,189 matches from 838 unique players. The WTA non-GS estimate is $\hat{\delta} = -0.060$ (bootstrap SE $= 0.032$, $p = 0.061$), based on 80,168 matches from 747 unique players. The ATP estimate is small and statistically insignificant, consistent with no effect of LL entry on match-level performance. The WTA estimate is marginally significant and negative---an unexpected result that may reflect selection into tougher early-round opponents for ranking-based LL recipients. This finding does not alter the overall conclusion that match-level performance effects are generally null.
+
+Tables~\ref{tab:tournament_nongs_atp} and~\ref{tab:tournament_nongs_wta} report the full non-Grand-Slam tournament performance results.
+
+\begin{table}[htbp]
+\centering
+\caption{Non-Grand-Slam Tournament Performance: ATP (Control Function)}
+\label{tab:tournament_nongs_atp}
+\begin{threeparttable}
+\small
+\input{../Tables/table_tournament_nongs_atp}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Control-function logit estimates of the effect of LL entry on match win probability at subsequent tournaments. Non-Grand-Slam ATP sample. $\hat{\delta}$ is the coefficient on the LL indicator in log-odds units. $\hat{\rho}$ is the coefficient on the control function residual. Standard errors from player-level block bootstrap (200 replications). $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Non-Grand-Slam Tournament Performance: WTA (Control Function)}
+\label{tab:tournament_nongs_wta}
+\begin{threeparttable}
+\small
+\input{../Tables/table_tournament_nongs_wta}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Control-function logit estimates of the effect of LL entry on match win probability at subsequent tournaments. Non-Grand-Slam WTA sample. $\hat{\delta}$ is the coefficient on the LL indicator in log-odds units. $\hat{\rho}$ is the coefficient on the control function residual. Standard errors from player-level block bootstrap (200 replications). $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{First-LL Robustness: Grand Slam Tournament Performance}
+\label{app:firstll_tournament_robust}
+
+Tables~\ref{tab:tournament_firstll_robust_gs_atp} and~\ref{tab:tournament_firstll_robust_gs_wta} report four-specification robustness for the first-LL Grand Slam tournament performance model.
+
+\begin{table}[htbp]
+\centering
+\caption{Grand Slam Tournament Robustness: ATP (First-LL, Four Specifications)}
+\label{tab:tournament_firstll_robust_gs_atp}
+\begin{threeparttable}
+\small
+\input{../Tables/table_tournament_firstll_robust_gs_atp}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Four specifications for the Grand Slam ATP first-LL sample. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Grand Slam Tournament Robustness: WTA (First-LL, Four Specifications)}
+\label{tab:tournament_firstll_robust_gs_wta}
+\begin{threeparttable}
+\small
+\input{../Tables/table_tournament_firstll_robust_gs_wta}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Four specifications for the Grand Slam WTA first-LL sample. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Non-Grand-Slam Tournament Performance: First-LL Restriction}
+\label{app:nongs_tournament_firstll}
+
+Tables~\ref{tab:tournament_firstll_nongs_atp} and~\ref{tab:tournament_firstll_nongs_wta} report the first-LL tournament performance model at non-Grand-Slam events, using the control function approach. The generalized residual $\hat{v}_{ie}$, computed analytically from $P_i^{LL}$, is included in the outcome logit because $D_{ie}$ is endogenous at non-GS events (assigned by ranking rather than lottery).
+
+\begin{table}[htbp]
+\centering
+\caption{Non-Grand-Slam Tournament Performance: ATP (First-LL, Control Function)}
+\label{tab:tournament_firstll_nongs_atp}
+\begin{threeparttable}
+\small
+\input{../Tables/table_tournament_firstll_nongs_atp}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Control-function logit estimates restricted to first-time LL candidates. Non-Grand-Slam ATP sample. $\hat{\delta}$ is the coefficient on the LL indicator in log-odds units. $\hat{\rho}$ is the coefficient on the control function residual. Standard errors from player-level block bootstrap (200 replications). $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Non-Grand-Slam Tournament Performance: WTA (First-LL, Control Function)}
+\label{tab:tournament_firstll_nongs_wta}
+\begin{threeparttable}
+\small
+\input{../Tables/table_tournament_firstll_nongs_wta}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Control-function logit estimates restricted to first-time LL candidates. Non-Grand-Slam WTA sample. $\hat{\delta}$ is the coefficient on the LL indicator in log-odds units. $\hat{\rho}$ is the coefficient on the control function residual. Standard errors from player-level block bootstrap (200 replications). $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Fisher Randomization Inference}
+\label{app:fisher}
+
+Table~\ref{tab:fisher} reports Fisher randomization inference results.
+
+\begin{table}[htbp]
+\centering
+\caption{Fisher Randomization Inference: Grand Slam Sample}
+\label{tab:fisher}
+\begin{threeparttable}
+\small
+\input{../Tables/table_fisher_fixed}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Fisher $p$-values computed from 1,000 permutations within Grand Slam $\times$ Year blocks. ATP Grand Slam sample ($N = 248$). Asymptotic $p$-values from standard $t$-tests for comparison. $N$ varies across outcomes due to censoring: players who exit the sample before 52 weeks have missing values at longer horizons. The Fisher test uses complete cases for each outcome stacked across all five horizons.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Fisher Randomization Inference: Non-Grand-Slam Sample}
+\label{tab:fisher_nongs}
+\begin{threeparttable}
+\small
+\input{../Tables/table_fisher_nongs}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Treatment permuted within tournament $\times$ year blocks. Control function recomputed for each permutation. 1,000 permutations.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Pre-Treatment Balance: Non-Grand-Slam}
+\label{app:balance_nongs}
+
+\begin{table}[htbp]
+\centering
+\caption{Pre-Treatment Balance: Non-Grand-Slam Samples}
+\label{tab:balance_nongs}
+\begin{threeparttable}
+\small
+\input{../Tables/table_balance_nongs}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Non-GS sample is not randomized; imbalance is expected and motivates the control function approach. ATP: $N = 2{,}708$; WTA: $N = 2{,}545$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Full Dynamic Regression Tables}
+\label{app:dynamic_full}
+
+\begin{table}[htbp]
+\centering
+\caption{ATP Grand Slam: Full Dynamic Effects Regression}
+\label{tab:dynamic_full_atp}
+\begin{threeparttable}
+\footnotesize
+\input{../Tables/table_dynamic_full_atp}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes.} Full regression output from the stacked dynamic model. All $Z^{pre}_{ie}$ covariates interacted with horizon. Event fixed effects and horizon fixed effects included. Standard errors clustered at player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{WTA Grand Slam: Full Dynamic Effects Regression}
+\label{tab:dynamic_full_wta}
+\begin{threeparttable}
+\footnotesize
+\input{../Tables/table_dynamic_full_wta}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes.} Full regression output from the stacked dynamic model. All $Z^{pre}_{ie}$ covariates interacted with horizon. Event fixed effects and horizon fixed effects included. Standard errors clustered at player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{ATP Non-Grand-Slam: Full Dynamic Effects Regression}
+\label{tab:dynamic_full_nongs_atp}
+\begin{threeparttable}
+\footnotesize
+\input{../Tables/table_dynamic_full_nongs_atp}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes.} Full regression output from the stacked dynamic model with control function correction. All $Z^{pre}_{ie}$ covariates interacted with horizon. Event fixed effects and horizon fixed effects included. Standard errors clustered at player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{WTA Non-Grand-Slam: Full Dynamic Effects Regression}
+\label{tab:dynamic_full_nongs_wta}
+\begin{threeparttable}
+\footnotesize
+\input{../Tables/table_dynamic_full_nongs_wta}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes.} Full regression output from the stacked dynamic model with control function correction. All $Z^{pre}_{ie}$ covariates interacted with horizon. Event fixed effects and horizon fixed effects included. Standard errors clustered at player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Consolidated Tournament Performance}
+\label{app:tournament_consolidated}
+
+\begin{table}[htbp]
+\centering
+\caption{Consolidated Tournament Performance: Grand Slam ATP}
+\label{tab:tournament_consolidated_gs_atp}
+\begin{threeparttable}
+\footnotesize
+\input{../Tables/table_tournament_consolidated_gs_atp}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes.} Three specifications: (1) pooled treatment effect, (2) dose by matches won (uncentered), (3) dose by performance probability ($-\text{logit}(\pi_{ie})$). Full covariate output. Bootstrap SEs (200 replications). $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Consolidated Tournament Performance: Grand Slam WTA}
+\label{tab:tournament_consolidated_gs_wta}
+\begin{threeparttable}
+\footnotesize
+\input{../Tables/table_tournament_consolidated_gs_wta}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes.} Three specifications: (1) pooled treatment effect, (2) dose by matches won (uncentered), (3) dose by performance probability ($-\text{logit}(\pi_{ie})$). Full covariate output. Bootstrap SEs (200 replications). $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Consolidated Tournament Performance: Non-Grand-Slam ATP}
+\label{tab:tournament_consolidated_nongs_atp}
+\begin{threeparttable}
+\footnotesize
+\input{../Tables/table_tournament_consolidated_nongs_atp}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes.} Three specifications: (1) pooled treatment effect, (2) dose by matches won (uncentered), (3) dose by performance probability ($-\text{logit}(\pi_{ie})$). Control function correction included. Bootstrap SEs (200 replications). $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Consolidated Tournament Performance: Non-Grand-Slam WTA}
+\label{tab:tournament_consolidated_nongs_wta}
+\begin{threeparttable}
+\footnotesize
+\input{../Tables/table_tournament_consolidated_nongs_wta}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes.} Three specifications: (1) pooled treatment effect, (2) dose by matches won (uncentered), (3) dose by performance probability ($-\text{logit}(\pi_{ie})$). Control function correction included. Bootstrap SEs (200 replications). $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Horizon and Dose Interaction Tables}
+\label{app:horizon_dose}
+
+\begin{table}[htbp]
+\centering
+\caption{Match-Level Horizon and Performance Dose Interaction: Grand Slam}
+\label{tab:horizon_dose_gs}
+\begin{threeparttable}
+\footnotesize
+\input{../Tables/table_horizon_dose_gs}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes.} Combined ATP/WTA results. Spec 1: horizon-only treatment effects. Spec 2: horizon effects interacted with performance dose ($-\text{logit}(\pi_{ie})$). $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Match-Level Horizon and Performance Dose Interaction: Non-Grand-Slam}
+\label{tab:horizon_dose_nongs}
+\begin{threeparttable}
+\footnotesize
+\input{../Tables/table_horizon_dose_nongs}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes.} Combined ATP/WTA results with control function correction. Spec 1: horizon-only treatment effects. Spec 2: horizon effects interacted with performance dose ($-\text{logit}(\pi_{ie})$). $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Summary Impacts by Horizon}
+\label{app:summary_impacts}
+
+\begin{table}[htbp]
+\centering
+\caption{Summary Match-Level Impacts by Horizon: Grand Slam}
+\label{tab:summary_impacts_gs}
+\begin{threeparttable}
+\footnotesize
+\input{../Tables/table_summary_impacts_gs}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes.} Average marginal effects on match win probability, cumulative ranking points, and cumulative wins derived from the horizon model via delta method. 95\% CIs from bootstrap (200 replications).
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Summary Match-Level Impacts by Horizon: Non-Grand-Slam}
+\label{tab:summary_impacts_nongs}
+\begin{threeparttable}
+\footnotesize
+\input{../Tables/table_summary_impacts_nongs}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes.} Average marginal effects on match win probability, cumulative ranking points, and cumulative wins derived from the horizon model via delta method. Control function correction included. 95\% CIs from bootstrap (200 replications).
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Economic Magnitudes}
+\label{app:economic_magnitudes}
+
+\begin{table}[htbp]
+\centering
+\caption{Economic Magnitudes: Treatment Effects Relative to Control Means}
+\label{tab:economic_magnitudes}
+\begin{threeparttable}
+\small
+\input{../Tables/table_economic_magnitudes}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Control Mean is the average outcome among unselected players. Effect/Mean expresses the LL treatment effect as a percentage of the control mean. Effect/SD expresses the treatment effect in standard deviation units of the control-group outcome distribution. Panels A--B: Grand Slam samples; Panels C--D: non-Grand-Slam samples with control function correction. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

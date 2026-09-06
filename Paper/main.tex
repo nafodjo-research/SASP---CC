@@ -1,0 +1,124 @@
+\documentclass[12pt]{article}
+
+% --- Layout ---
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\doublespacing
+
+% --- Math ---
+\usepackage{amsmath,amssymb}
+
+% --- Graphics and Tables ---
+\usepackage{graphicx}
+\graphicspath{{../Figures/}{../Tables/}}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{adjustbox}
+\usepackage{comment}
+
+% --- Citations ---
+\usepackage[authoryear,round]{natbib}
+
+% --- Links ---
+\usepackage[colorlinks=true,citecolor=blue,linkcolor=blue,urlcolor=blue]{hyperref}
+
+% --- Title formatting ---
+\usepackage{titling}
+\pretitle{\begin{center}\large\bfseries}
+\posttitle{\end{center}}
+\preauthor{\begin{center}\normalsize}
+\postauthor{\end{center}}
+\predate{\begin{center}\normalsize}
+\postdate{\end{center}}
+
+% --- Misc ---
+\usepackage{enumitem}
+
+% ======================================================================
+% Title Page
+% ======================================================================
+
+\title{Career Dynamics under Random Access Shocks:\\ Evidence from Lucky Loser Allocations\thanks{I thank seminar participants at Emory University for helpful comments. Replication code and data are available at \url{https://github.com/hugosantanna/tennis-ll}. All errors are my own.}}
+
+\author{Hugo Sant'Anna\thanks{Department of Economics, Emory University. Email: hugo.santanna@emory.edu.}}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\begin{abstract}
+\noindent \singlespacing
+Does a single randomly assigned tournament opportunity persistently shift a professional athlete's career trajectory? I study lucky losers in professional tennis---players who lose in qualifying but enter the main draw when another player withdraws. At Grand Slams, lucky losers are selected by lottery. In the full ATP Grand Slam sample ($N = 248$), a stacked specification shows that selection increases ranking points by 31.9 at 4 weeks ($p = 0.028$), 38.5 at 12 weeks ($p = 0.007$), and 49.2 at 26 weeks ($p = 0.054$). On the WTA tour ($N = 132$), effects are larger at short horizons---64.4 points at 4 weeks ($p = 0.003$) and 78.7 at 8 weeks ($p < 0.001$)---but fade by 26 weeks. Elo ratings are unchanged at every horizon on both tours. A match-level tournament performance model finds no significant effect on match win probability on either tour ($\hat{\delta} = -0.123$, $p = 0.119$; 8,543 ATP matches; $\hat{\delta} = +0.034$, $p = 0.760$; 5,391 WTA matches). Non-Grand-Slam estimates using a control function approach corroborate these patterns: ATP ranking point gains of 12.2 at 4 weeks ($p = 0.065$) and 28.1 at 26 weeks ($p = 0.009$). Access begets access, but not ability.
+\end{abstract}
+
+\vspace{1em}
+\noindent \textbf{JEL Codes:} J24, J44, L83
+
+\vspace{0.5em}
+\noindent \textbf{Keywords:} career trajectories, tournament labor markets, natural experiment, professional tennis
+
+\newpage
+\setcounter{page}{1}
+
+% ======================================================================
+% 1. Introduction
+% ======================================================================
+\input{sections/introduction}
+
+% ======================================================================
+% 2. Related Literature
+% ======================================================================
+\input{sections/literature}
+
+% ======================================================================
+% 3. Institutional Setting and Data
+% ======================================================================
+\input{sections/data}
+
+% ======================================================================
+% 4. Econometric Framework and Identification
+% ======================================================================
+\input{sections/empirical_strategy}
+
+% ======================================================================
+% 5. Results
+% ======================================================================
+\input{sections/results}
+
+% ======================================================================
+% 6. Mechanisms
+% ======================================================================
+\input{sections/mechanisms}
+
+% ======================================================================
+% 7. Robustness
+% ======================================================================
+\input{sections/robustness}
+
+% ======================================================================
+% 8. Conclusion
+% ======================================================================
+\input{sections/conclusion}
+
+% ======================================================================
+% References
+% ======================================================================
+\newpage
+\singlespacing
+\bibliographystyle{aer}
+\bibliography{../Bibliography_base}
+
+% ======================================================================
+% Appendix
+% ======================================================================
+\newpage
+\appendix
+\doublespacing
+\input{sections/appendix}
+
+\end{document}

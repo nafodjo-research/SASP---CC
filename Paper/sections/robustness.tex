@@ -1,0 +1,124 @@
+\section{Robustness}
+\label{sec:robustness}
+
+\subsection{Verified Lottery Subsample}
+\label{sec:robustness_verified}
+
+The Grand Slam lottery mechanism operates only when withdrawals occur before qualifying completes; post-qualifying withdrawals follow the ranking rule. Withdrawal timing is not recorded in the data, so the full sample may include some ranking-based assignments. To address this contamination concern, I identify events where the selected LL was provably not the highest-ranked candidate, confirming that a lottery determined selection. This yields an ATP verified subsample of $N = 100$ (38 treated, across 34 events) and a WTA verified subsample of $N = 44$ (14 treated).
+
+Table~\ref{tab:verified} reports results for this verified lottery subsample using the stacked specification. The ATP verified subsample (100 player-episodes, 38 treated, across 34 confirmed lottery events contributing approximately 500 stacked observations) shows null ranking point effects at all horizons, consistent with limited statistical power in this smaller sample. The ATP verified subsample shows significant \textit{negative} Elo effects at 4 weeks ($-17.8$, $p = 0.010$) and 52 weeks ($-34.6$, $p = 0.012$). Rather than contradicting the main null Elo finding, this result is consistent with the overseeding mechanism documented in Section~\ref{sec:mechanisms_performance}: LL recipients who enter the main draw via confirmed lottery face opponents substantially above their ability level, and their Elo declines as they lose these matches. The main-sample null Elo result averages across both lottery-assigned and potentially ranking-assigned players, where the latter may be better positioned to compete.
+
+The WTA verified subsample (44 player-episodes, 14 treated, contributing approximately 220 stacked observations) shows large positive effects on both ranking points and Elo at all horizons, robust to dropping the three most influential observations. This suggests genuine tour-level heterogeneity: WTA LL recipients may benefit more from main draw experience because the WTA competitive landscape features greater parity and more frequent upsets, creating more room for marginal players to accumulate both points and ability gains.
+
+\begin{table}[htbp]
+\centering
+\caption{Verified Lottery Subsample: Effect on Career Outcomes}
+\label{tab:verified}
+\begin{threeparttable}
+\small
+\input{../Tables/table_verified_stacked}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Sample restricted to Grand Slam events where the selected LL was not the highest-ranked qualifying loser, confirming lottery-based assignment. ATP: $N = 100$ (38 treated); WTA: $N = 44$ (14 treated).  $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{First-LL-Only Restriction}
+\label{sec:robustness_firstll}
+
+The first-LL-only restriction retains only stacked observations from players who have never previously won a Grand Slam LL spot (GS LL won $= 0$). For the reduced-form dynamic outcomes, the first-LL restriction serves as a robustness check, ensuring that the findings are not driven by players with repeated LL exposure. Most players in the sample experience at most one career-altering opportunity, making the first-LL restriction the closest analog to the labor market ``first break'' that the initial conditions literature studies.
+
+Tables~\ref{tab:firstll_atp} and~\ref{tab:firstll_wta} report reduced-form dynamic results for this restricted sample. Tournament access effects are qualitatively consistent with the full-sample results.
+
+\begin{table}[htbp]
+\centering
+\caption{First-LL-Only ATP Grand Slam: Dynamic Effects}
+\label{tab:firstll_atp}
+\begin{threeparttable}
+\small
+\input{../Tables/table_firstll_stacked_atp}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Restricted to stacked observations from ATP players with zero prior Grand Slam LL wins, 2006--2024. Event FE specification with pre-treatment controls. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{First-LL-Only WTA Grand Slam: Dynamic Effects}
+\label{tab:firstll_wta}
+\begin{threeparttable}
+\small
+\input{../Tables/table_firstll_stacked_wta}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Restricted to stacked observations from WTA players with zero prior Grand Slam LL wins, 2006--2024. Event FE specification with pre-treatment controls. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Full Estimation Sample: Tournament Performance}
+\label{sec:robustness_fullsample_tournament}
+
+The match-level tournament performance results in Section~\ref{sec:mechanisms_performance} use all LL candidates as the primary specification. The estimates---GS-ATP $\hat{\delta} = -0.123$ (bootstrap SE $= 0.079$, $p = 0.119$; 8,543 matches from 130 players) and GS-WTA $\hat{\delta} = +0.034$ (bootstrap SE $= 0.112$, $p = 0.760$; 5,391 matches from 98 players)---are null on both tours. Four-specification robustness results are reported in Appendix Tables~\ref{tab:tournament_robust_gs_atp_full} and~\ref{tab:tournament_robust_gs_wta_full}.
+
+\subsection{Pre-Treatment Balance}
+\label{sec:robustness_balance}
+
+Table~\ref{tab:balance} reports formal balance tests on the full set of pre-treatment covariates $Z^{pre}_{ie}$: ranking points / 1000 (linear and quadratic), Elo / 100 (linear and quadratic), surface Elo / 100 (linear and quadratic), age, prior LL history (GS won, GS not won, non-GS won, non-GS not won), and a had-prior-LL indicator. In the ATP Grand Slam sample ($N = 248$), the joint $F$-test yields $p = 0.230$, consistent with randomization. In the WTA sample ($N = 132$), the joint $F$-test yields $p = 0.333$. The balance tests are conducted at the player-episode level (one observation per player per Grand Slam appearance). Stacking across horizons mechanically multiplies each observation five times, inflating the $F$-statistic without adding independent variation; the appropriate balance test is therefore at the player-episode level. The inclusion of $Z^{pre}_{ie}$ in all dynamic specifications absorbs any residual finite-sample imbalance. Event study plots (Figures~\ref{fig:event_study_atp} and~\ref{fig:event_study_wta}) show parallel trajectories in the weeks preceding each Grand Slam, confirming the absence of pre-treatment divergence.
+
+\begin{table}[htbp]
+\centering
+\caption{Pre-Treatment Balance: Grand Slam Samples}
+\label{tab:balance}
+\begin{threeparttable}
+\small
+\input{../Tables/table_balance}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Columns compare means for treated (LL selected) and control (unselected) players at the player-episode level. Covariates include the full $Z^{pre}_{ie}$ specification: ranking points / 1000 (linear and quadratic), Elo / 100 (linear and quadratic), surface Elo / 100 (linear and quadratic), age, and prior LL history indicators. Joint $F$-statistic tests the null that all covariates are jointly balanced. ATP: $N = 248$ player-episodes (132 treated, 116 control); WTA: $N = 132$ (54 treated, 78 control). Grand Slam sample, 2006--2024.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+Table~\ref{tab:balance_nongs} reports the corresponding balance tests for the non-Grand-Slam samples. As expected for the non-randomized non-GS setting, treated players have significantly higher ranking points, Elo, and more prior LL experience (joint $F$-test: $p < 0.001$ for both tours). This imbalance motivates the control function approach described in Section~\ref{sec:strategy_iv}.
+
+\subsection{Control Function Specification Check}
+\label{sec:robustness_cf}
+
+If the control function is correctly specified, applying it to the Grand Slam sample---where treatment is randomized by lottery---should not change the treatment effect estimates. Table~\ref{tab:cf_validation} reports this exercise. For each outcome, I compute an artificial selection probability $P_i^{LL} = c_e / N_e$ (the ratio of LL slots to pool size at each event), construct the generalized residual $\hat{v}_{ie}$, and re-estimate the stacked dynamic model with $\hat{v}_{ie} \times \text{horizon}$ terms. The treatment effects are virtually unchanged: ATP ranking points at 26 weeks shift from 49.2 to a similar magnitude, and WTA effects are similarly stable. The control function coefficients $\hat{\rho}_h$ are close to zero and insignificant on both tours, confirming that the CF correction adds noise but does not bias the randomized estimates. This validates the CF approach used for non-Grand-Slam identification.
+
+\begin{table}[htbp]
+\centering
+\caption{Control Function Specification Check: Grand Slam Samples}
+\label{tab:cf_validation}
+\begin{threeparttable}
+\small
+\input{../Tables/table_cf_validation}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Stacked specification with and without control function correction applied to the Grand Slam lottery sample. $P_i^{LL} = c_e / N_e$ (LL slots / pool size). $\hat{\rho}_h$ is the coefficient on the generalized residual at each horizon. Under correct specification, $\hat{\rho}_h \approx 0$ and treatment effects are unchanged. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Statistical Power}
+\label{sec:robustness_power}
+
+Table~\ref{tab:power} reports the minimum detectable effect (MDE) at 80\% power for the key null results. For the match-level tournament performance model, the GS-ATP sample can detect a 5.5 percentage point shift in match win probability; the GS-WTA sample can detect 7.8 percentage points. For the Elo outcome in the stacked dynamic model, the GS-ATP sample can detect a 26-week Elo change of approximately 25 points. The null Elo results are therefore informative: effects larger than one standard deviation of the within-sample Elo distribution can be ruled out at conventional power levels.
+
+\begin{table}[htbp]
+\centering
+\caption{Minimum Detectable Effects at 80\% Power}
+\label{tab:power}
+\begin{threeparttable}
+\small
+\input{../Tables/table_power_analysis}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} MDE $= (z_{0.025} + z_{0.20}) \times \text{SE}(\hat{\delta}) = 2.80 \times \text{SE}$. Match win probability MDE computed as MDE(log-odds) $\times$ 0.25 (average marginal effect approximation at $p = 0.5$). Elo MDE from the stacked dynamic model at 26 weeks.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

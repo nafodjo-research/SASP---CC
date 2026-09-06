@@ -1,0 +1,27 @@
+\begin{tabular}{lccccc}
+\toprule
+ & \multicolumn{5}{c}{\textit{Panel A: RDD Sample (BW = 3.0)}} \\
+\cmidrule(lr){2-6}
+Variable & Coefficient & Robust SE & $p$-value & Bandwidth & Eff. $N$ \\
+\midrule
+ATP Ranking & 8.60 & (17.29) & 0.466 & 3.0 & 2649 \\
+Age & -0.29 & (0.63) & 0.268 & 3.0 & 2668 \\
+Elo Rating & -19.71 & (15.50) & 0.132 & 3.0 & 2668 \\
+Height (cm) & 0.12 & (1.08) & 0.847 & 3.0 & 2604 \\
+Right-Handed & -0.01 & (0.05) & 0.466 & 3.0 & 2668 \\
+US Nationality & 0.03 & (0.05) & 0.478 & 3.0 & 2668 \\
+European & -0.03 & (0.08) & 0.405 & 3.0 & 2668 \\
+\midrule
+ & \multicolumn{5}{c}{\textit{Panel B: Grand Slam Lottery (Pooled ATP+WTA, Top-4 Pool)}} \\
+\cmidrule(lr){2-6}
+Variable & LL Mean & Control Mean & Difference & $p$-value & $N$ \\
+\midrule
+Ranking & 119.2 & 123.0 & 3.81 & 0.003 & 724 \\
+Age & 25.6 & 24.9 & -0.70 & 0.021 & 724 \\
+Height (cm) & 180.7 & 176.3 & -4.39 & 0.000 & 677 \\
+Handedness (chi-sq) & -- & -- & -- & 0.376 & 724 \\
+\midrule
+\multicolumn{6}{l}{\footnotesize Panel A: RDD balance tests at fixed bandwidth 3.0. SEs clustered at player level.} \\
+\multicolumn{6}{l}{\footnotesize Panel B: t-tests for continuous variables; chi-squared for categorical.} \\
+\bottomrule
+\end{tabular}
