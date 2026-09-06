@@ -5,7 +5,7 @@
      Keep this file under ~150 lines — Claude loads it every session.
      See the guide at https://hugosantanna.github.io/clo-author/ for full documentation. -->
 
-**Project:** [YOUR PROJECT NAME]
+**Project:** Impact of Unexpected Opportunities on Career Trajectories: Evidence from Lucky Losers in Professional Tennis
 **Institution:** [YOUR INSTITUTION]
 **Branch:** main
 
@@ -123,7 +123,7 @@ See `quality.md` for weighted aggregation formula.
 
 | Component | File | Status | Description |
 |-----------|------|--------|-------------|
-| Paper | `Paper/main.tex` | [draft/submitted/R&R] | [Brief description] |
-| Data | `scripts/R/` | [complete/in-progress] | [Analysis description] |
-| Replication | `Replication/` | [not started/ready] | [Deposit status] |
-| Job Market Talk | `Talks/job_market_talk.tex` | -- | [Status] |
+| Paper | `Paper/main.tex` | not started | Causal impact of Lucky Loser entry on career trajectories |
+| Data | `Data/` | not started | ATP/WTA match data, qualifying draws, rankings |
+| Replication | `Replication/` | not started | -- |
+| Job Market Talk | `Talks/job_market_talk.tex` | -- | -- |

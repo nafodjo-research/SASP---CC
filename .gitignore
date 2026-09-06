@@ -39,6 +39,7 @@ Thumbs.db
 # Claude Code local files (not shared across machines)
 .claude/settings.local.json
 .claude/state/
+.claude/projects/
 
 # IDE
 .vscode/
@@ -53,3 +54,37 @@ Thumbs.db
 # Output artifacts — uncomment lines below based on your preference
 # *.rds
 # output/**/*.rds
+
+# ==============================================================================
+# Data — Sackmann raw files are public; cleaned RDS files are regenerable
+# from the numbered pipeline (scripts/R/00_download_data.R and onward).
+# Together they are ~11 GB and must not enter git.
+# ==============================================================================
+Data/
+
+# ==============================================================================
+# Compilation intermediates for the paper — keep main.pdf and main.tex,
+# ignore the iterative versions produced during referee rounds.
+# ==============================================================================
+Paper_FirstLL/main_v*.pdf
+Paper_FirstLL/main_v*.tex
+Paper_FirstLL/main_verify*.pdf
+Paper_FirstLL/main_vA.*
+Paper/main_v*.pdf
+Paper/main_v*.tex
+Paper/main_check.*
+Paper/main_compile.*
+Paper/main_corrected.*
+Paper/main_final.*
+Paper/recheck.*
+Paper/verify.*
+Paper/draft.*
+Paper/final.*
+
+# ==============================================================================
+# Log files in Output_FirstLL/ — keep .md summaries and .txt notes, ignore
+# multi-MB xelatex logs.
+# ==============================================================================
+Output_FirstLL/*_log.*
+Output/**/*.log
+
