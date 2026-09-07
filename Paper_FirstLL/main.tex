@@ -36,6 +36,12 @@
 % --- Misc ---
 \usepackage{enumitem}
 
+% Last-resort interword stretch. Several paragraphs contain long unbreakable
+% compounds ("non-Grand-Slam", "Benjamini-Hochberg", inline math runs) that
+% leave TeX no good break point and produce small overfull boxes. Allowing a
+% little extra stretch resolves them without loosening spacing elsewhere.
+\setlength{\emergencystretch}{2em}
+
 % ======================================================================
 % Title Page
 % ======================================================================

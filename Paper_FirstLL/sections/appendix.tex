@@ -42,7 +42,9 @@ Standard errors for the match-level model are cluster-robust at the player level
 \label{tab:sumstats_gs_atp}
 \begin{threeparttable}
 \small
+\begin{adjustbox}{max width=\textwidth}
 \input{../Tables_FirstLL/table_sumstats_gs_atp}
+\end{adjustbox}
 \begin{tablenotes}
 \footnotesize
 \item \textit{Notes.} First-time LL candidates at ATP Grand Slams, 2006--2024. $N = 120$ (61 treated, 59 control). All players have zero prior LL awards.
@@ -56,7 +58,9 @@ Standard errors for the match-level model are cluster-robust at the player level
 \label{tab:sumstats_gs_wta}
 \begin{threeparttable}
 \small
+\begin{adjustbox}{max width=\textwidth}
 \input{../Tables_FirstLL/table_sumstats_gs_wta}
+\end{adjustbox}
 \begin{tablenotes}
 \footnotesize
 \item \textit{Notes.} First-time LL candidates at WTA Grand Slams, 2006--2024. $N = 82$ (33 treated, 49 control).
@@ -191,7 +195,7 @@ Matches & 4,445 & 3,715 & 407,959 & 47,376 \\
 \input{../Tables_FirstLL/table_fisher_fixed}
 \begin{tablenotes}
 \footnotesize
-\item \textit{Notes.} Fisher $p$-values from 1,000 permutations within Grand Slam $\times$ Year blocks. First-time ATP GS sample. Permutation retains only blocks with at least one treated and one control observation; singleton blocks (single-player events) contribute no permutation variation and are dropped, reducing the effective sample from $N = 120$ to $N = 103$.
+\item \textit{Notes.} Fisher $p$-values from 5{,}000 permutations of the treatment indicator within Grand Slam $\times$ Year blocks. The specification matches the headline dynamic model, with horizon-invariant coefficients on the pre-treatment controls. Permutation retains only blocks containing at least one treated and one control observation, since singleton blocks contribute no permutation variation; this reduces the effective sample from $N = 120$ to $N = 103$ on the ATP tour and from $N = 82$ to $N = 77$ on the WTA tour.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
@@ -301,8 +305,10 @@ Matches & 4,445 & 3,715 & 407,959 & 47,376 \\
 \caption{News Audit of Ambiguous Lucky Loser Assignments}
 \label{tab:news_audit}
 \begin{threeparttable}
-\footnotesize
+\scriptsize
+\begin{adjustbox}{max width=\textwidth}
 \input{../Tables_FirstLL/table_news_audit}
+\end{adjustbox}
 \begin{tablenotes}
 \footnotesize
 \item \textit{Notes.} Grand Slam first-time LL entries ranked first among qualifying losers, a subset of the 65 entries whose rank falls within the event's slot count and whose assignment mechanism therefore depends on withdrawal timing not recorded in the data. Each row was checked against tennis-media reporting and tournament records for the date of the main-draw withdrawal that opened the slot. Every datable case was a post-qualifying withdrawal, which the ranking rule fills deterministically rather than by lottery. Entries marked ``not dated'' had corroborating reports of a late injury withdrawal without a precise date. The unresolved entries are predominantly pre-2015 events with thin contemporaneous coverage. The 42 ambiguous entries ranked second or lower have not been audited and are excluded from the verified subsample on the rank criterion alone.
