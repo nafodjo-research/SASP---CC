@@ -51,12 +51,38 @@ set.seed(20260416)
 
 library(dplyr)
 library(fixest)
+library(fwildclusterboot)
 library(here)
 
 source(here("scripts", "R", "firstll", "firstll_helpers.R"))
 summary_log <- character()
 
-N_BOOT <- 1999L   # WCR replications; 1999 gives p-value resolution of 5e-4
+# 9,999 replications. fwildclusterboot is compiled and handles this in seconds,
+# so there is no reason to economise the way a hand-rolled loop had to.
+N_BOOT <- 9999L
+
+#' Drop the rows fixest excludes, iterating until the estimation sample is
+#' stable, and return the cleaned frame together with the fitted model.
+#'
+#' fixest silently removes fixed-effect singletons and rows with missing values
+#' in covariates the caller did not filter on. boottest() refuses to run on a
+#' model whose fixed effects were altered this way, which is the correct
+#' behaviour: an earlier hand-rolled bootstrap in this project did NOT check,
+#' recycled a shorter fitted/residual vector against a full-length weight
+#' vector, and produced p-values below both the asymptotic and the exact
+#' randomization p-value. Pre-cleaning here means the model handed to boottest
+#' is estimated on exactly the rows it thinks it is.
+fit_stable <- function(fml, d, max_iter = 10L) {
+  for (i in seq_len(max_iter)) {
+    m <- tryCatch(feols(fml, data = d, cluster = ~player_id),
+                  error = function(e) NULL)
+    if (is.null(m)) return(NULL)
+    used <- obs(m)
+    if (length(used) == nrow(d)) return(list(model = m, data = d))
+    d <- d[used, , drop = FALSE]
+  }
+  NULL
+}
 
 
 # ==============================================================================
@@ -144,21 +170,18 @@ message("\n", strrep("=", 70))
 message("PART B: WILD CLUSTER BOOTSTRAP (WCR, Webb weights)")
 message(strrep("=", 70))
 
-# Webb 6-point weights.
-webb_draw <- function(n) {
-  pts <- c(-sqrt(1.5), -1, -sqrt(0.5), sqrt(0.5), 1, sqrt(1.5))
-  sample(pts, n, replace = TRUE)
-}
+# Webb six-point weights and the restricted (null-imposed) bootstrap are both
+# supplied by fwildclusterboot::boottest(), which is the reference
+# implementation of Roodman, Nielsen, MacKinnon and Webb (2019). This replaces
+# a hand-rolled loop that had two defects: it did not verify that the fitted
+# and residual vectors matched the data frame it was resampling (see
+# fit_stable above), and it used the naive share estimator rather than the
+# Davidson-MacKinnon (1 + k)/(B + 1) p-value, so it reported 0.000 at a
+# replication count where the attainable floor is 1e-4.
 
 #' Wild cluster bootstrap p-value for one horizon-specific treatment coefficient.
-#'
-#' @param data stacked estimation frame (one row per player-episode-horizon)
-#' @param outcome outcome column name
-#' @param horizon horizon label, e.g. "12w"
-#' @param fe_str fixed-effect formula fragment, e.g. "slam_year + horizon"
-#' @param cf_term optional control-function term name, or NULL
-#' @param n_boot number of bootstrap replications
-#' @return list(coef, se, p_asy, p_wcr, n_clusters, t_obs)
+#' Returns the asymptotic and bootstrap p-values side by side, plus the
+#' bootstrap confidence interval and the cluster count.
 wcr_pvalue <- function(data, outcome, horizon, fe_str, cf_term = NULL,
                        n_boot = N_BOOT) {
   d <- data
@@ -170,110 +193,36 @@ wcr_pvalue <- function(data, outcome, horizon, fe_str, cf_term = NULL,
 
   target <- paste0("got_ll:horizon", horizon)
 
-  rhs_un <- "got_ll:horizon"
-  if (!is.null(cf_term)) rhs_un <- paste0(rhs_un, " + v_hat:horizon")
-  rhs_un <- paste0(rhs_un, " + ", ZPRE_FIRSTLL)
-  fml_un <- as.formula(paste0(".y ~ ", rhs_un, " | ", fe_str))
+  rhs <- "got_ll:horizon"
+  if (!is.null(cf_term)) rhs <- paste0(rhs, " + v_hat:horizon")
+  rhs <- paste0(rhs, " + ", ZPRE_FIRSTLL)
+  fml <- as.formula(paste0(".y ~ ", rhs, " | ", fe_str))
 
-  mod_un <- tryCatch(feols(fml_un, data = d, cluster = ~player_id),
-                     error = function(e) NULL)
-  if (is.null(mod_un)) return(NULL)
-  ct <- as.data.frame(coeftable(mod_un))
+  fit <- fit_stable(fml, d)
+  if (is.null(fit)) return(NULL)
+  mod <- fit$model
+  d   <- fit$data
+
+  ct <- as.data.frame(coeftable(mod))
   if (!(target %in% rownames(ct))) return(NULL)
   b_obs  <- ct[target, "Estimate"]
   se_obs <- ct[target, "Std. Error"]
   p_asy  <- ct[target, "Pr(>|t|)"]
-  t_obs  <- b_obs / se_obs
 
-  # Restricted model: drop the treatment interaction entirely, imposing
-  # H0 that ALL horizon-specific treatment effects are zero. (Imposing the
-  # null only on the focal horizon while freeing the others is also valid;
-  # dropping the whole interaction is the conservative choice and matches
-  # the "no treatment effect at any horizon" sharp null.)
-  rhs_r <- if (!is.null(cf_term)) paste0("v_hat:horizon + ", ZPRE_FIRSTLL) else ZPRE_FIRSTLL
-  fml_r <- as.formula(paste0(".y ~ ", rhs_r, " | ", fe_str))
-  mod_r <- tryCatch(feols(fml_r, data = d, cluster = ~player_id),
-                    error = function(e) NULL)
-  if (is.null(mod_r)) return(NULL)
+  bt <- tryCatch(
+    boottest(mod, param = target, clustid = "player_id",
+             B = n_boot, type = "webb", p_val_type = "two-tailed"),
+    error = function(e) { message("      boottest failed: ",
+                                  conditionMessage(e)); NULL })
+  if (is.null(bt)) return(NULL)
 
-  # CRITICAL: align d with the model's actual estimation sample.
-  #
-  # predict.fixest and resid.fixest return vectors of length nobs(mod_r), which
-  # is SMALLER than nrow(d) whenever fixest drops fixed-effect singletons or a
-  # covariate not named in the `keep` filter above is missing. Building
-  # y* = fitted + w * resid with w of length nrow(d) then recycles the shorter
-  # vectors and silently pairs each bootstrap outcome with the wrong row's
-  # covariates and cluster label, corrupting the entire bootstrap distribution.
-  #
-  # This is not hypothetical: on the pooled ATP sample fixest removes 2
-  # singleton observations, so nrow(d) = 516 against nobs = 514. The resulting
-  # p-values were smaller than both the asymptotic and the exact randomization
-  # p-values, which is impossible for a correctly implemented WCR.
-  used <- obs(mod_r)                 # row indices of d actually estimated on
-  if (length(used) != nrow(d)) {
-    d <- d[used, , drop = FALSE]
-    # Refit on the aligned frame so the unrestricted fits in the loop below
-    # operate on exactly the same rows.
-    mod_un <- tryCatch(feols(fml_un, data = d, cluster = ~player_id),
-                       error = function(e) NULL)
-    mod_r  <- tryCatch(feols(fml_r,  data = d, cluster = ~player_id),
-                       error = function(e) NULL)
-    if (is.null(mod_un) || is.null(mod_r)) return(NULL)
-    ct <- as.data.frame(coeftable(mod_un))
-    if (!(target %in% rownames(ct))) return(NULL)
-    b_obs  <- ct[target, "Estimate"]
-    se_obs <- ct[target, "Std. Error"]
-    p_asy  <- ct[target, "Pr(>|t|)"]
-    t_obs  <- b_obs / se_obs
-  }
-  fitted_r <- as.numeric(predict(mod_r))
-  resid_r  <- as.numeric(resid(mod_r))
-  stopifnot(length(fitted_r) == nrow(d), length(resid_r) == nrow(d))
+  ci <- tryCatch(confint(bt), error = function(e) c(NA_real_, NA_real_))
 
-  clusters  <- as.character(d$player_id)
-  uclust    <- unique(clusters)
-  G         <- length(uclust)
-  cl_index  <- match(clusters, uclust)
-
-  t_star <- rep(NA_real_, n_boot)
-  for (b in seq_len(n_boot)) {
-    w <- webb_draw(G)[cl_index]
-    d$.y <- fitted_r + w * resid_r
-    m <- tryCatch(feols(fml_un, data = d, cluster = ~player_id),
-                  error = function(e) NULL)
-    if (!is.null(m)) {
-      cb <- as.data.frame(coeftable(m))
-      if (target %in% rownames(cb)) {
-        t_star[b] <- cb[target, "Estimate"] / cb[target, "Std. Error"]
-      }
-    }
-    rm(m)
-    # fixest objects retain sizeable environments; without periodic collection
-    # a 1,999-iteration loop accumulates enough to exhaust memory when other
-    # R processes are running concurrently.
-    if (b %% 250 == 0) gc(verbose = FALSE)
-  }
-  gc(verbose = FALSE)
-  n_fail <- sum(!is.finite(t_star))
-  t_star <- t_star[is.finite(t_star)]
-  if (length(t_star) < 100) return(NULL)
-  if (n_fail > 0) {
-    message(sprintf("      %d of %d replications failed and were dropped",
-                    n_fail, n_boot))
-  }
-
-  # Davidson-MacKinnon p-value. The (1 + .)/(B + 1) form is the correct
-  # bootstrap p-value: it cannot return exactly zero, which is right, since
-  # B replications can never establish a p-value below 1/(B+1). The naive
-  # share estimator reported 0.000, which is not an attainable value at
-  # B = 1999 and was presented in the paper as though it were.
-  B_used <- length(t_star)
-  p_wcr  <- (1 + sum(abs(t_star) >= abs(t_obs))) / (B_used + 1)
-
-  list(coef = b_obs, se = se_obs, p_asy = p_asy, p_wcr = p_wcr,
-       n_clusters = G, t_obs = t_obs, n_boot_ok = length(t_star))
+  list(coef = b_obs, se = se_obs, p_asy = p_asy,
+       p_wcr = fwildclusterboot::pval(bt),
+       ci_lo = ci[1], ci_hi = ci[2],
+       n_clusters = length(unique(d$player_id)), n_boot = n_boot)
 }
-
 # Run WCR on the verified-lottery subsample for the two primary outcomes.
 wcr_rows <- list()
 for (t in c("ATP", "WTA")) {

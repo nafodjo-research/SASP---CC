@@ -1,21 +1,24 @@
 Romano-Wolf vs Benjamini-Hochberg (family of 80 tests):
-  Significant at 5%: raw=30, BH q<0.05=23, RW p<0.05=14
+  Significant at 5%: raw=30, BH q<0.05=23, RW p<0.05=16
+  Max |p_RW - p_Holm| violation: 1 hypotheses
 
 Tests surviving Romano-Wolf at 5%:
-  NonGS  ATP  n_main_draws       26w : coef=    1.71  p_raw=0.000  p_BH=0.000  p_RW=0.001
-  NonGS  ATP  n_main_draws       4w  : coef=   -1.42  p_raw=0.000  p_BH=0.000  p_RW=0.001
+  NonGS  ATP  n_main_draws       26w : coef=    1.71  p_raw=0.000  p_BH=0.000  p_RW=0.000
+  NonGS  ATP  n_main_draws       4w  : coef=   -1.42  p_raw=0.000  p_BH=0.000  p_RW=0.000
   NonGS  ATP  n_main_draws       52w : coef=    5.16  p_raw=0.000  p_BH=0.000  p_RW=0.000
-  NonGS  ATP  n_main_draws       8w  : coef=   -0.90  p_raw=0.000  p_BH=0.000  p_RW=0.026
-  NonGS  ATP  n_matches_250plus  26w : coef=    3.03  p_raw=0.000  p_BH=0.000  p_RW=0.001
-  NonGS  ATP  n_matches_250plus  4w  : coef=   -2.60  p_raw=0.000  p_BH=0.000  p_RW=0.001
+  NonGS  ATP  n_main_draws       8w  : coef=   -0.90  p_raw=0.000  p_BH=0.000  p_RW=0.001
+  NonGS  ATP  n_matches_250plus  26w : coef=    3.03  p_raw=0.000  p_BH=0.000  p_RW=0.000
+  NonGS  ATP  n_matches_250plus  4w  : coef=   -2.60  p_raw=0.000  p_BH=0.000  p_RW=0.000
   NonGS  ATP  n_matches_250plus  52w : coef=    8.92  p_raw=0.000  p_BH=0.000  p_RW=0.000
-  NonGS  ATP  n_matches_250plus  8w  : coef=   -1.67  p_raw=0.000  p_BH=0.000  p_RW=0.033
-  NonGS  WTA  n_main_draws       4w  : coef=   -1.09  p_raw=0.000  p_BH=0.000  p_RW=0.001
-  NonGS  WTA  n_main_draws       52w : coef=    2.71  p_raw=0.000  p_BH=0.000  p_RW=0.019
-  NonGS  WTA  n_main_draws       8w  : coef=   -0.69  p_raw=0.000  p_BH=0.000  p_RW=0.023
-  NonGS  WTA  n_matches_250plus  4w  : coef=   -2.15  p_raw=0.000  p_BH=0.000  p_RW=0.001
-  NonGS  WTA  n_matches_250plus  52w : coef=    5.63  p_raw=0.000  p_BH=0.000  p_RW=0.017
-  NonGS  WTA  n_matches_250plus  8w  : coef=   -1.41  p_raw=0.000  p_BH=0.000  p_RW=0.018
+  NonGS  ATP  n_matches_250plus  8w  : coef=   -1.67  p_raw=0.000  p_BH=0.000  p_RW=0.001
+  NonGS  WTA  n_main_draws       26w : coef=    0.93  p_raw=0.000  p_BH=0.000  p_RW=0.004
+  NonGS  WTA  n_main_draws       4w  : coef=   -1.09  p_raw=0.000  p_BH=0.000  p_RW=0.000
+  NonGS  WTA  n_main_draws       52w : coef=    2.71  p_raw=0.000  p_BH=0.000  p_RW=0.001
+  NonGS  WTA  n_main_draws       8w  : coef=   -0.69  p_raw=0.000  p_BH=0.000  p_RW=0.001
+  NonGS  WTA  n_matches_250plus  26w : coef=    1.67  p_raw=0.000  p_BH=0.000  p_RW=0.018
+  NonGS  WTA  n_matches_250plus  4w  : coef=   -2.15  p_raw=0.000  p_BH=0.000  p_RW=0.000
+  NonGS  WTA  n_matches_250plus  52w : coef=    5.63  p_raw=0.000  p_BH=0.000  p_RW=0.001
+  NonGS  WTA  n_matches_250plus  8w  : coef=   -1.41  p_raw=0.000  p_BH=0.000  p_RW=0.001
 
 Full family:
   GS     ATP  elo_change         12w : coef=   -4.83  p_raw=0.639  p_BH=0.745  p_RW=1.000
@@ -24,77 +27,77 @@ Full family:
   GS     ATP  elo_change         52w : coef=   -9.73  p_raw=0.644  p_BH=0.745  p_RW=1.000
   GS     ATP  elo_change         8w  : coef=    0.19  p_raw=0.986  p_BH=0.986  p_RW=1.000
   GS     ATP  n_main_draws       12w : coef=    0.13  p_raw=0.777  p_BH=0.829  p_RW=1.000
-  GS     ATP  n_main_draws       26w : coef=    0.66  p_raw=0.227  p_BH=0.343  p_RW=0.999
+  GS     ATP  n_main_draws       26w : coef=    0.66  p_raw=0.227  p_BH=0.343  p_RW=0.988
   GS     ATP  n_main_draws       4w  : coef=   -0.16  p_raw=0.759  p_BH=0.822  p_RW=1.000
   GS     ATP  n_main_draws       52w : coef=    0.84  p_raw=0.567  p_BH=0.721  p_RW=1.000
   GS     ATP  n_main_draws       8w  : coef=    0.06  p_raw=0.896  p_BH=0.907  p_RW=1.000
-  GS     ATP  n_matches_250plus  12w : coef=    0.90  p_raw=0.340  p_BH=0.460  p_RW=1.000
-  GS     ATP  n_matches_250plus  26w : coef=    1.49  p_raw=0.169  p_BH=0.280  p_RW=0.996
+  GS     ATP  n_matches_250plus  12w : coef=    0.90  p_raw=0.340  p_BH=0.460  p_RW=0.997
+  GS     ATP  n_matches_250plus  26w : coef=    1.49  p_raw=0.169  p_BH=0.280  p_RW=0.985
   GS     ATP  n_matches_250plus  4w  : coef=    0.26  p_raw=0.799  p_BH=0.841  p_RW=1.000
   GS     ATP  n_matches_250plus  52w : coef=    1.28  p_raw=0.650  p_BH=0.745  p_RW=1.000
   GS     ATP  n_matches_250plus  8w  : coef=    0.72  p_raw=0.462  p_BH=0.606  p_RW=1.000
-  GS     ATP  points_change      12w : coef=   82.81  p_raw=0.002  p_BH=0.009  p_RW=0.410
-  GS     ATP  points_change      26w : coef=   72.63  p_raw=0.047  p_BH=0.126  p_RW=0.966
-  GS     ATP  points_change      4w  : coef=   72.53  p_raw=0.008  p_BH=0.028  p_RW=0.685
+  GS     ATP  points_change      12w : coef=   82.81  p_raw=0.002  p_BH=0.009  p_RW=0.130
+  GS     ATP  points_change      26w : coef=   72.63  p_raw=0.047  p_BH=0.126  p_RW=0.858
+  GS     ATP  points_change      4w  : coef=   72.53  p_raw=0.008  p_BH=0.028  p_RW=0.348
   GS     ATP  points_change      52w : coef=   23.48  p_raw=0.692  p_BH=0.780  p_RW=1.000
-  GS     ATP  points_change      8w  : coef=   72.08  p_raw=0.008  p_BH=0.028  p_RW=0.685
-  GS     WTA  elo_change         12w : coef=   11.84  p_raw=0.195  p_BH=0.306  p_RW=0.997
-  GS     WTA  elo_change         26w : coef=   21.59  p_raw=0.093  p_BH=0.182  p_RW=0.989
-  GS     WTA  elo_change         4w  : coef=   13.25  p_raw=0.084  p_BH=0.174  p_RW=0.987
-  GS     WTA  elo_change         52w : coef=   36.84  p_raw=0.055  p_BH=0.134  p_RW=0.975
-  GS     WTA  elo_change         8w  : coef=   14.97  p_raw=0.082  p_BH=0.174  p_RW=0.987
+  GS     ATP  points_change      8w  : coef=   72.08  p_raw=0.008  p_BH=0.028  p_RW=0.348
+  GS     WTA  elo_change         12w : coef=   11.84  p_raw=0.195  p_BH=0.306  p_RW=0.986
+  GS     WTA  elo_change         26w : coef=   21.59  p_raw=0.093  p_BH=0.182  p_RW=0.947
+  GS     WTA  elo_change         4w  : coef=   13.25  p_raw=0.084  p_BH=0.174  p_RW=0.937
+  GS     WTA  elo_change         52w : coef=   36.84  p_raw=0.055  p_BH=0.134  p_RW=0.874
+  GS     WTA  elo_change         8w  : coef=   14.97  p_raw=0.082  p_BH=0.174  p_RW=0.937
   GS     WTA  n_main_draws       12w : coef=    0.26  p_raw=0.652  p_BH=0.745  p_RW=1.000
-  GS     WTA  n_main_draws       26w : coef=    0.66  p_raw=0.331  p_BH=0.457  p_RW=1.000
+  GS     WTA  n_main_draws       26w : coef=    0.66  p_raw=0.331  p_BH=0.457  p_RW=0.997
   GS     WTA  n_main_draws       4w  : coef=   -0.13  p_raw=0.813  p_BH=0.845  p_RW=1.000
-  GS     WTA  n_main_draws       52w : coef=    1.75  p_raw=0.247  p_BH=0.366  p_RW=0.999
+  GS     WTA  n_main_draws       52w : coef=    1.75  p_raw=0.247  p_BH=0.366  p_RW=0.992
   GS     WTA  n_main_draws       8w  : coef=    0.27  p_raw=0.618  p_BH=0.745  p_RW=1.000
   GS     WTA  n_matches_250plus  12w : coef=    0.61  p_raw=0.428  p_BH=0.571  p_RW=1.000
-  GS     WTA  n_matches_250plus  26w : coef=    1.86  p_raw=0.055  p_BH=0.134  p_RW=0.975
+  GS     WTA  n_matches_250plus  26w : coef=    1.86  p_raw=0.055  p_BH=0.134  p_RW=0.874
   GS     WTA  n_matches_250plus  4w  : coef=   -0.53  p_raw=0.588  p_BH=0.735  p_RW=1.000
-  GS     WTA  n_matches_250plus  52w : coef=    3.21  p_raw=0.205  p_BH=0.316  p_RW=0.997
-  GS     WTA  n_matches_250plus  8w  : coef=    0.80  p_raw=0.288  p_BH=0.412  p_RW=1.000
-  GS     WTA  points_change      12w : coef=   27.82  p_raw=0.171  p_BH=0.280  p_RW=0.996
+  GS     WTA  n_matches_250plus  52w : coef=    3.21  p_raw=0.205  p_BH=0.316  p_RW=0.986
+  GS     WTA  n_matches_250plus  8w  : coef=    0.80  p_raw=0.288  p_BH=0.412  p_RW=0.996
+  GS     WTA  points_change      12w : coef=   27.82  p_raw=0.171  p_BH=0.280  p_RW=0.986
   GS     WTA  points_change      26w : coef=    7.51  p_raw=0.861  p_BH=0.883  p_RW=1.000
-  GS     WTA  points_change      4w  : coef=   39.95  p_raw=0.165  p_BH=0.280  p_RW=0.996
+  GS     WTA  points_change      4w  : coef=   39.95  p_raw=0.165  p_BH=0.280  p_RW=0.985
   GS     WTA  points_change      52w : coef=   26.46  p_raw=0.760  p_BH=0.822  p_RW=1.000
-  GS     WTA  points_change      8w  : coef=   55.03  p_raw=0.017  p_BH=0.054  p_RW=0.815
-  NonGS  ATP  elo_change         12w : coef=   11.40  p_raw=0.042  p_BH=0.119  p_RW=0.966
-  NonGS  ATP  elo_change         26w : coef=   30.75  p_raw=0.016  p_BH=0.054  p_RW=0.835
-  NonGS  ATP  elo_change         4w  : coef=    8.40  p_raw=0.178  p_BH=0.284  p_RW=0.997
-  NonGS  ATP  elo_change         52w : coef=   33.59  p_raw=0.099  p_BH=0.189  p_RW=0.993
-  NonGS  ATP  elo_change         8w  : coef=   12.78  p_raw=0.018  p_BH=0.054  p_RW=0.839
-  NonGS  ATP  n_main_draws       12w : coef=   -0.30  p_raw=0.076  p_BH=0.170  p_RW=0.987
-  NonGS  ATP  n_main_draws       26w : coef=    1.71  p_raw=0.000  p_BH=0.000  p_RW=0.001
-  NonGS  ATP  n_main_draws       4w  : coef=   -1.42  p_raw=0.000  p_BH=0.000  p_RW=0.001
+  GS     WTA  points_change      8w  : coef=   55.03  p_raw=0.017  p_BH=0.054  p_RW=0.558
+  NonGS  ATP  elo_change         12w : coef=   11.40  p_raw=0.042  p_BH=0.119  p_RW=0.858
+  NonGS  ATP  elo_change         26w : coef=   30.75  p_raw=0.016  p_BH=0.054  p_RW=0.603
+  NonGS  ATP  elo_change         4w  : coef=    8.40  p_raw=0.178  p_BH=0.284  p_RW=0.986
+  NonGS  ATP  elo_change         52w : coef=   33.59  p_raw=0.099  p_BH=0.189  p_RW=0.955
+  NonGS  ATP  elo_change         8w  : coef=   12.78  p_raw=0.018  p_BH=0.054  p_RW=0.623
+  NonGS  ATP  n_main_draws       12w : coef=   -0.30  p_raw=0.076  p_BH=0.170  p_RW=0.939
+  NonGS  ATP  n_main_draws       26w : coef=    1.71  p_raw=0.000  p_BH=0.000  p_RW=0.000
+  NonGS  ATP  n_main_draws       4w  : coef=   -1.42  p_raw=0.000  p_BH=0.000  p_RW=0.000
   NonGS  ATP  n_main_draws       52w : coef=    5.16  p_raw=0.000  p_BH=0.000  p_RW=0.000
-  NonGS  ATP  n_main_draws       8w  : coef=   -0.90  p_raw=0.000  p_BH=0.000  p_RW=0.026
-  NonGS  ATP  n_matches_250plus  12w : coef=   -0.60  p_raw=0.055  p_BH=0.134  p_RW=0.976
-  NonGS  ATP  n_matches_250plus  26w : coef=    3.03  p_raw=0.000  p_BH=0.000  p_RW=0.001
-  NonGS  ATP  n_matches_250plus  4w  : coef=   -2.60  p_raw=0.000  p_BH=0.000  p_RW=0.001
+  NonGS  ATP  n_main_draws       8w  : coef=   -0.90  p_raw=0.000  p_BH=0.000  p_RW=0.001
+  NonGS  ATP  n_matches_250plus  12w : coef=   -0.60  p_raw=0.055  p_BH=0.134  p_RW=0.892
+  NonGS  ATP  n_matches_250plus  26w : coef=    3.03  p_raw=0.000  p_BH=0.000  p_RW=0.000
+  NonGS  ATP  n_matches_250plus  4w  : coef=   -2.60  p_raw=0.000  p_BH=0.000  p_RW=0.000
   NonGS  ATP  n_matches_250plus  52w : coef=    8.92  p_raw=0.000  p_BH=0.000  p_RW=0.000
-  NonGS  ATP  n_matches_250plus  8w  : coef=   -1.67  p_raw=0.000  p_BH=0.000  p_RW=0.033
-  NonGS  ATP  points_change      12w : coef=   14.08  p_raw=0.166  p_BH=0.280  p_RW=0.996
-  NonGS  ATP  points_change      26w : coef=   44.58  p_raw=0.002  p_BH=0.008  p_RW=0.429
-  NonGS  ATP  points_change      4w  : coef=   20.56  p_raw=0.041  p_BH=0.119  p_RW=0.966
-  NonGS  ATP  points_change      52w : coef=   41.07  p_raw=0.170  p_BH=0.280  p_RW=0.996
-  NonGS  ATP  points_change      8w  : coef=   20.54  p_raw=0.047  p_BH=0.126  p_RW=0.967
-  NonGS  WTA  elo_change         12w : coef=   10.51  p_raw=0.011  p_BH=0.038  p_RW=0.752
-  NonGS  WTA  elo_change         26w : coef=    6.18  p_raw=0.293  p_BH=0.412  p_RW=1.000
-  NonGS  WTA  elo_change         4w  : coef=    6.19  p_raw=0.087  p_BH=0.174  p_RW=0.988
+  NonGS  ATP  n_matches_250plus  8w  : coef=   -1.67  p_raw=0.000  p_BH=0.000  p_RW=0.001
+  NonGS  ATP  points_change      12w : coef=   14.08  p_raw=0.166  p_BH=0.280  p_RW=0.986
+  NonGS  ATP  points_change      26w : coef=   44.58  p_raw=0.002  p_BH=0.008  p_RW=0.168
+  NonGS  ATP  points_change      4w  : coef=   20.56  p_raw=0.041  p_BH=0.119  p_RW=0.858
+  NonGS  ATP  points_change      52w : coef=   41.07  p_raw=0.170  p_BH=0.280  p_RW=0.986
+  NonGS  ATP  points_change      8w  : coef=   20.54  p_raw=0.047  p_BH=0.126  p_RW=0.874
+  NonGS  WTA  elo_change         12w : coef=   10.51  p_raw=0.011  p_BH=0.038  p_RW=0.488
+  NonGS  WTA  elo_change         26w : coef=    6.18  p_raw=0.293  p_BH=0.412  p_RW=0.996
+  NonGS  WTA  elo_change         4w  : coef=    6.19  p_raw=0.087  p_BH=0.174  p_RW=0.947
   NonGS  WTA  elo_change         52w : coef=    5.30  p_raw=0.517  p_BH=0.667  p_RW=1.000
-  NonGS  WTA  elo_change         8w  : coef=    7.14  p_raw=0.063  p_BH=0.144  p_RW=0.978
-  NonGS  WTA  n_main_draws       12w : coef=   -0.36  p_raw=0.008  p_BH=0.028  p_RW=0.695
-  NonGS  WTA  n_main_draws       26w : coef=    0.93  p_raw=0.000  p_BH=0.000  p_RW=0.053
-  NonGS  WTA  n_main_draws       4w  : coef=   -1.09  p_raw=0.000  p_BH=0.000  p_RW=0.001
-  NonGS  WTA  n_main_draws       52w : coef=    2.71  p_raw=0.000  p_BH=0.000  p_RW=0.019
-  NonGS  WTA  n_main_draws       8w  : coef=   -0.69  p_raw=0.000  p_BH=0.000  p_RW=0.023
-  NonGS  WTA  n_matches_250plus  12w : coef=   -0.78  p_raw=0.006  p_BH=0.024  p_RW=0.642
-  NonGS  WTA  n_matches_250plus  26w : coef=    1.67  p_raw=0.000  p_BH=0.000  p_RW=0.111
-  NonGS  WTA  n_matches_250plus  4w  : coef=   -2.15  p_raw=0.000  p_BH=0.000  p_RW=0.001
-  NonGS  WTA  n_matches_250plus  52w : coef=    5.63  p_raw=0.000  p_BH=0.000  p_RW=0.017
-  NonGS  WTA  n_matches_250plus  8w  : coef=   -1.41  p_raw=0.000  p_BH=0.000  p_RW=0.018
-  NonGS  WTA  points_change      12w : coef=   23.24  p_raw=0.057  p_BH=0.135  p_RW=0.976
-  NonGS  WTA  points_change      26w : coef=   19.20  p_raw=0.281  p_BH=0.409  p_RW=1.000
-  NonGS  WTA  points_change      4w  : coef=   18.11  p_raw=0.112  p_BH=0.209  p_RW=0.993
-  NonGS  WTA  points_change      52w : coef=   58.54  p_raw=0.145  p_BH=0.264  p_RW=0.996
-  NonGS  WTA  points_change      8w  : coef=   19.16  p_raw=0.085  p_BH=0.174  p_RW=0.988
+  NonGS  WTA  elo_change         8w  : coef=    7.14  p_raw=0.063  p_BH=0.144  p_RW=0.905
+  NonGS  WTA  n_main_draws       12w : coef=   -0.36  p_raw=0.008  p_BH=0.028  p_RW=0.415
+  NonGS  WTA  n_main_draws       26w : coef=    0.93  p_raw=0.000  p_BH=0.000  p_RW=0.004
+  NonGS  WTA  n_main_draws       4w  : coef=   -1.09  p_raw=0.000  p_BH=0.000  p_RW=0.000
+  NonGS  WTA  n_main_draws       52w : coef=    2.71  p_raw=0.000  p_BH=0.000  p_RW=0.001
+  NonGS  WTA  n_main_draws       8w  : coef=   -0.69  p_raw=0.000  p_BH=0.000  p_RW=0.001
+  NonGS  WTA  n_matches_250plus  12w : coef=   -0.78  p_raw=0.006  p_BH=0.024  p_RW=0.348
+  NonGS  WTA  n_matches_250plus  26w : coef=    1.67  p_raw=0.000  p_BH=0.000  p_RW=0.018
+  NonGS  WTA  n_matches_250plus  4w  : coef=   -2.15  p_raw=0.000  p_BH=0.000  p_RW=0.000
+  NonGS  WTA  n_matches_250plus  52w : coef=    5.63  p_raw=0.000  p_BH=0.000  p_RW=0.001
+  NonGS  WTA  n_matches_250plus  8w  : coef=   -1.41  p_raw=0.000  p_BH=0.000  p_RW=0.001
+  NonGS  WTA  points_change      12w : coef=   23.24  p_raw=0.057  p_BH=0.135  p_RW=0.893
+  NonGS  WTA  points_change      26w : coef=   19.20  p_raw=0.281  p_BH=0.409  p_RW=0.996
+  NonGS  WTA  points_change      4w  : coef=   18.11  p_raw=0.112  p_BH=0.209  p_RW=0.964
+  NonGS  WTA  points_change      52w : coef=   58.54  p_raw=0.145  p_BH=0.264  p_RW=0.983
+  NonGS  WTA  points_change      8w  : coef=   19.16  p_raw=0.085  p_BH=0.174  p_RW=0.947
