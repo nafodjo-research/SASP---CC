@@ -172,7 +172,10 @@ make_cf_table <- function(cf_df) {
   paste(L, collapse = "\n")
 }
 
-writeLines(make_cf_table(cf_df), file.path(FIRSTLL_TABLES, "table_cf_validation.tex"))
+# F12 is the canonical producer of table_cf_validation.tex. F11 writes the
+# intermediate v2 diagnostic under its own name (matching this script's header)
+# so run order cannot decide which specification the paper picks up.
+writeLines(make_cf_table(cf_df), file.path(FIRSTLL_TABLES, "table_cf_validation_v2.tex"))
 slog("\nCF validation: rho values (should be near zero):")
 for (i in seq_len(nrow(cf_df))) {
   r <- cf_df[i, ]

@@ -3,13 +3,14 @@
 F14d NEWS-VERIFICATION SUMMARY
 ======================================================================
 Total treated GS LL entries:      94
-  lottery_verified     71
+  ambiguous            42
+  lottery_verified     29
   ranking              10
   unresolved           13
 
 By tour:
-  ATP: lottery_verified=51, ranking=6, unresolved=4, ambiguous=0, total=61
-  WTA: lottery_verified=20, ranking=4, unresolved=9, ambiguous=0, total=33
+  ATP: lottery_verified=18, ranking=6, unresolved=4, ambiguous=33, total=61
+  WTA: lottery_verified=11, ranking=4, unresolved=9, ambiguous=9, total=33
 
 High-confidence RANKING classifications (all from news):
   ATP 2019 Kamil Majchrzak (US Open): withdrew 2019-08-25, replaced by rank-1 loser -> ranking rule

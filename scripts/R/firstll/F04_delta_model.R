@@ -161,30 +161,22 @@ message("STEP 2: BUILD FIRST-LL EVENT TABLES")
 message(strrep("=", 70))
 
 if (is.null(tr)) {
-  message("  SKIPPING: tournament_rebuild_results.rds not available.")
-  message("  Delta model requires match-level data from script 37 pipeline.")
-  message("  Creating placeholder outputs.")
-
-  # Save empty results
-  saveRDS(list(status = "placeholder", reason = "tournament_rebuild_results.rds missing"),
-          file.path(FIRSTLL_CLEANED, "firstll_delta_model_results.rds"))
-
-  # Write placeholder tables
-  placeholder_tex <- paste(c(
-    "\\begin{tabular}{lc}", "\\toprule",
-    " & First-LL \\\\", "\\midrule",
-    "\\multicolumn{2}{c}{\\textit{Placeholder: requires re-running delta pipeline}} \\\\",
-    "\\bottomrule", "\\end{tabular}"
-  ), collapse = "\n")
-  for (tag in c("gs_atp", "gs_wta", "nongs_atp", "nongs_wta")) {
-    for (prefix in c("table_delta_pooled_", "table_delta_dose_mw_",
-                     "table_delta_dose_pp_", "table_delta_horizon_")) {
-      writeLines(placeholder_tex, file.path(FIRSTLL_TABLES, paste0(prefix, tag, ".tex")))
-    }
-  }
-  message("  16 placeholder tables written to Tables_FirstLL/")
-  message("DONE (placeholder mode)")
-  quit(save = "no", status = 0)
+  # HARD FAIL. The previous behaviour wrote 16 placeholder .tex files that
+  # compile cleanly into the paper, so a missing input silently produced a
+  # manuscript with fabricated-looking empty tables. Refuse to proceed.
+  stop(
+    "F04 ABORTED: Data/cleaned/tournament_rebuild_results.rds not found.\n",
+    "  The delta model requires match-level data produced by the script-37 ",
+    "pipeline.\n",
+    "  Re-run scripts/R/22_tournament_rebuild.R (or restore the .rds from ",
+    "backup),\n",
+    "  then re-run this script. No placeholder tables were written: the ",
+    "existing\n",
+    "  Tables_FirstLL/table_delta_*.tex files are left untouched so the paper ",
+    "keeps\n",
+    "  whatever last-known-good numbers it had.",
+    call. = FALSE
+  )
 }
 
 # Function to build event table with censoring, restricted to first-LL
@@ -745,30 +737,47 @@ all_results <- list(
   nongs_atp = res_nongs_atp, nongs_wta = res_nongs_wta
 )
 
+# Capture the CLUSTERED coefficient table for the pooled model BEFORE the raw
+# data is stripped. The summary block below must report the same SEs and
+# p-values that the .tex tables carry; using coef(summary(mod)) here would
+# print naive glm z-statistics and contradict the paper.
+clustered_summary <- list()
+for (nm in names(all_results)) {
+  res <- all_results[[nm]]
+  if (is.null(res)) next
+  ct <- clustered_ct(res$pooled, res$data)
+  colnames(ct) <- c("Estimate", "Std. Error", "z value", "Pr(>|z|)")[seq_len(ncol(ct))]
+  clustered_summary[[nm]] <- list(
+    delta   = ct["got_ll", "Estimate"],
+    se      = ct["got_ll", "Std. Error"],
+    pval    = ct["got_ll", "Pr(>|z|)"],
+    n_obs   = nobs(res$pooled),
+    n_clust = length(unique(res$data$player_id))
+  )
+}
+
 # Strip raw data before saving
 for (nm in names(all_results)) {
   if (!is.null(all_results[[nm]])) {
     all_results[[nm]]$data <- NULL
   }
 }
+# Persist the clustered summary alongside the models so downstream scripts and
+# the paper can cite cluster counts without re-reading the match-level data.
+all_results$clustered_summary <- clustered_summary
 
 saveRDS(all_results, file.path(FIRSTLL_CLEANED, "firstll_delta_model_results.rds"))
 message("  Results saved: Data/cleaned/firstll/firstll_delta_model_results.rds")
 
-# Summary
-message("\n  === FIRST-LL DELTA MODEL SUMMARY ===")
+# Summary (player-clustered SEs — matches the .tex tables exactly)
+message("\n  === FIRST-LL DELTA MODEL SUMMARY (player-clustered SEs) ===")
 for (nm in c("gs_atp", "gs_wta", "nongs_atp", "nongs_wta")) {
-  res <- all_results[[nm]]
-  if (is.null(res)) { message("  ", nm, ": SKIPPED"); next }
-  mod <- res$pooled
-  ct <- coef(summary(mod))
-  delta <- ct["got_ll", "Estimate"]
-  se <- ct["got_ll", "Std. Error"]
-  pval <- ct["got_ll", "Pr(>|z|)"]
-  st <- ifelse(pval < 0.01, "***", ifelse(pval < 0.05, "**",
-               ifelse(pval < 0.1, "*", "")))
-  message(sprintf("  %s: delta=%.4f%s (SE=%.4f, p=%.4f), N=%d matches",
-                  nm, delta, st, se, pval, nobs(mod)))
+  s <- clustered_summary[[nm]]
+  if (is.null(s)) { message("  ", nm, ": SKIPPED"); next }
+  st <- ifelse(s$pval < 0.01, "***", ifelse(s$pval < 0.05, "**",
+               ifelse(s$pval < 0.1, "*", "")))
+  message(sprintf("  %s: delta=%.4f%s (SE=%.4f, p=%.4f), N=%d matches, %d player clusters",
+                  nm, s$delta, st, s$se, s$pval, s$n_obs, s$n_clust))
 }
 
 message("\n", strrep("=", 70))

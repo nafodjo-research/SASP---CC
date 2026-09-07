@@ -650,8 +650,12 @@ T_lines <- c(T_lines, build_cf_panel(cf_validation$gs_wta, "Panel D: WTA Grand S
 T_lines <- c(T_lines, "\\bottomrule")
 T_lines <- c(T_lines, "\\end{tabular}")
 
-writeLines(T_lines, file.path(FIRSTLL_TABLES, "table_cf_validation.tex"))
-message("  Wrote: Tables_FirstLL/table_cf_validation.tex")
+# NOTE: F12 is the canonical producer of table_cf_validation.tex (it applies
+# the corrected uniform-P_i specification). F07 writes its own diagnostic copy
+# under a distinct filename so the two do not race depending on run order.
+writeLines(T_lines, file.path(FIRSTLL_TABLES, "table_cf_validation_f07.tex"))
+message("  Wrote: Tables_FirstLL/table_cf_validation_f07.tex (diagnostic; ",
+        "F12 writes the canonical table_cf_validation.tex)")
 
 
 # ==============================================================================

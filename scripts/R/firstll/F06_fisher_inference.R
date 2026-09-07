@@ -35,7 +35,10 @@ source(here("scripts", "R", "firstll", "firstll_helpers.R"))
 summary_log <- character()
 
 # --- Constants ----------------------------------------------------------------
-N_PERMS <- 1000
+# 5,000 permutations. At 1,000 the Monte Carlo SE of a p-value near 0.03 is
+# about 0.005, which is uncomfortably wide when the reported p-values sit close
+# to conventional thresholds; 5,000 cuts that to roughly 0.002.
+N_PERMS <- 5000
 
 # Focus outcomes for Fisher inference
 fisher_outcomes <- c("points_change", "elo_change", "n_main_draws")
@@ -46,13 +49,16 @@ fisher_outcome_labels <- c(
   n_main_draws  = "Main draws entered"
 )
 
-# --- First-LL ZPRE (no prior-LL vars, interacted with horizon for GS) --------
-ZPRE_GS_FISHER <- paste0(
-  "pre_rank_pts_s:horizon + pre_rank_pts_sq_s:horizon + ",
-  "pre_elo_s:horizon + pre_elo_sq_s:horizon + ",
-  "pre_surf_elo_s:horizon + pre_surf_elo_sq_s:horizon + ",
-  "player_age:horizon"
-)
+# --- First-LL ZPRE ------------------------------------------------------------
+# The controls enter with horizon-INVARIANT coefficients, matching the headline
+# dynamic specification in F03 and the model described in the paper's empirical
+# strategy section. An earlier version of this script interacted every control
+# with horizon, which fits a more flexible model than the one whose coefficients
+# the paper reports; the Fisher p-values then referred to a different
+# specification than the point estimates they were printed beside, producing
+# coefficient discrepancies (74.95 versus 72.53 at 4 weeks, and similar
+# elsewhere). Matching the headline specification removes that inconsistency.
+ZPRE_GS_FISHER <- ZPRE_FIRSTLL
 
 ZPRE_NONGS_FISHER <- paste0(
   "pre_rank_pts_s + pre_rank_pts_sq_s + ",
@@ -214,7 +220,15 @@ run_fisher <- function(unstacked, formula_str, fe_str,
           perm_tstat[b, ] <- perm_coefs / perm_se
         }
       }
+
+      # Each iteration allocates a fresh copy of the unstacked frame, a stacked
+      # frame, and a fixest object whose environment retains the model frame.
+      # Without explicit release these accumulate and the process segfaults
+      # partway through a long permutation run.
+      rm(perm_unstacked, perm_stacked, perm_sdata, perm_fit)
+      if (b %% 250 == 0) gc(verbose = FALSE)
     }
+    gc(verbose = FALSE)
 
     # --- Fisher p-values (two-sided, based on |t|) ---
     fisher_p <- numeric(length(ll_idx))

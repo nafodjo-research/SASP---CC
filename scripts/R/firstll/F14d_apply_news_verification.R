@@ -160,6 +160,23 @@ for (i in seq_len(nrow(news_updates))) {
 }
 message("  Applied updates to ", updated_rows, " rows.")
 
+# Hard check. The join key is (tour, year, player_name) and player names drift
+# across sources (accents, hyphens, transliterations). A silent partial join
+# would leave entries marked "ambiguous" while the summary claimed they were
+# classified, so fail loudly rather than write a half-updated file.
+if (updated_rows != nrow(news_updates)) {
+  stop(
+    "F14d ABORTED: only ", updated_rows, " of ", nrow(news_updates),
+    " news-verification rows matched the classification file.\n",
+    "  This usually means a player_name in the tribble does not match the ",
+    "spelling\n",
+    "  in firstll_gs_est_v2.rds (accents, hyphens, transliteration). Check the ",
+    "WARNING\n",
+    "  lines above, fix the tribble, and re-run. No file was written.",
+    call. = FALSE
+  )
+}
+
 
 # ==============================================================================
 # STEP 4: WRITE

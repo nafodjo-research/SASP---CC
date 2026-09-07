@@ -101,18 +101,33 @@ message(strrep("=", 70))
 
 treated <- gs[gs$got_ll == 1, ]
 
+# CLASSIFICATION THRESHOLD
+# ------------------------
+# Under the ranking rule with c_e available LL slots, the top c_e ranked
+# qualifying losers fill those slots deterministically. So a treated LL is
+# provably lottery-assigned only when their rank among losers EXCEEDS the
+# number of slots at that event:
+#
+#     rank_among_losers > n_ll_slots  =>  lottery
+#
+# The earlier ">1" threshold implicitly assumed every event had exactly one
+# slot. At multi-slot events, a rank-2 LL at a 2-slot event is exactly what
+# the ranking rule produces, so ">1" misclassified those as lottery-verified.
+n_slots <- pmax(treated$n_ll_slots, 1L)  # guard against 0/NA slot counts
+
 treated$classification <- ifelse(
-  treated$rank_among_losers > 1,
-  "lottery_verified",  # provably lottery: ranking rule would have picked #1
-  "ambiguous"          # could be either lottery or ranking
+  treated$rank_among_losers > n_slots,
+  "lottery_verified",  # rank exceeds slot count: ranking rule cannot explain it
+  "ambiguous"          # rank within slot count: consistent with either rule
 )
 
 # Reason string for audit trail
 treated$reason <- ifelse(
   treated$classification == "lottery_verified",
-  sprintf("rank_among_losers = %d > 1; ranking rule would pick #1",
-          treated$rank_among_losers),
-  "rank_among_losers = 1; withdrawal-timing evidence required"
+  sprintf("rank_among_losers = %d > n_ll_slots = %d; ranking rule fills only the top %d",
+          treated$rank_among_losers, n_slots, n_slots),
+  sprintf("rank_among_losers = %d <= n_ll_slots = %d; withdrawal-timing evidence required",
+          treated$rank_among_losers, n_slots)
 )
 
 # Confidence: "high" for lottery-verified (deterministic from data),

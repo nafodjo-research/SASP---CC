@@ -294,6 +294,40 @@ Matches & 4,445 & 3,715 & 407,959 & 47,376 \\
 \end{threeparttable}
 \end{table}
 
+% --- News Audit ---
+
+\begin{table}[htbp]
+\centering
+\caption{News Audit of Ambiguous Lucky Loser Assignments}
+\label{tab:news_audit}
+\begin{threeparttable}
+\footnotesize
+\input{../Tables_FirstLL/table_news_audit}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Grand Slam first-time LL entries whose rank among qualifying losers falls within the event's slot count, and whose assignment mechanism therefore depends on withdrawal timing not recorded in the data. Each row was checked against tennis-media reporting and tournament records for the date of the main-draw withdrawal that opened the slot. Every datable case was a post-qualifying withdrawal, which the ranking rule fills deterministically rather than by lottery. Entries marked ``not dated'' had corroborating reports of a late injury withdrawal without a precise date. The unresolved entries are predominantly pre-2015 events with thin contemporaneous coverage.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% --- Romano-Wolf ---
+
+\begin{table}[!p]
+\centering
+\caption{Romano-Wolf Step-Down $p$-Values Across Primary Outcomes}
+\label{tab:romano_wolf}
+\begin{threeparttable}
+\scriptsize
+\begin{adjustbox}{max totalheight=0.85\textheight}
+\input{../Tables_FirstLL/table_romano_wolf}
+\end{adjustbox}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Romano-Wolf step-down procedure \citep{RomanoWolf2005_stepdown} over the same 80-test family as Table~\ref{tab:bh}, using 999 player-level cluster bootstrap replications. Where Benjamini-Hochberg controls the false discovery rate and treats the tests as independent, Romano-Wolf controls the family-wise error rate while exploiting the joint dependence across horizons and outcomes, which is substantial here because outcomes at adjacent horizons are strongly autocorrelated. BH $q$-values are reproduced for comparison.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
 % --- Prize Money ---
 
 \begin{table}[htbp]

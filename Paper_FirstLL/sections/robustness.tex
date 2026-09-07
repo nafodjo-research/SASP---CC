@@ -6,7 +6,7 @@
 
 The main analysis restricts to first-time LL candidates. A natural question is whether subsequent LL opportunities have similar effects, or whether the marginal impact diminishes with experience. To test this, I return to the full (unrestricted) estimation sample and stratify by the number of prior LL awards: $n = 0$ (first LL, matching the main results), $n = 1$ (second LL), and $n \geq 2$ (third or more). Within each experience group, I compare treated players ($D_{ie} = 1$) to controls ($D_{ie} = 0$) who have the same number of prior LL awards, using the full pre-treatment control specification.
 
-Tables~\ref{tab:marginal_gs} and~\ref{tab:marginal_ngs} report the results. First-time LL effects ($n = 0$) are the largest and most significant across both tours and both identification strategies, replicating the main-text findings. Second-time GS effects ($n = 1$) should be interpreted with caution: the GS $n = 1$ cells are small (ATP $N = 48$, WTA $N = 31$), event fixed effects absorb substantial variation, and the resulting point estimates are noisy and sometimes larger in absolute value than the physically possible treatment dose. The non-GS $n = 1$ cells are much larger (ATP $N = 692$, WTA $N = 601$) and produce stable estimates: the second-LL access effect is positive but markedly smaller than the first-LL effect. Third-plus effects ($n \geq 2$) in the non-GS sample are close to zero for access outcomes on the ATP tour and significantly negative for ranking points on the WTA tour at longer horizons. Formal Wald tests for the equality of $n = 0$ and $n = 1$ effects reject equality at conventional levels for non-GS tournament access outcomes (ATP: $F = 3.87$, $p = 0.002$; WTA: $F = 3.05$, $p = 0.009$). These non-GS results, estimated on larger and more reliable subsamples, support the first-break interpretation: the initial access shock is the pivotal one, and subsequent opportunities provide diminishing marginal returns.
+Tables~\ref{tab:marginal_gs} and~\ref{tab:marginal_ngs} report stratum-by-stratum estimates. These are descriptive: each stratum is estimated on its own subsample, the Grand Slam $n = 1$ and $n \geq 2$ cells are small (ATP $N = 48$ and $N = 80$; WTA $N = 31$ and $N = 19$), and the resulting point estimates are unstable, in places exceeding the physically possible treatment dose in absolute value. Section~\ref{sec:robustness_saturated} estimates the experience gradient on the pooled sample in a single specification, which is the basis for the paper's claims about how the return varies with $n$.
 
 \begin{table}[htbp]
 \centering
@@ -36,27 +36,35 @@ Tables~\ref{tab:marginal_gs} and~\ref{tab:marginal_ngs} report the results. Firs
 \end{threeparttable}
 \end{table}
 
-\subsection{Mechanical Decomposition of the First-Break Claim}
-\label{sec:robustness_decomposition}
+\subsection{The Experience Gradient}
+\label{sec:robustness_saturated}
 
-The claim that first-time effects dominate could reflect an averaging artifact: if the pooled coefficient $\hat\beta^{\text{pool}}$ is a weighted average of stratum-specific effects, a large $\hat\beta^{(n=0)}$ combined with smaller (or negative) $\hat\beta^{(n=1)}$ and $\hat\beta^{(n\geq 2)}$ would produce a modest pool by construction and the ``first break is twice the pool'' finding would be mechanical. To document that the ATP first-break excess is not simply arithmetic, Table~\ref{tab:mechanical_decomposition} reports the stratum-weighted decomposition:
-\[
-\hat\beta^{\text{pool}} \text{ vs.\ } \underbrace{w_0 \hat\beta^{(n=0)} + w_1 \hat\beta^{(n=1)} + w_{\geq 2} \hat\beta^{(n\geq 2)}}_{\text{weighted average}},
-\]
-where the weights $w_n$ are the treated-share of each stratum in the pooled sample. Under the law of iterated expectations, the pool coefficient equals the weighted average when treatment effects do not interact with covariates that differ across strata, so any gap between the two is informative about specification.
+Comparing coefficients estimated on separate stratum subsamples does not identify how the return varies with experience, because each subsample carries its own covariate distribution and its own residual variance. A pooled regression coefficient is a variance-weighted average of stratum effects whose implicit weights depend on the within-stratum variance of treatment conditional on covariates, and those weights need not match the population share of each stratum \citep{Sloczynski2022_interpreting_ols}. Differences between a pooled coefficient and a share-weighted average of subsample coefficients are therefore uninformative about heterogeneity.
 
-On the ATP tour, the pool-to-first-LL ratio is 2.17 at 4 weeks, 2.19 at 8 weeks, and 2.07 at 12 weeks: the first-time effect is more than twice the pooled effect, with negative $\hat\beta^{(n=1)}$ and $\hat\beta^{(n\geq 2)}$ pulling the weighted average below the pool. The gap between the pool and the weighted average on the ATP GS side (75 points at 4--12 weeks) reflects that the small $n = 1$ and $n = 2+$ cells produce imprecise negative estimates, and the pooled regression's within-stratum information does not translate additively into the weighted-average decomposition. The non-GS ATP ratios (1.6--2.1) confirm the doubling pattern in a larger sample. On the WTA GS side, ratios are below one at short horizons, reflecting that WTA pooled effects are driven by repeat rather than first-time recipients; the WTA non-GS pattern is close to one at short horizons and grows at longer ones. The decomposition therefore supports the first-break interpretation on the ATP tour and identifies the WTA tour as a setting where the first-break premium is smaller and horizon-dependent.
+I instead estimate the gradient in a single saturated specification on the pooled sample:
+\begin{equation}
+\label{eq:saturated}
+Y_{ie,h} = \alpha_e + \alpha_h + \sum_h \beta_h D_{ie}\mathbf{1}[h]
+ + \sum_h \gamma_{1h} D_{ie}\mathbf{1}[h]\mathbf{1}[n_{ie}=1]
+ + \sum_h \gamma_{2h} D_{ie}\mathbf{1}[h]\mathbf{1}[n_{ie}\geq 2]
+ + \Gamma Z^{pre}_{ie} + \varepsilon_{ie,h},
+\end{equation}
+where $n_{ie}$ counts prior LL awards. Here $\beta_h$ is the effect for first-time recipients, $\beta_h + \gamma_{1h}$ the effect for second-time recipients, and $\beta_h + \gamma_{2h}$ the effect for third-plus recipients. All three come from one regression on one sample, so they aggregate to the pooled estimand by construction and the question becomes a hypothesis test rather than an accounting identity.
+
+Table~\ref{tab:saturated_experience} reports the results, and they locate the decline in the return to opportunity later than the paper's original framing supposed. On the ATP Grand Slam sample the first-time effect is 49.5 ranking points at 4 weeks, 53.6 at 8 weeks, 70.7 at 12 weeks, and 106.9 at 26 weeks, all significant at the 1\% level. The second-LL shifter $\hat\gamma_{1h}$ is small and statistically indistinguishable from zero at every horizon ($-2.5$, $p = 0.93$ at 4 weeks; $-0.1$, $p = 1.00$ at 8 weeks; $-4.5$, $p = 0.87$ at 12 weeks; $-27.9$, $p = 0.51$ at 26 weeks). A player receiving a second lucky loser slot gains about as much as a player receiving a first. The third-plus shifter is a different matter: $\hat\gamma_{2h}$ is large, negative, and significant at every horizon, running from $-63.9$ ($p = 0.011$) at 4 weeks to $-182.3$ ($p = 0.001$) at 52 weeks, which offsets the base effect entirely. A joint Wald test rejects a flat experience profile on the ATP Grand Slam sample ($F = 2.77$, $df = 10$, $p = 0.002$), on the non-Grand-Slam ATP sample ($F = 1.92$, $p = 0.038$), and on the non-Grand-Slam WTA sample ($F = 1.90$, $p = 0.040$); the Grand Slam WTA sample does not reject ($F = 1.35$, $p = 0.199$), consistent with its smaller size. The same pattern holds for main draws entered, where the joint test rejects on three of four samples.
+
+The gradient is therefore real but its shape differs from a first-versus-rest story. Returns are stable across the first two opportunities and collapse at the third. This is what a threshold-crossing account predicts once the threshold is allowed to sit above a single entry: a player needs enough accumulated ranking points to clear direct-entry cutoffs at lower-tier events, one main-draw appearance is often not enough to clear them, and a second appearance still adds points that carry the player over. By the third opportunity the player has typically already crossed, so the marginal slot displaces an entry they would have earned anyway. The restriction to first-time recipients in the main analysis remains the right sample choice for estimating the effect of an initial access shock cleanly, and the results here show that this effect is not distinctive relative to a second shock.
 
 \begin{table}[htbp]
 \centering
-\caption{Mechanical Decomposition: Pool vs.\ Stratum-Weighted Average (Ranking Points)}
-\label{tab:mechanical_decomposition}
+\caption{Experience Gradient: Saturated Interaction Model (Ranking Points)}
+\label{tab:saturated_experience}
 \begin{threeparttable}
-\small
-\input{../Tables_FirstLL/table_mechanical_decomposition}
+\scriptsize
+\input{../Tables_FirstLL/table_saturated_experience}
 \begin{tablenotes}
 \footnotesize
-\item \textit{Notes.} $\hat\beta^{\text{pool}}$ is the coefficient on $D_{ie}$ from the pooled regression on the full sample. Weighted average is $\sum_n w_n \hat\beta^{(n)}$, where $w_n$ is the treated-share of stratum $n$ in the pooled sample and $\hat\beta^{(n)}$ is the stratum-specific coefficient from Tables~\ref{tab:marginal_gs}--\ref{tab:marginal_ngs}. Ratio is $\hat\beta^{(n=0)} / \hat\beta^{\text{pool}}$. Positive ratio above one indicates the first-LL effect exceeds the pooled effect; the paper's headline claim implies a ratio of roughly two.
+\item \textit{Notes.} Estimates of equation~(\ref{eq:saturated}) on the full unrestricted sample. $\hat\beta_h$ is the treatment effect for first-time recipients ($n = 0$); $\hat\gamma_{1h}$ and $\hat\gamma_{2h}$ shift that effect for second-time ($n = 1$) and third-plus ($n \geq 2$) recipients. Implied ATTs add the shifter to the base effect; their standard errors use the delta method and account for the covariance between $\hat\beta_h$ and $\hat\gamma_{jh}$. Grand Slam panels use Grand Slam $\times$ Year and horizon fixed effects; non-Grand-Slam panels add the control-function residual interacted with horizon. Pre-treatment controls include prior-LL counts, which vary within the pooled sample. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
@@ -66,9 +74,15 @@ On the ATP tour, the pool-to-first-LL ratio is 2.17 at 4 weeks, 2.19 at 8 weeks,
 
 The Grand Slam lottery mechanism operates only when withdrawals occur before qualifying completes; post-qualifying withdrawals follow the ranking rule (the highest-ranked qualifying loser receives the slot). Withdrawal timing is not recorded in the data, so the main sample may pool lottery-assigned and ranking-assigned observations. This contamination has a signable direction: under ranking-based assignment, treated players are systematically higher-ranked than controls, biasing ranking-point effect estimates upward rather than toward attenuation. Two features of the analysis partially offset this bias. First, the pre-treatment control vector $Z^{pre}_{ie}$ includes ranking points (linear and quadratic), Elo, and surface Elo, absorbing the observable component of selection. Second, within-event fixed effects restrict comparisons to the top-four pool at a given tournament, where the ranking gap between treated and untreated candidates is mechanically small (at most three ranks).
 
-To assess the residual contamination concern, I construct a \textit{verified lottery} subsample using a data-only classification test. Under the ranking rule, the highest-ranked qualifying loser receives the slot deterministically, so any treated LL whose rank among final-round qualifying losers exceeds one must have been selected by lottery. An event enters the verified subsample if at least one of its LL entries satisfies this criterion. Among first-time LL candidates, this criterion identifies 35 verified ATP events yielding $N = 86$ observations (55 treated, 31 control) and 17 verified WTA events yielding $N = 47$ observations (27 treated, 20 control). Table~\ref{tab:verified_firstll} reports stacked dynamic estimates for this subsample. On the ATP tour, ranking-point gains rise from 33.2 at 4 weeks (not significant) to 51.2 at 12 weeks ($p = 0.061$) and peak at 76.6 at 26 weeks ($p = 0.050$), before fading to 12.3 at 52 weeks; the 26-week effect on the verified subsample is close in magnitude to the headline 26-week estimate (72.6) and remains significant under player-clustered inference. An Elo decline at 52 weeks ($-44.2$, $p = 0.098$) aligns with an overseeding channel operating on the longest horizon after ranking gains fade. On the WTA tour, the verified subsample delivers a sharper 8-week ranking-point effect ($+77.5$, $p = 0.005$) than the headline WTA sample ($+55.0$, $p = 0.017$) and $+60.8$ at 4 weeks ($p = 0.090$); WTA Elo gains at 4--8 weeks ($+15.4$ and $+21.5$, $p = 0.094$ and $p = 0.051$) also strengthen relative to the headline WTA estimates. The verified subsample is smaller than the headline sample and therefore less powerful at any single horizon, but the point estimates align with the main results in sign and are of comparable magnitude, so main-sample contamination from ranking-assigned entries is not driving the headline conclusion.
+To assess the residual contamination concern, I construct a \textit{verified lottery} subsample using a criterion that requires no external information. Under the ranking rule, an event with $c_e$ available slots fills them with the top $c_e$ ranked qualifying losers deterministically. A treated player whose rank among final-round qualifying losers \textit{exceeds} $c_e$ therefore cannot have been placed by the ranking rule, and their entry is provably a lottery draw. An event enters the verified subsample when at least one of its LL entries satisfies this condition. Among first-time LL candidates the criterion identifies 18 verified ATP events yielding $N = 49$ observations (24 treated, 25 control) and 10 verified WTA events yielding $N = 31$ observations (15 treated, 16 control).
 
-To probe the residual identification concern from the other direction, I ran a news-based verification of the 23 first-time GS entries whose rank among qualifying losers was one and whose classification therefore rests on withdrawal-timing information not encoded in the data. Searching tennis-media coverage and Wikipedia tournament pages, I found datable withdrawal information for 10 of the 23 entries (7 at high confidence with named withdrawal dates from tennis-media reporting; 3 at medium confidence where the pattern of a late injury withdrawal was reported without an exact date). Every datable case was a post-qualifying withdrawal that triggered the ranking rule rather than the lottery: Kyrgios at Wimbledon 2023 withdrew on Sunday July 2 (the night before main draw); Alexandrova at Wimbledon 2024 withdrew on Monday July 1 (hours before her first-round match); Raonic at Roland Garros 2021 and again at the US Open 2019; Davidovich Fokina at Wimbledon 2024; Andreescu and Badosa at the US Open 2023; and Tomljanovic at the Australian Open 2023. None of the 23 rank-one entries turned out to be a lottery draw in the news check. The remaining 13 rank-one entries are pre-2015 slams with thin contemporaneous news coverage and stay unresolved; the accumulated evidence from the datable subset makes it likely that most of the unresolved cases are also ranking-rule assignments. The news verification therefore aligns with the F14 rank-based rule: the verified-lottery subsample captures the lottery-assigned events cleanly, and treating the rank-one entries as ambiguous rather than as lottery-verified is the appropriate choice.
+Table~\ref{tab:verified_firstll} reports stacked dynamic estimates on this subsample, and the ranking-point results are null throughout on the ATP tour, running from 15.0 at 4 weeks to 56.3 at 26 weeks with standard errors between 41 and 82. These nulls are uninformative rather than contradictory. Table~\ref{tab:mde} reports minimum detectable effects: at 80\% power the verified ATP subsample can detect roughly 115 to 145 ranking points depending on the horizon, against a pooled point estimate of 72 to 83. The subsample cannot distinguish the headline effect from zero, so it neither confirms nor refutes it, and elevating it to primary would substitute an underpowered null for a powered estimate. The WTA verified subsample retains a significant 8-week gain ($+81.5$, $p = 0.048$), close to the pooled WTA estimate of 55.0.
+
+The Elo results on the verified subsample are a different matter, because there the effects are detected rather than absent, and they sharpen relative to the pooled sample. On the ATP tour Elo falls by 31.6 points at 12 weeks ($p = 0.046$) and 76.2 points at 52 weeks ($p = 0.014$). This is the clearest evidence in the paper for the overseeding channel: on the events where randomization is provable, players granted entry subsequently perform worse against quality-adjusted opposition, which is what a ranking that has run ahead of ability implies. On the WTA tour Elo rises at four of five horizons, most strongly at 8 weeks ($+35.6$, $p = 0.003$) and 12 weeks ($+32.2$, $p = 0.023$), so the ability channel that the pooled WTA sample suggests is stronger on the cleanly randomized events, not weaker.
+
+The verified subsample is therefore informative about ability and uninformative about access, and the defence of the access results against contamination rests on the placebo tests of Section~\ref{sec:robustness_placebo} rather than on this subsample. That division of labour is the honest reading of the evidence: a sample of 49 observations cannot adjudicate a 72-point effect, but it can and does detect a 31-point Elo decline, because the Elo outcome has far less residual variance.
+
+A news audit of the ambiguous entries reinforces the classification rather than the estimates. For the first-time Grand Slam entries whose rank falls within the slot count, and whose status therefore depends on withdrawal timing that the data do not record, I searched tennis-media coverage and tournament records for the date of the withdrawal that opened each slot. Ten entries could be dated. Every one was a post-qualifying withdrawal, which triggers the ranking rule: Kyrgios withdrew from Wimbledon on the Sunday night before the 2023 main draw, Alexandrova from Wimbledon hours before her first-round match in 2024, Davidovich Fokina from Wimbledon the same year, Raonic from Roland Garros in 2021 and the US Open in 2019, Andreescu and Badosa from the US Open in 2023, and Tomljanovic from the Australian Open in 2023. None was a lottery draw. The remaining entries are mostly pre-2015 events with thin contemporaneous coverage and stay unresolved. Appendix Table~\ref{tab:news_audit} lists every checked entry with the withdrawn player, the withdrawal date where one could be established, and the classification reached. The audit supports treating within-slot-count entries as ambiguous rather than as verified lotteries, which is what the criterion above does.
 
 \begin{table}[htbp]
 \centering
@@ -79,7 +93,7 @@ To probe the residual identification concern from the other direction, I ran a n
 \input{../Tables_FirstLL/table_verified_firstll}
 \begin{tablenotes}
 \footnotesize
-\item \textit{Notes.} Restricted to events with at least one LL entry whose rank among final-round qualifying losers exceeds one, confirming lottery-based assignment. First-time LL candidates only. Stacked dynamic specification with Grand Slam $\times$ Year fixed effects, horizon fixed effects, and pre-treatment controls. Standard errors clustered at the player level. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\item \textit{Notes.} Restricted to events with at least one LL entry whose rank among final-round qualifying losers exceeds the number of available LL slots at that event, which the ranking rule cannot produce. First-time LL candidates only. Stacked dynamic specification with Grand Slam $\times$ Year fixed effects, horizon fixed effects, and pre-treatment controls. Standard errors clustered at the player level. Minimum detectable effects for this subsample are reported in Table~\ref{tab:mde}. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
@@ -89,7 +103,7 @@ To probe the residual identification concern from the other direction, I ran a n
 
 Under genuine within-pool randomization, balance holds in expectation. Finite-sample imbalance is inevitable: with only four candidates per pool and a binary treatment, any single draw produces deviations that are properly interpreted as sampling variability rather than as evidence against randomization. Controls included in the outcome specification improve precision by reducing residual variance; they do not correct for a violation of random assignment, because under the lottery no such violation is present in expectation.
 
-Table~\ref{tab:balance} reports formal balance tests on pre-treatment covariates. In the first-time ATP Grand Slam sample ($N = 120$), the joint $F$-test yields $p = 0.106$; in the first-time WTA sample ($N = 82$), $p = 0.063$. Table~\ref{tab:balance_within} reports the within-event balance test, which is the economically relevant specification since randomization operates within each event's top-four pool: the within-event joint $F$-test yields $p = 0.046$ for ATP and $p = 0.516$ for WTA. A 5\% rejection in one of two tests is within the distribution one would expect under genuine randomization; with seven covariates tested across two tours, the expected number of nominal 5\% rejections under the null is $0.7$, so observing one marginally significant individual imbalance ($p = 0.034$ on age) is consistent with chance. The ATP within-event imbalance is driven by age, a covariate that cannot plausibly be correlated with lottery draws and that is included in $Z^{pre}_{ie}$ to improve precision. Event study plots (Figures~\ref{fig:event_study_atp} and~\ref{fig:event_study_wta}) show parallel trajectories in the weeks preceding each Grand Slam, so systematic pre-treatment divergence is not detectable. Non-GS balance tests are reported in the appendix.
+Table~\ref{tab:balance} reports formal balance tests on pre-treatment covariates. In the first-time ATP Grand Slam sample ($N = 120$), the joint $F$-test yields $p = 0.106$; in the first-time WTA sample ($N = 82$), $p = 0.063$. Table~\ref{tab:balance_within} reports the within-event balance test, which is the economically relevant specification since randomization operates within each event's top-four pool: the within-event joint $F$-test yields $p = 0.046$ for ATP and $p = 0.516$ for WTA. A 5\% rejection in one of two tests is within the distribution one would expect under genuine randomization; with seven covariates tested across two tours, the expected number of nominal 5\% rejections under the null is $0.7$, so observing one marginally significant individual imbalance ($p = 0.034$ on age) is consistent with chance. The magnitude is also small in substantive terms: treated ATP players average 24.9 years against 26.2 for controls, a gap of 1.3 years within a pool that spans ages 18 to 35, and the WTA gap is 0.7 years (23.2 versus 23.8). Age is included in $Z^{pre}_{ie}$, so the estimates condition on it in any case. Event study plots (Figures~\ref{fig:event_study_atp} and~\ref{fig:event_study_wta}) show parallel trajectories in the weeks preceding each Grand Slam, so systematic pre-treatment divergence is not detectable. Non-GS balance tests are reported in the appendix.
 
 \begin{table}[htbp]
 \centering
@@ -105,6 +119,73 @@ Table~\ref{tab:balance} reports formal balance tests on pre-treatment covariates
 \end{threeparttable}
 \end{table}
 
+\subsection{Pre-Treatment Placebo Tests}
+\label{sec:robustness_placebo}
+
+Balance on levels and visually parallel event-study trajectories are suggestive, but the direct test of random assignment is whether eventual treatment status predicts outcomes measured \textit{before} treatment. I construct ranking-point changes over the twelve, eight, and four weeks preceding each focal event, using the same range-join to the weekly ranking files that produces the post-treatment outcomes, and regress each on eventual LL status with the headline specification.
+
+Table~\ref{tab:placebo} reports the results. None of the twelve tests, spanning three pre-treatment horizons, two tours, and both the pooled and verified-lottery samples, rejects at the 5\% level; the largest absolute $t$-statistic is 1.48. Point estimates are small relative to the post-treatment effects: on the pooled ATP sample they run from $-9.9$ to $-4.3$ ranking points against post-treatment effects of 72 to 83. This is the sharpest available evidence against the residual contamination concern. Ranking-rule assignment selects the highest-ranked qualifying loser, so contaminated observations would carry pre-treatment ranking trajectories that differ systematically between treated and control players. No such difference appears.
+
+\begin{table}[htbp]
+\centering
+\caption{Pre-Treatment Placebo Tests}
+\label{tab:placebo}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_placebo_pretreatment}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Outcome is the change in ranking points from the indicated pre-treatment week to the focal event date, so all variation predates assignment. Specification matches the headline dynamic model with Grand Slam $\times$ Year fixed effects and pre-treatment controls. Standard errors clustered at the player level. Under random assignment these coefficients should be indistinguishable from zero. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Attrition and Lee Bounds}
+\label{sec:robustness_attrition}
+
+Players leave the rankings, and outcomes are observed only for those who remain. If treatment itself keeps players ranked, long-horizon outcomes condition on a treatment-affected selection event. Table~\ref{tab:attrition} reports observation rates. Through 26 weeks the rates are close: 80.3\% of treated and 78.0\% of control ATP players are observed at 26 weeks, a gap of 2.4 percentage points that a two-proportion test cannot distinguish from zero ($p = 0.93$). At 52 weeks the gap widens to 12.7 percentage points on the ATP tour (75.4\% versus 62.7\%), and reverses to $-10.0$ points on the WTA tour; neither is individually significant at conventional levels given the sample sizes ($p = 0.19$ and $p = 0.39$), but both are large enough to matter for interpretation.
+
+Table~\ref{tab:lee} reports \citet{Lee2009_bounds} bounds, which trim the over-observed group from each tail of its outcome distribution to equalize observation rates and so bound the effect for the subpopulation observed under either assignment. Through 26 weeks the bounds are tight and exclude zero on the ATP tour: at 12 weeks the unadjusted mean difference of 44.4 ranking points is bounded within $[38.3, 50.1]$, and at 26 weeks within $[23.4, 46.8]$. The short- and medium-horizon results are therefore not an artifact of differential survival. At 52 weeks the bounds widen sharply and span zero on both tours ($[-143.9, 35.3]$ ATP; $[-18.2, 90.7]$ WTA), because the trimming fraction rises to 17\% and 12\% respectively. The paper's fade-out claim at 52 weeks is consequently the one result that differential attrition can also explain, and Section~\ref{sec:conclusion} reports it with that caveat rather than as established.
+
+\begin{table}[htbp]
+\centering
+\caption{Attrition: Outcome Observation Rates by Treatment Status}
+\label{tab:attrition}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_attrition}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Share of players with a non-missing ranking-point outcome at each horizon. Difference row reports treated minus control in percentage points, with significance from a two-proportion test. First-time Grand Slam samples. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Lee (2009) Bounds on the Ranking-Point Effect}
+\label{tab:lee}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_lee_bounds}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Unadjusted row reports the raw difference in mean ranking-point change between treated and control players among those observed. Lee bounds trim the over-observed group from each tail of its outcome distribution until observation rates are equal, bounding the effect for the always-observed subpopulation under monotone selection. Bounds coincide with the unadjusted difference where observation rates are already equal. First-time Grand Slam samples.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Multiple Testing}
+\label{sec:robustness_mht}
+
+The paper reports four outcomes at five horizons on four samples, and the resulting 80 tests invite a correction. Which correction is appropriate depends on what is being controlled, and the three standards reported here give materially different answers, so I state all of them rather than selecting the most favourable.
+
+Within the ranking-point outcome, treating the five horizons as one family of 20 tests, the ATP Grand Slam effects at 4, 8, and 12 weeks survive Benjamini-Hochberg correction ($q = 0.039$, $0.039$, $0.020$); the 26-week effect does not ($q = 0.119$), and the WTA 8-week effect is marginal ($q = 0.067$). Applying Benjamini-Hochberg jointly across all 80 tests gives a similar picture: 23 tests survive at $q < 0.05$, including the three ATP Grand Slam horizons ($q = 0.028$, $0.028$, $0.009$).
+
+Romano-Wolf step-down inference is stricter and gives a different answer. Where Benjamini-Hochberg bounds the expected share of rejections that are false, Romano-Wolf bounds the probability of making any false rejection at all, and it does so using a bootstrap that preserves the dependence among the test statistics. Of the 80 tests, 14 survive at $p_{\text{RW}} < 0.05$, and all 14 are non-Grand-Slam access outcomes: main draws entered and matches at 250-level events on both tours, where the raw $p$-values are below $0.001$. No Grand Slam ranking-point effect survives ($p_{\text{RW}} = 0.685$, $0.685$, $0.410$ at 4, 8, and 12 weeks on the ATP tour; $0.815$ for the WTA 8-week effect).
+
+The right way to read this is not that the Grand Slam results are spurious, but that family-wise error control across 80 tests is a demanding standard that a single design with 120 observations was never going to meet. The dynamic path across horizons is one economic claim rather than five independent ones, and the appropriate correction for a pre-specified primary outcome is the within-outcome family, which the Grand Slam effects clear. What the Romano-Wolf results do establish is a ranking of evidential strength. The non-Grand-Slam access effects are robust to the strictest available correction and are the most secure findings in the paper. The Grand Slam ranking-point effects are supported by randomization inference, by placebo tests, and by attrition bounds, and they survive false-discovery-rate control, but they are not individually strong enough to clear family-wise control over the full outcome set. Readers who require the latter standard should treat the Grand Slam estimates as suggestive and the non-Grand-Slam access results as established.
+
 \subsection{Control Function Specification Check}
 \label{sec:robustness_cf}
 
@@ -115,7 +196,53 @@ The CF specification check (Appendix Table~\ref{tab:cf_validation}) applies the 
 
 Wildcard entries provide a parallel mechanism for main-draw access. If control players differentially receive wildcards to subsequent events, the counterfactual is contaminated. In the first-LL sample, wildcards are rare among qualifying-level players (ranked 100th--300th), who are generally below the threshold for wildcard consideration at tour-level events. In the 26-week window following the focal event, the average number of wildcard main-draw entries is 0.08 per treated player and 0.09 per control player on the ATP tour ($p = 0.71$), and 0.12 versus 0.11 on the WTA tour ($p = 0.83$). Differential wildcard receipt is therefore too small to confound the LL treatment effect.
 
-\subsection{Statistical Power}
+\subsection{Small-Sample Inference}
 \label{sec:robustness_power}
 
-Power analysis (Appendix Table~\ref{tab:power}) shows that the first-LL GS-ATP sample can detect a 5.5 percentage-point shift in match win probability and a 26-week Elo change of approximately 25 points at 80\% power. The null Elo results are therefore informative: effects larger than one standard deviation of the within-sample Elo distribution can be ruled out at conventional power levels.
+The Grand Slam samples are small, so asymptotic cluster-robust inference warrants scrutiny. Table~\ref{tab:clusters} reports observation counts, treated and control counts, player clusters, and events for every sample. Because players rarely appear in the pool more than once under the first-time restriction, cluster counts track sample sizes closely: 109 players in the pooled ATP sample, 77 in the pooled WTA sample, 48 and 30 in the two verified-lottery subsamples. Only the verified WTA subsample falls below the range where asymptotic clustered inference is normally considered safe, and results on both verified subsamples are therefore reported alongside bootstrap $p$-values below.
+
+Table~\ref{tab:mde} reports minimum detectable effects at 80\% power and a 5\% two-sided test, computed as $(z_{0.975} + z_{0.80})$ times the realised clustered standard error. These convert null results into statements about what the data can and cannot rule out. On the pooled ATP sample the minimum detectable ranking-point effect is comfortably below the estimated effect at 4 to 12 weeks, so those estimates are well-powered. On the verified-lottery ATP subsample the minimum detectable effect exceeds the pooled point estimate at every horizon, so the nulls reported in Section~\ref{sec:robustness_verified} are uninformative about the access channel. Elo has a much smaller residual variance, and the verified subsample detects Elo movements of 30 to 76 points, which is why the ability results survive there while the access results do not.
+
+Table~\ref{tab:wildboot} reports wild cluster bootstrap p-values following \citet{Cameron2008_wildbootstrap}, using the restricted bootstrap with the null imposed and Webb six-point weights, which outperform Rademacher weights when the cluster count is small. The bootstrap re-estimates the full specification 1{,}999 times per coefficient.
+
+\begin{table}[htbp]
+\centering
+\caption{Sample and Cluster Counts}
+\label{tab:clusters}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_cluster_counts}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Player clusters are the unit at which standard errors are clustered throughout. Events count distinct tour $\times$ tournament $\times$ year combinations contributing identifying variation.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Minimum Detectable Effects (Ranking Points, 80\% Power)}
+\label{tab:mde}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_mde}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Minimum detectable effect at 80\% power for a 5\% two-sided test, computed as $2.80 \times \text{SE}$ using the realised player-clustered standard error from the stacked dynamic specification. A null result is informative only where the minimum detectable effect lies below the effect size of interest.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Wild Cluster Bootstrap Inference (Ranking Points)}
+\label{tab:wildboot}
+\begin{threeparttable}
+\small
+\input{../Tables_FirstLL/table_wildbootstrap_verified}
+\begin{tablenotes}
+\footnotesize
+\item \textit{Notes.} Restricted wild cluster bootstrap with the null imposed, Webb six-point weights, and 1{,}999 replications, clustered at the player level \citep{Cameron2008_wildbootstrap}. Clustered $p$-values are the asymptotic values reported elsewhere in the paper; bootstrap $p$-values are the share of bootstrap $t$-statistics exceeding the observed value in absolute terms.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
