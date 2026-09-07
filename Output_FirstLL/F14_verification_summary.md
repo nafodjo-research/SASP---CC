@@ -1,27 +1,28 @@
 F13 verified-lottery results file: loaded
+Event-level rank-gap test: 44 of 64 events show a gap
 Deterministic classification:
-  ambiguous            65
-  lottery_verified     29
+  ambiguous            33
+  lottery_verified     61
 
 By tour:
-  ATP: lottery_verified=18, ambiguous=43, total=61
-  WTA: lottery_verified=11, ambiguous=22, total=33
+  ATP: lottery_verified=38, ambiguous=23, total=61
+  WTA: lottery_verified=23, ambiguous=10, total=33
 
 ======================================================================
 F14 CLASSIFICATION SUMMARY
 ======================================================================
 Total treated GS LL entries: 94
-  Lottery-verified (auto):   29 (30.9%)
-  Ambiguous (needs review):  65 (69.1%)
+  Lottery-verified (auto):   61 (64.9%)
+  Ambiguous (needs review):  33 (35.1%)
 
 Sample sizes after restricting to lottery-verified events:
   (Both treated and their event-mates enter the identifying sample.)
-  ATP: N=49 (T=24, C=25) across 18 events
-  WTA: N=31 (T=15, C=16) across 10 events
+  ATP: N=70 (T=38, C=32) across 29 events
+  WTA: N=41 (T=23, C=18) across 15 events
 
 Ambiguous entries by tour (curation targets for F14b):
-  ATP: 43 entries needing withdrawal-timing verification
-  WTA: 22 entries needing withdrawal-timing verification
+  ATP: 23 entries needing withdrawal-timing verification
+  WTA: 10 entries needing withdrawal-timing verification
 
 Next steps for the ambiguous set:
   1. F14b_wayback_verification.R (to be written): scripted Wayback

@@ -35,10 +35,23 @@ source(here("scripts", "R", "firstll", "firstll_helpers.R"))
 summary_log <- character()
 
 # --- Constants ----------------------------------------------------------------
-# 5,000 permutations. At 1,000 the Monte Carlo SE of a p-value near 0.03 is
-# about 0.005, which is uncomfortably wide when the reported p-values sit close
-# to conventional thresholds; 5,000 cuts that to roughly 0.002.
-N_PERMS <- 5000
+# Permutation counts differ by design, because the two settings ask different
+# things of randomization inference.
+#
+# GRAND SLAM (N_PERMS_GS). This is the randomized design and the sample is
+# small, so exact inference is the point and the reported p-values sit close to
+# conventional thresholds. At 1,000 draws the Monte Carlo SE of a p-value near
+# 0.03 is about 0.005, which is too wide to distinguish 0.028 from 0.045;
+# 5,000 cuts it to roughly 0.002. These loops are cheap (120 and 82 episodes).
+#
+# NON-GRAND-SLAM (N_PERMS_NGS). Assignment there follows a ranking rule rather
+# than a lottery, so permuting treatment within events does not reproduce the
+# actual assignment mechanism and the exercise is descriptive rather than
+# exact. The samples are also 17 times larger, making each permutation far more
+# costly. The resulting table is not cited in the paper. 1,000 draws suffice.
+N_PERMS_GS  <- 5000
+N_PERMS_NGS <- 1000
+N_PERMS     <- N_PERMS_GS   # default for any call that does not override
 
 # Focus outcomes for Fisher inference
 fisher_outcomes <- c("points_change", "elo_change", "n_main_draws")
@@ -142,8 +155,10 @@ recompute_v_hat <- function(got_ll_perm, peer_component, eps = 1e-6) {
 #' Run Fisher permutation test for one tour-sample combination.
 run_fisher <- function(unstacked, formula_str, fe_str,
                        perm_group = "slam_year",
-                       has_cf = FALSE, peer_col = "peer_component") {
+                       has_cf = FALSE, peer_col = "peer_component",
+                       n_perms = N_PERMS) {
 
+  N_PERMS <- n_perms  # shadow the global for this call
   stacked <- stack_for_fisher(unstacked)
   n_stacked <- nrow(stacked)
   message("  Stacked rows: ", n_stacked)
@@ -284,44 +299,25 @@ fisher_gs_wta <- run_fisher(
 )
 
 
-# ==============================================================================
-# SECTION 4: NONGS FISHER TEST
-# ==============================================================================
-message("\n", strrep("-", 70))
-message("NONGS FISHER TEST -- ATP")
-message(strrep("-", 70))
-
-nongs_formula <- paste0("got_ll:horizon + v_hat:horizon + ", ZPRE_NONGS_FISHER)
-nongs_fe      <- "tourney_id + horizon"
-
-fisher_ngs_atp <- run_fisher(
-  unstacked   = ngs_atp,
-  formula_str = nongs_formula,
-  fe_str      = nongs_fe,
-  perm_group  = "tourney_id",
-  has_cf      = TRUE,
-  peer_col    = "peer_component"
-)
-
-message("\n", strrep("-", 70))
-message("NONGS FISHER TEST -- WTA")
-message(strrep("-", 70))
-
-fisher_ngs_wta <- run_fisher(
-  unstacked   = ngs_wta,
-  formula_str = nongs_formula,
-  fe_str      = nongs_fe,
-  perm_group  = "tourney_id",
-  has_cf      = TRUE,
-  peer_col    = "peer_component"
-)
+# NOTE ON ORDERING AND RUNTIME. The non-Grand-Slam permutation loops run on
+# samples 17 times larger than the Grand Slam ones and take several hours even
+# at the reduced permutation count. They are deliberately placed AFTER the
+# Grand Slam table is written (Section 5a below), so that interrupting or
+# losing them costs nothing the paper depends on: table_fisher_nongs.tex is not
+# cited, and fisher_results.rds is not read by any other script.
+#
+# To reproduce only what the paper uses, run this script and stop once the log
+# reports "Wrote: table_fisher_fixed.tex". To reproduce everything, allow the
+# non-Grand-Slam section to run to completion.
 
 
 # ==============================================================================
 # SECTION 5: GENERATE LATEX TABLES
 # ==============================================================================
 
-build_fisher_table <- function(res_atp, res_wta, perm_label) {
+build_fisher_table <- function(res_atp, res_wta, perm_label,
+                               n_perms = N_PERMS) {
+  N_PERMS <- n_perms  # so the table note reports this table's own count
   lines <- c(
     "\\begin{tabular}{l ccccc}",
     "\\toprule",
@@ -391,17 +387,56 @@ build_fisher_table <- function(res_atp, res_wta, perm_label) {
   lines
 }
 
-# --- GS table -----------------------------------------------------------------
+# ==============================================================================
+# SECTION 5a: WRITE THE GRAND SLAM TABLE (before the long non-GS loops)
+# ==============================================================================
 gs_table <- build_fisher_table(
   fisher_gs_atp, fisher_gs_wta,
+  n_perms    = N_PERMS_GS,
   perm_label = "slam $\\times$ year"
 )
 writeLines(gs_table, file.path(FIRSTLL_TABLES, "table_fisher_fixed.tex"))
-message("\nWrote: table_fisher_fixed.tex")
+message("\nWrote: table_fisher_fixed.tex (Grand Slam, ", N_PERMS_GS, " permutations)")
+
+
+# ==============================================================================
+# SECTION 5b: NONGS FISHER TEST
+# ==============================================================================
+message("\n", strrep("-", 70))
+message("NONGS FISHER TEST -- ATP")
+message(strrep("-", 70))
+
+nongs_formula <- paste0("got_ll:horizon + v_hat:horizon + ", ZPRE_NONGS_FISHER)
+nongs_fe      <- "tourney_id + horizon"
+
+fisher_ngs_atp <- run_fisher(
+  unstacked   = ngs_atp,
+  formula_str = nongs_formula,
+  fe_str      = nongs_fe,
+  perm_group  = "tourney_id",
+  has_cf      = TRUE,
+  peer_col    = "peer_component",
+  n_perms     = N_PERMS_NGS
+)
+
+message("\n", strrep("-", 70))
+message("NONGS FISHER TEST -- WTA")
+message(strrep("-", 70))
+
+fisher_ngs_wta <- run_fisher(
+  unstacked   = ngs_wta,
+  formula_str = nongs_formula,
+  fe_str      = nongs_fe,
+  perm_group  = "tourney_id",
+  has_cf      = TRUE,
+  peer_col    = "peer_component",
+  n_perms     = N_PERMS_NGS
+)
 
 # --- NonGS table --------------------------------------------------------------
 ngs_table <- build_fisher_table(
   fisher_ngs_atp, fisher_ngs_wta,
+  n_perms = N_PERMS_NGS,
   perm_label = "tournament ID"
 )
 writeLines(ngs_table, file.path(FIRSTLL_TABLES, "table_fisher_nongs.tex"))

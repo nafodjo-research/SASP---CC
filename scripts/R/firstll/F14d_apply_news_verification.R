@@ -145,6 +145,32 @@ for (i in seq_len(nrow(news_updates))) {
                classif$tour == u$tour &
                classif$year == u$year)
   if (length(idx) == 1) {
+    cur <- classif$classification[idx]
+
+    # PRECEDENCE RULE.
+    #
+    # F14 now certifies a lottery two ways: an individual rank above the slot
+    # count, and an event-level rank gap. The news audit speaks to individual
+    # assignments, so the two can disagree, and which wins depends on the
+    # direction of the disagreement.
+    #
+    #   news says "ranking"  -> overrides. Direct dated evidence that THIS
+    #     player's slot came from a post-qualifying withdrawal beats an
+    #     inference drawn from the event's rank pattern. A gap proves that
+    #     SOME slot at the event was drawn by lottery, not that every slot
+    #     was; multi-slot events can mix the two mechanisms.
+    #
+    #   news says "unresolved" -> does NOT override a verified classification.
+    #     Failing to find a source is absence of evidence. If the rank pattern
+    #     already proves a lottery ran, that proof stands.
+    if (u$classification == "unresolved" && cur == "lottery_verified") {
+      classif$verifier_notes[idx] <- paste0(
+        "News search found no datable source, but the event rank pattern ",
+        "independently certifies a lottery; classification retained.")
+      updated_rows <- updated_rows + 1
+      next
+    }
+
     classif$classification[idx]  <- u$classification
     classif$confidence[idx]      <- u$confidence
     classif$source[idx]          <- u$source
@@ -237,15 +263,27 @@ for (i in seq_len(nrow(sub))) {
 }
 
 slog("\nKey takeaway:")
-slog("Every rank-1 ambiguous entry with datable news evidence turned out")
-slog("to be RANKING-RULE assigned (post-qualifying withdrawal). ZERO of")
-slog("the 23 news-checked entries were confirmed as lottery. The F14")
-slog("verified-lottery subsample uses an event-level rule that includes")
-slog("some events where the rank-1 LL was ranking-assigned but a co-treated")
-slog("LL (rank > 1) was lottery-assigned; the pool-level randomization")
-slog("is genuine at these events even though one of the treated LLs was")
-slog("not randomized. F13's stricter rule (ALL treated must have")
-slog("rank_among_losers > 1) excludes such mixed events.")
+slog("Every rank-1 entry with datable news evidence turned out to be")
+slog("RANKING-RULE assigned (post-qualifying withdrawal). ZERO of the 23")
+slog("news-checked entries were confirmed as lottery.")
+slog("")
+slog("COVERAGE CAVEAT. The 23 entries audited here were selected under the")
+slog("ORIGINAL F14 rule, which classified an entry as ambiguous only when")
+slog("rank_among_losers == 1. F14 has since been corrected to the")
+slog("mathematically right threshold, rank_among_losers > n_ll_slots, which")
+slog("moved a further 42 entries (rank 2-4 at events with 2-7 slots) out of")
+slog("'lottery_verified' and into 'ambiguous'. Those 42 have NOT been")
+slog("audited. They stay excluded from the verified subsample on the rank")
+slog("criterion alone, which is conservative: an unaudited entry is never")
+slog("counted as a verified lottery, so auditing them can only grow the")
+slog("verified subsample or confirm the current exclusion.")
+slog("")
+slog("To close the gap, extend the news_updates tribble above to cover the")
+slog("rows this script reports as still 'ambiguous', then re-run F14c to")
+slog("re-estimate on the enlarged verified subsample.")
+
+n_unaudited <- sum(classif$classification == "ambiguous")
+slog(sprintf("\nCurrently unaudited ambiguous entries: %d", n_unaudited))
 
 writeLines(summary_log,
            file.path(FIRSTLL_OUTPUT, "F14d_news_verification_summary.md"))

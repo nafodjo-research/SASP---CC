@@ -101,33 +101,66 @@ message(strrep("=", 70))
 
 treated <- gs[gs$got_ll == 1, ]
 
-# CLASSIFICATION THRESHOLD
-# ------------------------
-# Under the ranking rule with c_e available LL slots, the top c_e ranked
-# qualifying losers fill those slots deterministically. So a treated LL is
-# provably lottery-assigned only when their rank among losers EXCEEDS the
-# number of slots at that event:
+# CLASSIFICATION: TWO INDEPENDENT DATA-ONLY PROOFS OF A LOTTERY
+# --------------------------------------------------------------
+# Under the ranking rule, an event whose k slots have been filled awards them
+# to exactly the top k ranked qualifying losers, in rank order. Two distinct
+# observable violations of that pattern each prove a lottery took place.
+#
+# TEST 1 (individual). A treated player whose rank among losers EXCEEDS the
+# event's slot count cannot have been placed by the ranking rule:
 #
 #     rank_among_losers > n_ll_slots  =>  lottery
 #
-# The earlier ">1" threshold implicitly assumed every event had exactly one
-# slot. At multi-slot events, a rank-2 LL at a 2-slot event is exactly what
-# the ranking rule produces, so ">1" misclassified those as lottery-verified.
+# An earlier version used ">1", which implicitly assumed one slot per event.
+# At a 2-slot event a rank-2 entry is exactly what ranking produces, so ">1"
+# wrongly certified those.
+#
+# TEST 2 (event-level rank gap). If k slots were filled by the ranking rule,
+# the set of recipient ranks is exactly {1, 2, ..., k}. A GAP in that set,
+# for instance ranks {1, 3} where two slots were filled, cannot arise under
+# ranking and therefore proves a lottery ran at that event. Test 2 catches
+# events Test 1 misses: with 4 slots and recipients at ranks {1, 3}, neither
+# rank exceeds 4, so Test 1 is silent, but ranking cannot skip rank 2.
+#
+# Test 2 MUST be evaluated on the full unrestricted sample. The estimation
+# sample keeps only first-time recipients, so repeat recipients at the same
+# event are absent and their missing ranks would masquerade as gaps. Computing
+# the test on the restricted sample inflates the count of "gap" events from
+# 18 to 27 out of 30, which is an artifact of the sample restriction.
+#
+# Both tests share one assumption: that a higher-ranked loser never declined a
+# slot. A decline would also produce a gap. This is the same assumption the
+# original rank-threshold rule already required.
+
+full_gs <- readRDS(file.path(CLEANED_DIR, "skeleton_gs_est_v5.rds"))
+full_gs$event_key <- paste(full_gs$tour, full_gs$tourney_id, full_gs$year, sep = "|")
+treated$event_key <- paste(treated$tour, treated$tourney_id, treated$year, sep = "|")
+
+gap_events <- character()
+for (e in unique(treated$event_key)) {
+  recips <- full_gs[full_gs$event_key == e & full_gs$got_ll == 1, ]
+  if (nrow(recips) == 0) next
+  r <- sort(unique(recips$rank_among_losers))
+  if (!identical(as.integer(r), seq_len(length(r)))) gap_events <- c(gap_events, e)
+}
+slog(sprintf("Event-level rank-gap test: %d of %d events show a gap",
+             length(gap_events), length(unique(treated$event_key))))
+
 n_slots <- pmax(treated$n_ll_slots, 1L)  # guard against 0/NA slot counts
+test1 <- treated$rank_among_losers > n_slots
+test2 <- treated$event_key %in% gap_events
 
-treated$classification <- ifelse(
-  treated$rank_among_losers > n_slots,
-  "lottery_verified",  # rank exceeds slot count: ranking rule cannot explain it
-  "ambiguous"          # rank within slot count: consistent with either rule
-)
+treated$classification <- ifelse(test1 | test2, "lottery_verified", "ambiguous")
 
-# Reason string for audit trail
 treated$reason <- ifelse(
-  treated$classification == "lottery_verified",
-  sprintf("rank_among_losers = %d > n_ll_slots = %d; ranking rule fills only the top %d",
+  test1,
+  sprintf("rank %d > %d slots; ranking rule fills only the top %d",
           treated$rank_among_losers, n_slots, n_slots),
-  sprintf("rank_among_losers = %d <= n_ll_slots = %d; withdrawal-timing evidence required",
-          treated$rank_among_losers, n_slots)
+  ifelse(test2,
+    "event rank-set has a gap; ranking rule cannot skip a rank",
+    sprintf("rank %d <= %d slots and event rank-set contiguous; withdrawal timing required",
+            treated$rank_among_losers, n_slots))
 )
 
 # Confidence: "high" for lottery-verified (deterministic from data),

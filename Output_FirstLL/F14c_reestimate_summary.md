@@ -1,81 +1,81 @@
-F14 verified event set: 28 events
-  ATP: 18 events
-  WTA: 10 events
+F14 verified event set: 41 events
+  ATP: 26 events
+  WTA: 15 events
 
 F14 verified sample sizes (all pool members at verified events):
-  ATP: N=49 (T=24, C=25) across 18 events
-  WTA: N=31 (T=15, C=16) across 10 events
+  ATP: N=64 (T=35, C=29) across 26 events
+  WTA: N=41 (T=23, C=18) across 15 events
 
 F14 verified lottery estimates (player-clustered SEs):
-  ATP points_change 4w: 15.01 (44.21) p=0.736 
-  ATP points_change 8w: 17.01 (42.39) p=0.690 
-  ATP points_change 12w: 24.96 (40.83) p=0.544 
-  ATP points_change 26w: 56.28 (51.83) p=0.283 
-  ATP points_change 52w: -18.38 (82.37) p=0.824 
-  ATP elo_change 4w: -25.65 (14.46) p=0.083 *
-  ATP elo_change 8w: -29.67 (17.41) p=0.095 *
-  ATP elo_change 12w: -31.64 (15.42) p=0.046 **
-  ATP elo_change 26w: 1.46 (20.39) p=0.943 
-  ATP elo_change 52w: -76.18 (29.99) p=0.014 **
-  ATP n_main_draws 4w: -0.36 (0.89) p=0.689 
-  ATP n_main_draws 8w: -0.63 (0.81) p=0.446 
-  ATP n_main_draws 12w: -0.34 (0.81) p=0.680 
-  ATP n_main_draws 26w: 0.66 (0.93) p=0.483 
-  ATP n_main_draws 52w: 1.15 (2.26) p=0.613 
-  ATP n_matches_250plus 4w: -1.44 (1.58) p=0.369 
-  ATP n_matches_250plus 8w: -2.13 (1.46) p=0.150 
-  ATP n_matches_250plus 12w: -1.30 (1.43) p=0.370 
-  ATP n_matches_250plus 26w: 0.75 (1.66) p=0.656 
-  ATP n_matches_250plus 52w: 1.27 (4.35) p=0.772 
-  WTA points_change 4w: 64.21 (53.54) p=0.240 
-  WTA points_change 8w: 81.53 (39.41) p=0.048 **
-  WTA points_change 12w: 33.98 (40.17) p=0.404 
-  WTA points_change 26w: 46.26 (67.85) p=0.501 
-  WTA points_change 52w: 129.24 (146.70) p=0.386 
-  WTA elo_change 4w: 21.91 (8.93) p=0.020 **
-  WTA elo_change 8w: 35.59 (10.97) p=0.003 ***
-  WTA elo_change 12w: 32.22 (13.44) p=0.023 **
-  WTA elo_change 26w: 23.52 (16.65) p=0.168 
-  WTA elo_change 52w: 59.68 (26.73) p=0.033 **
-  WTA n_main_draws 4w: 0.62 (1.05) p=0.562 
-  WTA n_main_draws 8w: 0.83 (1.09) p=0.455 
-  WTA n_main_draws 12w: 1.15 (1.18) p=0.340 
-  WTA n_main_draws 26w: 0.90 (1.28) p=0.491 
-  WTA n_main_draws 52w: 2.33 (2.65) p=0.386 
-  WTA n_matches_250plus 4w: 0.48 (1.91) p=0.802 
-  WTA n_matches_250plus 8w: 1.81 (1.74) p=0.307 
-  WTA n_matches_250plus 12w: 1.92 (1.78) p=0.291 
-  WTA n_matches_250plus 26w: 2.79 (1.99) p=0.172 
-  WTA n_matches_250plus 52w: 4.27 (4.91) p=0.392 
+  ATP points_change 4w: 26.53 (34.47) p=0.444 
+  ATP points_change 8w: 37.36 (34.18) p=0.279 
+  ATP points_change 12w: 41.61 (32.90) p=0.211 
+  ATP points_change 26w: 87.46 (44.61) p=0.055 *
+  ATP points_change 52w: 29.10 (68.97) p=0.675 
+  ATP elo_change 4w: -11.47 (11.65) p=0.329 
+  ATP elo_change 8w: -11.66 (14.79) p=0.433 
+  ATP elo_change 12w: -16.69 (13.75) p=0.230 
+  ATP elo_change 26w: 8.13 (18.09) p=0.655 
+  ATP elo_change 52w: -51.28 (28.25) p=0.074 *
+  ATP n_main_draws 4w: -0.25 (0.67) p=0.710 
+  ATP n_main_draws 8w: -0.35 (0.62) p=0.574 
+  ATP n_main_draws 12w: -0.08 (0.63) p=0.894 
+  ATP n_main_draws 26w: 0.73 (0.72) p=0.318 
+  ATP n_main_draws 52w: 1.47 (1.79) p=0.414 
+  ATP n_matches_250plus 4w: -0.70 (1.24) p=0.576 
+  ATP n_matches_250plus 8w: -0.70 (1.16) p=0.551 
+  ATP n_matches_250plus 12w: -0.09 (1.16) p=0.941 
+  ATP n_matches_250plus 26w: 1.68 (1.32) p=0.209 
+  ATP n_matches_250plus 52w: 2.17 (3.40) p=0.525 
+  WTA points_change 4w: 67.24 (45.93) p=0.151 
+  WTA points_change 8w: 70.67 (33.91) p=0.044 **
+  WTA points_change 12w: 24.07 (35.20) p=0.498 
+  WTA points_change 26w: -19.54 (66.76) p=0.771 
+  WTA points_change 52w: -24.19 (127.03) p=0.850 
+  WTA elo_change 4w: 12.73 (11.35) p=0.269 
+  WTA elo_change 8w: 22.12 (13.21) p=0.102 
+  WTA elo_change 12w: 17.81 (14.69) p=0.233 
+  WTA elo_change 26w: 5.17 (18.46) p=0.781 
+  WTA elo_change 52w: 26.85 (30.64) p=0.386 
+  WTA n_main_draws 4w: 0.50 (0.97) p=0.612 
+  WTA n_main_draws 8w: 0.80 (0.98) p=0.417 
+  WTA n_main_draws 12w: 1.02 (1.06) p=0.343 
+  WTA n_main_draws 26w: 0.89 (1.17) p=0.453 
+  WTA n_main_draws 52w: 1.02 (2.25) p=0.653 
+  WTA n_matches_250plus 4w: 0.11 (1.84) p=0.953 
+  WTA n_matches_250plus 8w: 1.29 (1.72) p=0.457 
+  WTA n_matches_250plus 12w: 1.32 (1.78) p=0.462 
+  WTA n_matches_250plus 26w: 1.93 (2.05) p=0.352 
+  WTA n_matches_250plus 52w: 1.34 (4.07) p=0.744 
 
 ======================================================================
 F14c SUMMARY — headline point estimates for prose
 ======================================================================
 
 ATP ranking-point effects on the F14 verified subsample:
-  4w: 15.0 (44.2) p=0.736 
-  8w: 17.0 (42.4) p=0.690 
-  12w: 25.0 (40.8) p=0.544 
-  26w: 56.3 (51.8) p=0.283 
-  52w: -18.4 (82.4) p=0.824 
+  4w: 26.5 (34.5) p=0.444 
+  8w: 37.4 (34.2) p=0.279 
+  12w: 41.6 (32.9) p=0.211 
+  26w: 87.5 (44.6) p=0.055 *
+  52w: 29.1 (69.0) p=0.675 
 
 ATP Elo-change effects on the F14 verified subsample:
-  4w: -25.7 (14.5) p=0.083 *
-  8w: -29.7 (17.4) p=0.095 *
-  12w: -31.6 (15.4) p=0.046 **
-  26w: 1.5 (20.4) p=0.943 
-  52w: -76.2 (30.0) p=0.014 **
+  4w: -11.5 (11.6) p=0.329 
+  8w: -11.7 (14.8) p=0.433 
+  12w: -16.7 (13.8) p=0.230 
+  26w: 8.1 (18.1) p=0.655 
+  52w: -51.3 (28.2) p=0.074 *
 
 WTA ranking-point effects on the F14 verified subsample:
-  4w: 64.2 (53.5) p=0.240 
-  8w: 81.5 (39.4) p=0.048 **
-  12w: 34.0 (40.2) p=0.404 
-  26w: 46.3 (67.8) p=0.501 
-  52w: 129.2 (146.7) p=0.386 
+  4w: 67.2 (45.9) p=0.151 
+  8w: 70.7 (33.9) p=0.044 **
+  12w: 24.1 (35.2) p=0.498 
+  26w: -19.5 (66.8) p=0.771 
+  52w: -24.2 (127.0) p=0.850 
 
 WTA Elo-change effects on the F14 verified subsample:
-  4w: 21.9 (8.9) p=0.020 **
-  8w: 35.6 (11.0) p=0.003 ***
-  12w: 32.2 (13.4) p=0.023 **
-  26w: 23.5 (16.6) p=0.168 
-  52w: 59.7 (26.7) p=0.033 **
+  4w: 12.7 (11.3) p=0.269 
+  8w: 22.1 (13.2) p=0.102 
+  12w: 17.8 (14.7) p=0.233 
+  26w: 5.2 (18.5) p=0.781 
+  52w: 26.9 (30.6) p=0.386 
