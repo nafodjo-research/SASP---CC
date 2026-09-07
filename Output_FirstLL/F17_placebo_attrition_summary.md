@@ -7,15 +7,15 @@ Pre-treatment placebo estimates (should be indistinguishable from zero):
   Pooled    ATP  -12w :    -2.96 (  20.71) p=0.887  N=101
   Pooled    ATP  -8w  :     5.93 (  15.49) p=0.703  N=101
   Pooled    ATP  -4w  :    -4.28 (  10.29) p=0.678  N=101
-  Verified  ATP  -12w :    -9.22 (  32.64) p=0.779  N=46
-  Verified  ATP  -8w  :    -3.65 (  22.76) p=0.873  N=46
-  Verified  ATP  -4w  :    -4.56 (  18.97) p=0.811  N=46
+  Verified  ATP  -12w :    10.12 (  23.84) p=0.673  N=57
+  Verified  ATP  -8w  :    -2.16 (  18.46) p=0.907  N=57
+  Verified  ATP  -4w  :     4.50 (  16.59) p=0.787  N=57
   Pooled    WTA  -12w :    40.01 (  27.14) p=0.145  N=77
   Pooled    WTA  -8w  :    22.09 (  20.80) p=0.292  N=77
   Pooled    WTA  -4w  :   -15.03 (  11.80) p=0.207  N=77
-  Verified  WTA  -12w :   -36.29 (  56.06) p=0.523  N=31
-  Verified  WTA  -8w  :   -13.43 (  44.97) p=0.767  N=31
-  Verified  WTA  -4w  :   -11.59 (  24.32) p=0.637  N=31
+  Verified  WTA  -12w :   -14.62 (  51.85) p=0.780  N=40
+  Verified  WTA  -8w  :    -2.30 (  41.74) p=0.956  N=40
+  Verified  WTA  -4w  :   -22.11 (  25.17) p=0.385  N=40
 
   0 of 12 placebo tests reject at 5% (expected under the null: 0.6)
 

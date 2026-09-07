@@ -115,8 +115,29 @@ run_saturated <- function(data, fe_str, cf_term, tour_label, design_label,
   st <- st[keep, ]
   if (nrow(st) < 100) return(NULL)
 
-  # Saturated: base horizon effects (n=0 stratum) plus experience shifters.
-  rhs <- paste0("got_ll:horizon + got_ll:horizon:exp1 + got_ll:horizon:exp2p")
+  # SATURATION ON BOTH SIDES.
+  #
+  # The treatment side carries base horizon effects (the n=0 stratum) plus
+  # experience shifters. That alone is NOT enough. Without stratum main
+  # effects interacted with horizon, the model forces the UNTREATED outcome
+  # path to have the same horizon profile for LL-naive candidates and for
+  # chronic repeat candidates, up to a constant shift from the prior-LL counts
+  # in ZPRE_FULL. That restriction is false in this setting: players who reach
+  # n >= 2 are, by construction, players who have spent years losing in final
+  # qualifying, and their untreated ranking trajectory differs from a
+  # first-timer's. Any such difference has nowhere to go but gamma_2h, which
+  # is exactly why an earlier version of this script produced a gamma_2h that
+  # grew monotonically in the horizon (-63.9 at 4w to -182.3 at 52w) and
+  # implied ATTs larger in absolute value than the physically feasible dose.
+  # That is the signature of a differential control-group path, not of a
+  # treatment shifter.
+  #
+  # Adding horizon:exp1 and horizon:exp2p lets each stratum have its own
+  # untreated horizon profile, so gamma_jh is identified off the
+  # treated-versus-control contrast WITHIN stratum rather than off differences
+  # between strata in the untreated path.
+  rhs <- paste0("got_ll:horizon + got_ll:horizon:exp1 + got_ll:horizon:exp2p",
+                " + horizon:exp1 + horizon:exp2p")
   if (!is.null(cf_term)) rhs <- paste0(rhs, " + v_hat:horizon")
   rhs <- paste0(rhs, " + ", ZPRE_FULL)
   fml <- as.formula(paste0(".y ~ ", rhs, " | ", fe_str))

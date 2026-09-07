@@ -196,8 +196,39 @@ wcr_pvalue <- function(data, outcome, horizon, fe_str, cf_term = NULL,
                     error = function(e) NULL)
   if (is.null(mod_r)) return(NULL)
 
+  # CRITICAL: align d with the model's actual estimation sample.
+  #
+  # predict.fixest and resid.fixest return vectors of length nobs(mod_r), which
+  # is SMALLER than nrow(d) whenever fixest drops fixed-effect singletons or a
+  # covariate not named in the `keep` filter above is missing. Building
+  # y* = fitted + w * resid with w of length nrow(d) then recycles the shorter
+  # vectors and silently pairs each bootstrap outcome with the wrong row's
+  # covariates and cluster label, corrupting the entire bootstrap distribution.
+  #
+  # This is not hypothetical: on the pooled ATP sample fixest removes 2
+  # singleton observations, so nrow(d) = 516 against nobs = 514. The resulting
+  # p-values were smaller than both the asymptotic and the exact randomization
+  # p-values, which is impossible for a correctly implemented WCR.
+  used <- obs(mod_r)                 # row indices of d actually estimated on
+  if (length(used) != nrow(d)) {
+    d <- d[used, , drop = FALSE]
+    # Refit on the aligned frame so the unrestricted fits in the loop below
+    # operate on exactly the same rows.
+    mod_un <- tryCatch(feols(fml_un, data = d, cluster = ~player_id),
+                       error = function(e) NULL)
+    mod_r  <- tryCatch(feols(fml_r,  data = d, cluster = ~player_id),
+                       error = function(e) NULL)
+    if (is.null(mod_un) || is.null(mod_r)) return(NULL)
+    ct <- as.data.frame(coeftable(mod_un))
+    if (!(target %in% rownames(ct))) return(NULL)
+    b_obs  <- ct[target, "Estimate"]
+    se_obs <- ct[target, "Std. Error"]
+    p_asy  <- ct[target, "Pr(>|t|)"]
+    t_obs  <- b_obs / se_obs
+  }
   fitted_r <- as.numeric(predict(mod_r))
   resid_r  <- as.numeric(resid(mod_r))
+  stopifnot(length(fitted_r) == nrow(d), length(resid_r) == nrow(d))
 
   clusters  <- as.character(d$player_id)
   uclust    <- unique(clusters)
@@ -223,10 +254,21 @@ wcr_pvalue <- function(data, outcome, horizon, fe_str, cf_term = NULL,
     if (b %% 250 == 0) gc(verbose = FALSE)
   }
   gc(verbose = FALSE)
+  n_fail <- sum(!is.finite(t_star))
   t_star <- t_star[is.finite(t_star)]
   if (length(t_star) < 100) return(NULL)
+  if (n_fail > 0) {
+    message(sprintf("      %d of %d replications failed and were dropped",
+                    n_fail, n_boot))
+  }
 
-  p_wcr <- mean(abs(t_star) >= abs(t_obs))
+  # Davidson-MacKinnon p-value. The (1 + .)/(B + 1) form is the correct
+  # bootstrap p-value: it cannot return exactly zero, which is right, since
+  # B replications can never establish a p-value below 1/(B+1). The naive
+  # share estimator reported 0.000, which is not an attainable value at
+  # B = 1999 and was presented in the paper as though it were.
+  B_used <- length(t_star)
+  p_wcr  <- (1 + sum(abs(t_star) >= abs(t_obs))) / (B_used + 1)
 
   list(coef = b_obs, se = se_obs, p_asy = p_asy, p_wcr = p_wcr,
        n_clusters = G, t_obs = t_obs, n_boot_ok = length(t_star))

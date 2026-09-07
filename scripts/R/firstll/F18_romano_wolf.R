@@ -155,12 +155,40 @@ message(strrep("=", 70))
 boot_t <- matrix(NA_real_, nrow = B_RW, ncol = M,
                  dimnames = list(NULL, obs_df$key))
 
+# JOINT RESAMPLING.
+#
+# The whole point of Romano-Wolf is that the bootstrap preserves the dependence
+# among the test statistics, so the max-t null distribution reflects how
+# correlated the hypotheses actually are. That requires ONE resample per
+# replication, applied to every specification, so that boot_t[b, ] is a
+# jointly drawn vector.
+#
+# An earlier version drew the resample inside the specification loop, giving
+# each of the 16 specifications an independent draw. The resulting max-t
+# distribution was that of independent statistics, which is far more dispersed
+# than the truth, so every adjusted p-value was inflated. The error was
+# detectable from the output alone: Romano-Wolf dominates Holm by
+# construction, yet the procedure returned p_RW = 0.410 for a hypothesis whose
+# Holm bound is at most 80 x 0.002 = 0.16.
+#
+# Players are resampled from the union across specifications so that a player
+# appearing in several samples is drawn or omitted consistently.
+all_players <- unique(unlist(lapply(specs, function(s) unique(s$data$player_id))))
+
+# Pre-compute row indices per player per spec once, rather than scanning the
+# player column inside the replication loop.
+spec_idx <- lapply(specs, function(s) split(seq_len(nrow(s$data)), s$data$player_id))
+
 for (b in seq_len(B_RW)) {
   if (b %% 100 == 0) message("    replication ", b, " / ", B_RW)
+  drawn_global <- sample(all_players, length(all_players), replace = TRUE)
   for (nm in names(specs)) {
     sp <- specs[[nm]]
-    players <- unique(sp$data$player_id)
-    drawn <- sample(players, length(players), replace = TRUE)
+    idx_map <- spec_idx[[nm]]
+    # Restrict the global draw to players present in this specification,
+    # preserving multiplicity so the same player drawn twice contributes twice.
+    drawn <- drawn_global[as.character(drawn_global) %in% names(idx_map)]
+    if (length(drawn) < 2) next
     # Rebuild the resampled frame, re-labelling clusters so repeated draws of
     # the same player are treated as distinct clusters.
     idx <- unlist(lapply(seq_along(drawn), function(i) {
